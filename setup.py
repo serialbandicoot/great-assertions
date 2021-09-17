@@ -21,8 +21,10 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3.7",
     ],
-    python_requires='>=3.6',                # Minimum version requirement of the package
-    py_modules=["great_assertions"],             # Name of the python package
-    package_dir={'':'great_assertions/src'},     # Directory of the source code of the package
-    install_requires=[]    
+    python_requires=">=3.6",  # Minimum version requirement of the package
+    py_modules=["great_assertions"],  # Name of the python package
+    package_dir={
+        "": "great_assertions/src"
+    },  # Directory of the source code of the package
+    install_requires=[],
 )
