@@ -1,11 +1,6 @@
-import unittest
-import sys
-import pytest
-
-sys.path.insert(0, "../great-assertion/src")
-from unittest.case import TestCase
 from great_assertions import GreatAssertions
 import pandas as pd
+import pytest
 
 
 class GreatAssertionTests(GreatAssertions):
