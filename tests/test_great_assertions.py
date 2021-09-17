@@ -13,3 +13,10 @@ class GreatAssertionTests(GreatAssertions):
             self.assertExpectTableRowCountToEqual(1, 1)
 
         assert "Object is not type DataFrame" in str(excinfo.value)
+
+    def test_fails_expect_table_row_count_to_equal(self):
+        df = pd.DataFrame({"calories": [420, 380, 390], "duration": [50, 40, 45]})
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectTableRowCountToEqual(df, 4)
+
+        assert "expected row count is 4 the actual was 3" in str(excinfo.value)

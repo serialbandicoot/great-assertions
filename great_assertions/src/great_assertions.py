@@ -3,6 +3,7 @@ import unittest
 
 class GreatAssertions(unittest.TestCase):
     def assertExpectTableRowCountToEqual(self, df, expected_count: int, msg=""):
+        """This is some help"""
         try:
             actual_row_count = len(df)
         except TypeError:
