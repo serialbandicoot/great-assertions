@@ -42,3 +42,5 @@ jobs:
           name: Run tests
           # This assumes pytest is installed via the install-package step above
           command: py.test --cov-report term --cov-report xml:coverage.xml --cov=great_assertions
+      - store_test_results:
+          path: coverage.xml
