@@ -16,6 +16,7 @@ setup(
     long_description_content_type="text/markdown",
     author="Sam Treweek",
     author_email="samtreweek@gmail.com",
+    url= "https://github.com/serialbandicoot/great-assertions",
     license="MIT",
     classifiers=[
         "License :: OSI Approved :: MIT License",

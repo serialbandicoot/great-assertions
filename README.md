@@ -6,6 +6,11 @@ This library is inspired by the Great Expectations library. The library has made
 
 For example if you wanted to use `expect_column_values_to_be_between` then you can access `assertExpectColumnValuesToBeBetween`.
 
+## Install
+```bash
+pip install grea-assertions
+```
+
 ## Coded example
 ```python
 from great_assertions.src.great_assertions import GreatAssertions
