@@ -3,19 +3,19 @@ import pandas as pd
 import pytest
 
 
-class GreatAssertionTests(GreatAssertions):
+class GreatAssertionTestsPandas(GreatAssertions):
     # expect_table_row_count_to_equal
-    def test_expect_table_row_count_to_equal(self):
+    def test_pandas_expect_table_row_count_to_equal(self):
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
         self.assertExpectTableRowCountToEqual(df, 3)
 
-    def test_expect_table_row_count_to_equal_raises_type_error(self):
+    def test_pandas_expect_table_row_count_to_equal_raises_type_error(self):
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectTableRowCountToEqual(1, 1)
 
         assert "Object is not type DataFrame" in str(excinfo.value)
 
-    def test_expect_table_row_count_to_equal_fails(self):
+    def test_pandas_expect_table_row_count_to_equal_fails(self):
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectTableRowCountToEqual(df, 4)
@@ -23,7 +23,7 @@ class GreatAssertionTests(GreatAssertions):
         assert "expected row count is 4 the actual was 3" in str(excinfo.value)
 
     # assertExpectColumnValueLengthsToEqual
-    def test_assert_expect_column_values_to_be_between(self):
+    def test_pandas_assert_expect_column_values_to_be_between(self):
         # int
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
         self.assertExpectColumnValuesToBeBetween(df, "col_1", 101, 299)
@@ -36,7 +36,7 @@ class GreatAssertionTests(GreatAssertions):
         df = pd.DataFrame({"col_1": [100.05, 200.01, 300.05], "col_2": [10, 20, 30]})
         self.assertExpectColumnValuesToBeBetween(df, "col_1", 100.05, 300.05)
 
-    def test_assert_expect_column_values_to_be_between_min_fail(self):
+    def test_pandas_assert_expect_column_values_to_be_between_min_fail(self):
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectColumnValuesToBeBetween(df, "col_1", 99, 299)
@@ -46,14 +46,14 @@ class GreatAssertionTests(GreatAssertions):
             in str(excinfo.value)
         )
 
-    def test_assert_expect_column_values_to_be_between_min_fail_bad_syntax(self):
+    def test_pandas_assert_expect_column_values_to_be_between_min_fail_bad_syntax(self):
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectColumnValuesToBeBetween(df, "col_1", 100, 50)
 
         assert "Max value must be greater than min value" in str(excinfo.value)
 
-    def test_assert_expect_column_values_to_be_between_max_fail(self):
+    def test_pandas_assert_expect_column_values_to_be_between_max_fail(self):
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectColumnValuesToBeBetween(df, "col_1", 101, 301)
@@ -63,13 +63,13 @@ class GreatAssertionTests(GreatAssertions):
             in str(excinfo.value)
         )
 
-    def test_assert_expect_column_values_to_match_regex(self):
+    def test_pandas_assert_expect_column_values_to_match_regex(self):
         df = pd.DataFrame({"col_1": ["BA2", "BA15", "SW1"]})
         self.assertExpectColumnValuesToMatchRegex(
             df, "col_1", "^[a-zA-Z]{2}[0-9]{1,2}$"
         )
 
-    def test_assert_expect_column_values_to_match_regex_fail(self):
+    def test_pandas_assert_expect_column_values_to_match_regex_fail(self):
         df = pd.DataFrame({"col_1": ["BA2", "BA151", "SW1", "AAA13"]})
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectColumnValuesToMatchRegex(
@@ -80,13 +80,13 @@ class GreatAssertionTests(GreatAssertions):
             excinfo.value
         )
 
-    def test_assert_expect_column_values_to_be_in_set(self):
+    def test_pandas_assert_expect_column_values_to_be_in_set(self):
         fruits = ["Apple", "Orage", "Pear", "Cherry", "Apricot(Summer)"]
         df = pd.DataFrame({"col_1": fruits})
 
         self.assertExpectColumnValuesToBeInSet(df, "col_1", fruits)
 
-    def test_assert_expect_column_values_to_be_in_set_fail(self):
+    def test_pandas_assert_expect_column_values_to_be_in_set_fail(self):
         fruits = ["Apple", "Orage", "Pear", "Cherry"]
         df = pd.DataFrame({"col_1": ["Tomato", "Cherry", "Apple"]})
 
@@ -95,7 +95,7 @@ class GreatAssertionTests(GreatAssertions):
 
         assert "Column col_1 was not in the provided set" in str(excinfo.value)
 
-    def test_expect_column_values_to_be_of_type(self):
+    def test_pandas_expect_column_values_to_be_of_type(self):
         df = pd.DataFrame(
             {
                 "col_1": ["BA2", "BA15", "SW1"],
@@ -107,7 +107,7 @@ class GreatAssertionTests(GreatAssertions):
         self.assertExpectColumnValuesToBeOfType(df, "col_2", "int")
         self.assertExpectColumnValuesToBeOfType(df, "col_3", "float")
 
-    def test_expect_column_values_to_be_of_type_fail(self):
+    def test_pandas_expect_column_values_to_be_of_type_fail(self):
         df = pd.DataFrame(
             {
                 "col_1": ["BA2", "BA15", "SW1"],

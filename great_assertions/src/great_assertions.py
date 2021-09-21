@@ -6,7 +6,11 @@ class GreatAssertions(unittest.TestCase):
         """Expect the number of rows in this table to equal the number of rows in a different table."""
 
         try:
+            if "pyspark" in str(type(df)):
+                df = df.toPandas()
+
             actual_row_count = len(df)
+
         except TypeError:
             raise self.failureException("Object is not type DataFrame")
 
@@ -30,6 +34,9 @@ class GreatAssertions(unittest.TestCase):
                 "Max value must be greater than min value",
             )
             raise self.failureException(msg)
+
+        if "pyspark" in str(type(df)):
+            df = df.toPandas()
 
         column_min = df[column].min()
         if float(column_min) > float(min_value):
@@ -55,6 +62,9 @@ class GreatAssertions(unittest.TestCase):
         would identify the following strings as expected: “fish”, “dog”, and the following
         as unexpected: “cat”, “hat”"""
 
+        if "pyspark" in str(type(df)):
+            df = df.toPandas()
+
         result = df[df[column].str.match(regex) == False]
         if len(result) > 0:
             msg = self._formatMessage(
@@ -70,6 +80,9 @@ class GreatAssertions(unittest.TestCase):
     ):
         """Expect each column value to be in a given set."""
 
+        if "pyspark" in str(type(df)):
+            df = df.toPandas()
+
         result = df[~df[column].isin(value_set)] == False
         if len(result) > 0:
             msg = self._formatMessage(
@@ -83,6 +96,9 @@ class GreatAssertions(unittest.TestCase):
         self, df, column: str, type_: object, msg=""
     ):
         """Expect a column to contain values of a specified data type."""
+
+        if "pyspark" in str(type(df)):
+            df = df.toPandas()
 
         df_type = df[column].dtypes
         if type_ in ["string", "char", str]:
