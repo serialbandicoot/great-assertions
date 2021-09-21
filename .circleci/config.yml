@@ -37,7 +37,7 @@ jobs:
           # pip-dependency-file: test-requirements.txt  # if you have a different name for your requirements file, maybe one that combines your runtime and test requirements.
       - run:
           command: |
-            apt-update
+            apt-get update
             apt-get install -y default-jre-headless
             pip install -r test-requirements.txt
       - run:
