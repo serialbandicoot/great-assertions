@@ -13,7 +13,7 @@ class GreatAssertionTestsPandas(GreatAssertions):
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectTableRowCountToEqual(1, 1)
 
-        assert "Object is not type DataFrame" in str(excinfo.value)
+        assert "Not a valid pandas/pyspark DataFrame" in str(excinfo.value)
 
     def test_pandas_expect_table_row_count_to_equal_fails(self):
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})

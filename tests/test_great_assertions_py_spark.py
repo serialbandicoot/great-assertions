@@ -22,7 +22,7 @@ class GreatAssertionTestsPySpark(GreatAssertions):
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectTableRowCountToEqual(1, 1)
 
-        assert "Object is not type DataFrame" in str(excinfo.value)
+        assert "Not a valid pandas/pyspark DataFrame" in str(excinfo.value)
 
     def test_pyspark_expect_table_row_count_to_equal_fails(self):
         df = self.spark.createDataFrame(
