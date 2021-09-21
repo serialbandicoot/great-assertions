@@ -11,9 +11,9 @@ For example if you wanted to use `expect_column_values_to_be_between` then you c
 pip install grea-assertions
 ```
 
-## Coded example
+## Code example Pandas
 ```python
-from great_assertions.src.great_assertions import GreatAssertions
+from great_assertions import GreatAssertions
 import pandas as pd
 
 class GreatAssertionTests(GreatAssertions):
@@ -22,15 +22,36 @@ class GreatAssertionTests(GreatAssertions):
         self.assertExpectTableRowCountToEqual(df, 3)
 ```
 
+## Code example PySpark
+```python
+from great_assertions import GreatAssertions
+from pyspark.sql import SparkSession
+
+class GreatAssertionTests(GreatAssertions):
+
+    def setUp(self):
+        self.spark = SparkSession.builder.getOrCreate()
+
+    def test_expect_table_row_count_to_equal(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": 100, "col_2": 10},
+                {"col_1": 200, "col_2": 20},
+                {"col_1": 300, "col_2": 30},
+            ]
+        )
+        self.assertExpectTableRowCountToEqual(df, 3)
+```
+
 ## List of available assertions
 
 |   | Pandas | PySpark |
 | ------------- | ------------- | ------------- |
-| assertExpectTableRowCountToEqual  | :white_check_mark: | TBA |
-| assertExpectColumnValuesToBeBetween  | :white_check_mark: | TBA |
-| assertExpectColumnValuesToMatchRegex  | :white_check_mark: | TBA |
-| assertExpectColumnValuesToBeInSet  | :white_check_mark: | TBA |
-| assertExpectColumnValuesToBeOfType  | :white_check_mark: | TBA |
+| assertExpectTableRowCountToEqual  | :white_check_mark: | :white_check_mark: |
+| assertExpectColumnValuesToBeBetween  | :white_check_mark: | :white_check_mark: |
+| assertExpectColumnValuesToMatchRegex  | :white_check_mark: | :white_check_mark: |
+| assertExpectColumnValuesToBeInSet  | :white_check_mark: | :white_check_mark: |
+| assertExpectColumnValuesToBeOfType  | :white_check_mark: | :white_check_mark: |
 
 ## Assertion Descriptions
 
