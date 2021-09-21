@@ -27,4 +27,6 @@ class GreatAssertionTests(GreatAssertions):
 | assertExpectColumnValuesToBeInSet  | :white_check_mark: | TBA |
 | assertExpectColumnValuesToBeOfType  | :white_check_mark: | TBA |
 
+## Assertion Descriptions
+
 For a description of the assertions see [Assertion Definitions](ASSERTION_DEFINITIONS.md)
