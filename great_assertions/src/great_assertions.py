@@ -132,6 +132,8 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
+    expect_column_values_to_be_of_type =  assertExpectColumnValuesToBeOfType   
+
     def assertExpectTableColumnsToMatchOrderedList(
         self, df, column_list: List[str], msg=""
     ):

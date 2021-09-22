@@ -13,6 +13,7 @@ class GreatAssertionPandasTests(GreatAssertions):
     def test_pandas_expect_table_row_count_to_equal(self):
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
         self.assertExpectTableRowCountToEqual(df, 3)
+        self.expect_table_row_count_to_equal(df, 3)
 
     def test_pandas_expect_table_row_count_to_equal_fails(self):
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
@@ -26,6 +27,7 @@ class GreatAssertionPandasTests(GreatAssertions):
         # int
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
         self.assertExpectColumnValuesToBeBetween(df, "col_1", 101, 299)
+        self.expect_column_values_to_be_between(df, "col_1", 101, 299)
 
         # float
         df = pd.DataFrame({"col_1": [100.01, 200.01, 300.01], "col_2": [10, 20, 30]})
@@ -67,6 +69,9 @@ class GreatAssertionPandasTests(GreatAssertions):
         self.assertExpectColumnValuesToMatchRegex(
             df, "col_1", "^[a-zA-Z]{2}[0-9]{1,2}$"
         )
+        self.expect_column_values_to_match_regex(
+            df, "col_1", "^[a-zA-Z]{2}[0-9]{1,2}$"
+        )
 
     def test_pandas_assert_expect_column_values_to_match_regex_fail(self):
         df = pd.DataFrame({"col_1": ["BA2", "BA151", "SW1", "AAA13"]})
@@ -85,6 +90,7 @@ class GreatAssertionPandasTests(GreatAssertions):
         df = pd.DataFrame({"col_1": fruits})
 
         self.assertExpectColumnValuesToBeInSet(df, "col_1", fruits_set)
+        self.expect_column_values_to_be_in_set(df, "col_1", fruits_set)
 
     def test_pandas_assert_expect_column_values_to_be_in_set_fail(self):
         fruits = set(("Apple", "Orage", "Pear", "Cherry"))
@@ -106,6 +112,7 @@ class GreatAssertionPandasTests(GreatAssertions):
         self.assertExpectColumnValuesToBeOfType(df, "col_1", str)
         self.assertExpectColumnValuesToBeOfType(df, "col_2", int)
         self.assertExpectColumnValuesToBeOfType(df, "col_3", float)
+        self.expect_column_values_to_be_of_type(df, "col_3", float)
 
     def test_pandas_expect_column_values_to_be_of_type_fail_type(self):
         df = pd.DataFrame(
@@ -144,6 +151,7 @@ class GreatAssertionPandasTests(GreatAssertions):
     def test_assert_pandas_expect_table_columns_to_match_ordered_list(self):
         df = pd.DataFrame({"col_1": [100], "col_2": ['a'], "col_3": [1.01]})
         self.assertExpectTableColumnsToMatchOrderedList(df, list(("col_1", "col_2", "col_3")))
+        self.expect_table_columns_to_match_ordered_list(df, list(("col_1", "col_2", "col_3")))
 
     def test_assert_pandas_expect_table_columns_to_match_ordered_list_fail(self):
         df = pd.DataFrame({"col_1": [100], "col_2": ['a'], "col_3": [1.01]})
@@ -159,6 +167,7 @@ class GreatAssertionPandasTests(GreatAssertions):
         self.assertExpectTableColumnsToMatchSet(df, set(("col_2", "col_1", "col_3")))    
         self.assertExpectTableColumnsToMatchSet(df, list(("col_1", "col_2", "col_3")))    
         self.assertExpectTableColumnsToMatchSet(df, list(("col_2", "col_1", "col_3")))    
+        self.expect_table_columns_to_match_set(df, list(("col_2", "col_1", "col_3")))    
 
     def test_assert_pandas_expect_table_columns_to_match_set_fail(self):
         df = pd.DataFrame({"col_1": [100], "col_2": ['a'], "col_3": [1.01]})
