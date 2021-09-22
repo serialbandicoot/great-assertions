@@ -28,6 +28,8 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
+    expect_table_row_count_to_equal = assertExpectTableRowCountToEqual    
+
     def assertExpectColumnValuesToBeBetween(
         self, df, column: str, min_value: float, max_value: float, msg=""
     ):
@@ -60,6 +62,8 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
+    expect_column_values_to_be_between = assertExpectColumnValuesToBeBetween    
+
     def assertExpectColumnValuesToMatchRegex(self, df, column: str, regex: str, msg=""):
         """Expect column entries to be strings that do NOT match a given regular expression.
         The regex must not match any portion of the provided string. For example, “[at]+”
@@ -78,6 +82,8 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
+    expect_column_values_to_match_regex = assertExpectColumnValuesToMatchRegex    
+
     def assertExpectColumnValuesToBeInSet(
         self, df, column: str, value_set: set, msg=""
     ):
@@ -93,6 +99,8 @@ class GreatAssertions(unittest.TestCase):
             raise self.failureException(msg)
 
         return
+
+    expect_column_values_to_be_in_set = assertExpectColumnValuesToBeInSet  
 
     def assertExpectColumnValuesToBeOfType(
         self, df, column: str, type_: Union[str, float, int], msg=""
@@ -136,6 +144,8 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
+    expect_table_columns_to_match_ordered_list = assertExpectTableColumnsToMatchOrderedList    
+
     def assertExpectTableColumnsToMatchSet(
         self,
         df,
@@ -149,3 +159,5 @@ class GreatAssertions(unittest.TestCase):
         if set(df.columns) != column_set:
             msg = self._formatMessage(msg, "Columns did not match set")
             raise self.failureException(msg)
+
+    expect_table_columns_to_match_set = assertExpectTableColumnsToMatchSet        
