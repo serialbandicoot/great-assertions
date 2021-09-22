@@ -172,3 +172,51 @@ class GreatAssertionTestsPySpark(GreatAssertions):
             self.assertExpectColumnValuesToBeOfType(df, "col_3", "string")
 
         assert "Column col_3 was not type string" in str(excinfo.value)
+
+    def test_assert_pyspark_expect_table_columns_to_match_ordered_list(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": 100, "col_2": "a", "col_3": 1.01},
+            ]
+        )
+        self.assertExpectTableColumnsToMatchOrderedList(df, list(("col_1", "col_2", "col_3")))
+
+    def test_assert_pyspark_expect_table_columns_to_match_ordered_list_fail(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": 100, "col_2": "a", "col_3": 1.01},
+            ]
+        )
+        
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectTableColumnsToMatchOrderedList(df, list(("col_2", "col_1", "col_3")))
+        
+        assert "Ordered columns did not match" in str(excinfo.value)
+
+    def test_assert_pyspark_expect_table_columns_to_match_set(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": 100, "col_2": "a", "col_3": 1.01},
+            ]
+        )
+        self.assertExpectTableColumnsToMatchSet(df, set(("col_1", "col_2", "col_3")))    
+        self.assertExpectTableColumnsToMatchSet(df, set(("col_2", "col_1", "col_3")))    
+        self.assertExpectTableColumnsToMatchSet(df, list(("col_1", "col_2", "col_3")))    
+        self.assertExpectTableColumnsToMatchSet(df, list(("col_2", "col_1", "col_3")))    
+
+    def test_assert_pyspark_expect_table_columns_to_match_set_fail(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": 100, "col_2": "a", "col_3": 1.01},
+            ]
+        )
+        
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectTableColumnsToMatchSet(df, set(("col_2", "col_1")))
+        
+        assert "Columns did not match set" in str(excinfo.value)      
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectTableColumnsToMatchSet(df, list(("col_2", "col_1")))
+        
+        assert "Columns did not match set" in str(excinfo.value)  

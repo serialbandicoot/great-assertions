@@ -1,4 +1,5 @@
 import unittest
+from typing import Optional, Union, Set, List
 
 
 def _get_dataframe_type(df):
@@ -6,9 +7,11 @@ def _get_dataframe_type(df):
     if "pyspark" in _type:
         return df.toPandas()
     elif "pandas" in _type:
-        return df 
-  
+        return df
+
     raise AssertionError("Not a valid pandas/pyspark DataFrame")
+
+
 class GreatAssertions(unittest.TestCase):
     def assertExpectTableRowCountToEqual(self, df, expected_count: int, msg=""):
         """Expect the number of rows in this table to equal the number of rows in a different table."""
@@ -115,3 +118,30 @@ class GreatAssertions(unittest.TestCase):
                 raise self.failureException(msg)
 
         return
+
+    def assertExpectTableColumnsToMatchOrderedList(
+        self, df, column_list: list[str], msg=""
+    ):
+        """Expect the columns to exactly match a specified list"""
+        df = _get_dataframe_type(df)
+
+        if list(df.columns) != column_list:
+            msg = self._formatMessage(msg, "Ordered columns did not match")
+            raise self.failureException(msg)
+
+        return
+
+    def assertExpectTableColumnsToMatchSet(
+        self,
+        df,
+        column_set: Optional[Union[Set[str], List[str]]],
+        exact_match: Optional[bool] = True,
+        msg="",
+    ):
+        """Expect the columns to match a specified set."""
+        df = _get_dataframe_type(df)
+
+        column_set = set(column_set) if column_set is not None else set()
+        if set(df.columns) != column_set:
+            msg = self._formatMessage(msg, "Columns did not match set")
+            raise self.failureException(msg)

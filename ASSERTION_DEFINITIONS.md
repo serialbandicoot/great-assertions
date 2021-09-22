@@ -7,3 +7,5 @@
 | assertExpectColumnValuesToMatchRegex | Expect column entries to be strings that do NOT match a given regular expression |
 | assertExpectColumnValuesToBeInSet | Expect each column value to be in a given set |
 | assertExpectColumnValuesToBeOfType | Expect a column to contain values of a specified data type |
+| assertExpectTableColumnsToMatchOrderedList | Expect the columns to exactly match a specified list |
+| assertExpectTableColumnsToMatchSet | Expect the columns to match a specified set. |

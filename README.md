@@ -52,7 +52,29 @@ class GreatAssertionTests(GreatAssertions):
 | assertExpectColumnValuesToMatchRegex  | :white_check_mark: | :white_check_mark: |
 | assertExpectColumnValuesToBeInSet  | :white_check_mark: | :white_check_mark: |
 | assertExpectColumnValuesToBeOfType  | :white_check_mark: | :white_check_mark: |
+| assertExpectTableColumnsToMatchOrderedList  | :white_check_mark: | :white_check_mark: |
+| assertExpectTableColumnsToMatchSet  | :white_check_mark: | :white_check_mark: |
 
 ## Assertion Descriptions
 
 For a description of the assertions see [Assertion Definitions](ASSERTION_DEFINITIONS.md)
+
+## Running the tests
+
+Executing the tests still require unittest, the following options have been tested with the examples provided.
+
+### Option 1
+
+```python
+import unittest
+suite = unittest.TestLoader().loadTestsFromTestCase(GreatAssertionTests)
+runner = unittest.TextTestRunner(verbosity=2)
+runner.run(suite) 
+```
+### Options 2
+
+```python
+if __name__ == '__main__':
+    unittest.main()   
+```
+
