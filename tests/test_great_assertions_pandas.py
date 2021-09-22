@@ -26,12 +26,12 @@ class GreatAssertionPandasTests(GreatAssertions):
     def test_pandas_assert_expect_column_values_to_be_between(self):
         # int
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
-        self.assertExpectColumnValuesToBeBetween(df, "col_1", 101, 299)
-        self.expect_column_values_to_be_between(df, "col_1", 101, 299)
+        self.assertExpectColumnValuesToBeBetween(df, "col_1", min_value = 99, max_value = 301)
+        self.expect_column_values_to_be_between(df, "col_1", 100, 300)
 
         # float
-        df = pd.DataFrame({"col_1": [100.01, 200.01, 300.01], "col_2": [10, 20, 30]})
-        self.assertExpectColumnValuesToBeBetween(df, "col_1", 100.02, 300)
+        df = pd.DataFrame({"col_1": [100.02, 200.01, 300.01], "col_2": [10, 20, 30]})
+        self.assertExpectColumnValuesToBeBetween(df, "col_1", 100.01, 300.02)
 
         # Same float
         df = pd.DataFrame({"col_1": [100.05, 200.01, 300.05], "col_2": [10, 20, 30]})
@@ -40,10 +40,10 @@ class GreatAssertionPandasTests(GreatAssertions):
     def test_pandas_assert_expect_column_values_to_be_between_min_fail(self):
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
         with pytest.raises(AssertionError) as excinfo:
-            self.assertExpectColumnValuesToBeBetween(df, "col_1", 99, 299)
+            self.assertExpectColumnValuesToBeBetween(df, "col_1", 101, 301)
 
         assert (
-            "Min value provided (99) must be greater than column col_1 value of 100"
+            "Min value provided (101) must be less than column col_1 value of 100"
             in str(excinfo.value)
         )
 
@@ -57,10 +57,10 @@ class GreatAssertionPandasTests(GreatAssertions):
     def test_pandas_assert_expect_column_values_to_be_between_max_fail(self):
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
         with pytest.raises(AssertionError) as excinfo:
-            self.assertExpectColumnValuesToBeBetween(df, "col_1", 101, 301)
+            self.assertExpectColumnValuesToBeBetween(df, "col_1", 99, 299)
 
         assert (
-            "Max value provided (301) must be less than column col_1 value of 300"
+            "Max value provided (299) must be greater than column col_1 value of 300"
             in str(excinfo.value)
         )
 

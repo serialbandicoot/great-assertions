@@ -34,3 +34,9 @@ class GreatAssertionExternalSourceTests(GreatAssertions):
             self.assertExpectTableRowCountToEqual(df, 1)
 
         assert "expected row count is 1 the actual was 5" in str(excinfo.value)
+
+    def test_external_source_with_delimited_text(self):
+        filepath = os.path.join("tests", "data", "external_delimited_source.txt")
+        df = pd.read_csv(filepath, sep="|")
+        
+        self.assertExpectTableRowCountToEqual(df, 4)

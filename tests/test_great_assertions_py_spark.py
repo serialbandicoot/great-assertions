@@ -41,13 +41,13 @@ class GreatAssertionPySparkTests(GreatAssertions):
         df = self.spark.createDataFrame(
             [{"col_1": 100}, {"col_1": 200}, {"col_1": 300}]
         )
-        self.assertExpectColumnValuesToBeBetween(df, "col_1", 101, 299)
+        self.assertExpectColumnValuesToBeBetween(df, "col_1", min_value = 99, max_value = 301)
 
         # float
         df = self.spark.createDataFrame(
-            [{"col_1": 100.01}, {"col_1": 200.01}, {"col_1": 300.01}]
+            [{"col_1": 100.02}, {"col_1": 200.01}, {"col_1": 300.01}]
         )
-        self.assertExpectColumnValuesToBeBetween(df, "col_1", 100.02, 300)
+        self.assertExpectColumnValuesToBeBetween(df, "col_1", 100.01, 300.02)
 
         # Same float
         df = self.spark.createDataFrame(
@@ -60,10 +60,10 @@ class GreatAssertionPySparkTests(GreatAssertions):
             [{"col_1": 100}, {"col_1": 200}, {"col_1": 300}]
         )
         with pytest.raises(AssertionError) as excinfo:
-            self.assertExpectColumnValuesToBeBetween(df, "col_1", 99, 299)
+            self.assertExpectColumnValuesToBeBetween(df, "col_1", 101, 301)
 
         assert (
-            "Min value provided (99) must be greater than column col_1 value of 100"
+            "Min value provided (101) must be less than column col_1 value of 100"
             in str(excinfo.value)
         )
 
@@ -85,10 +85,10 @@ class GreatAssertionPySparkTests(GreatAssertions):
         )
 
         with pytest.raises(AssertionError) as excinfo:
-            self.assertExpectColumnValuesToBeBetween(df, "col_1", 101, 301)
+            self.assertExpectColumnValuesToBeBetween(df, "col_1", 100, 299)
 
         assert (
-            "Max value provided (301) must be less than column col_1 value of 300"
+            "Max value provided (299) must be greater than column col_1 value of 300"
             in str(excinfo.value)
         )
 
