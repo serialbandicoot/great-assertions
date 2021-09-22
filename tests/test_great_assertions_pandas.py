@@ -3,17 +3,16 @@ import pandas as pd
 import pytest
 
 
-class GreatAssertionTestsPandas(GreatAssertions):
-    # expect_table_row_count_to_equal
-    def test_pandas_expect_table_row_count_to_equal(self):
-        df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
-        self.assertExpectTableRowCountToEqual(df, 3)
+class GreatAssertionPandasTests(GreatAssertions):
 
-    def test_pandas_expect_table_row_count_to_equal_raises_type_error(self):
+    def test_pandas_incorrect_dataframe_type_raises_type_error(self):
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectTableRowCountToEqual(1, 1)
 
         assert "Not a valid pandas/pyspark DataFrame" in str(excinfo.value)
+    def test_pandas_expect_table_row_count_to_equal(self):
+        df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
+        self.assertExpectTableRowCountToEqual(df, 3)
 
     def test_pandas_expect_table_row_count_to_equal_fails(self):
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})

@@ -3,11 +3,10 @@ from pyspark.sql import SparkSession
 import pytest
 
 
-class GreatAssertionTestsPySpark(GreatAssertions):
+class GreatAssertionPySparkTests(GreatAssertions):
     def setUp(self):
         self.spark = SparkSession.builder.getOrCreate()
 
-    # expect_table_row_count_to_equal
     def test_pyspark_expect_table_row_count_to_equal(self):
         df = self.spark.createDataFrame(
             [
@@ -37,7 +36,6 @@ class GreatAssertionTestsPySpark(GreatAssertions):
 
         assert "expected row count is 4 the actual was 3" in str(excinfo.value)
 
-    # assertExpectColumnValueLengthsToEqual
     def test_pyspark_assert_expect_column_values_to_be_between(self):
         # int
         df = self.spark.createDataFrame(
