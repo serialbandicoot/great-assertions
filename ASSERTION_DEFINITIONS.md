@@ -53,3 +53,30 @@ The assertion is inclusive of the min and max value
 | column| str | Column name |
 | value_set | set | A set of objects used for comparison |
 | msg | str | Additional optional message information if exception is raised |
+
+### assertExpectColumnValuesToBeOfType
+
+|  Assertion | Type | Description |
+| ------------- | ------------- | ------------- |
+| df| DataFrame | Pandas/PySpark |
+| column| str | Column name |
+| type_ | str, int, float | The type of field you expect the value to be |
+| msg | str | Additional optional message information if exception is raised |
+
+### assertExpectTableColumnsToMatchOrderedList
+
+|  Assertion | Type | Description |
+| ------------- | ------------- | ------------- |
+| df| DataFrame | Pandas/PySpark |
+| column| str | Column name |
+| column_list | list | A list of strings |
+| msg | str | Additional optional message information if exception is raised |
+
+### assertExpectTableColumnsToMatchSet
+
+|  Assertion | Type | Description |
+| ------------- | ------------- | ------------- |
+| df| DataFrame | Pandas/PySpark |
+| column| str | Column name |
+| column_list | list/set | A list of strings |
+| msg | str | Additional optional message information if exception is raised |
