@@ -28,7 +28,7 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    expect_table_row_count_to_equal = assertExpectTableRowCountToEqual    
+    expect_table_row_count_to_equal = assertExpectTableRowCountToEqual
 
     def assertExpectColumnValuesToBeBetween(
         self, df, column: str, min_value: float, max_value: float, msg=""
@@ -62,7 +62,7 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    expect_column_values_to_be_between = assertExpectColumnValuesToBeBetween    
+    expect_column_values_to_be_between = assertExpectColumnValuesToBeBetween
 
     def assertExpectColumnValuesToMatchRegex(self, df, column: str, regex: str, msg=""):
         """Expect column entries to be strings that do NOT match a given regular expression.
@@ -82,7 +82,7 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    expect_column_values_to_match_regex = assertExpectColumnValuesToMatchRegex    
+    expect_column_values_to_match_regex = assertExpectColumnValuesToMatchRegex
 
     def assertExpectColumnValuesToBeInSet(
         self, df, column: str, value_set: set, msg=""
@@ -100,7 +100,7 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    expect_column_values_to_be_in_set = assertExpectColumnValuesToBeInSet  
+    expect_column_values_to_be_in_set = assertExpectColumnValuesToBeInSet
 
     def assertExpectColumnValuesToBeOfType(
         self, df, column: str, type_: Union[str, float, int], msg=""
@@ -127,12 +127,14 @@ class GreatAssertions(unittest.TestCase):
                 raise self.failureException(msg)
 
         if type_ not in [str, int, float]:
-            msg = self._formatMessage(msg, "Please check available types; str, float, int")
-            raise self.failureException(msg) 
+            msg = self._formatMessage(
+                msg, "Please check available types; str, float, int"
+            )
+            raise self.failureException(msg)
 
         return
 
-    expect_column_values_to_be_of_type =  assertExpectColumnValuesToBeOfType   
+    expect_column_values_to_be_of_type = assertExpectColumnValuesToBeOfType
 
     def assertExpectTableColumnsToMatchOrderedList(
         self, df, column_list: List[str], msg=""
@@ -146,13 +148,12 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    expect_table_columns_to_match_ordered_list = assertExpectTableColumnsToMatchOrderedList    
+    expect_table_columns_to_match_ordered_list = (
+        assertExpectTableColumnsToMatchOrderedList
+    )
 
     def assertExpectTableColumnsToMatchSet(
-        self,
-        df,
-        column_set: Optional[Union[Set[str], List[str]]],
-        msg=""
+        self, df, column_set: Optional[Union[Set[str], List[str]]], msg=""
     ):
         """Expect the columns to match a specified set."""
         df = _get_dataframe_type(df)
@@ -162,4 +163,4 @@ class GreatAssertions(unittest.TestCase):
             msg = self._formatMessage(msg, "Columns did not match set")
             raise self.failureException(msg)
 
-    expect_table_columns_to_match_set = assertExpectTableColumnsToMatchSet        
+    expect_table_columns_to_match_set = assertExpectTableColumnsToMatchSet

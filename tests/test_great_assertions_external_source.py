@@ -6,7 +6,6 @@ import os
 
 
 class GreatAssertionExternalSourceTests(GreatAssertions):
-    
     def setUp(self):
         self.data = os.path.join("tests", "data", "external_data_source.csv")
 
@@ -20,7 +19,7 @@ class GreatAssertionExternalSourceTests(GreatAssertions):
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectTableRowCountToEqual(df, 1)
 
-        assert "expected row count is 1 the actual was 4" in str(excinfo.value)  
+        assert "expected row count is 1 the actual was 4" in str(excinfo.value)
 
     def test_external_source_pyspark_expect_table_row_count_to_equal(self):
         spark = SparkSession.builder.getOrCreate()
@@ -34,4 +33,4 @@ class GreatAssertionExternalSourceTests(GreatAssertions):
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectTableRowCountToEqual(df, 1)
 
-        assert "expected row count is 1 the actual was 5" in str(excinfo.value)  
+        assert "expected row count is 1 the actual was 5" in str(excinfo.value)
