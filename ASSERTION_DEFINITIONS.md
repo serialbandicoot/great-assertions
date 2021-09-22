@@ -44,3 +44,12 @@ The assertion is inclusive of the min and max value
 | column| str | Column name |
 | regex | str | If the regular expression fails this will cause the raised exception |
 | msg | str | Additional optional message information if exception is raised |
+
+### assertExpectColumnValuesToBeInSet
+
+|  Assertion | Type | Description |
+| ------------- | ------------- | ------------- |
+| df| DataFrame | Pandas/PySpark |
+| column| str | Column name |
+| value_set | set | A set of objects used for comparison |
+| msg | str | Additional optional message information if exception is raised |
