@@ -120,7 +120,7 @@ class GreatAssertions(unittest.TestCase):
         return
 
     def assertExpectTableColumnsToMatchOrderedList(
-        self, df, column_list: list[str], msg=""
+        self, df, column_list: List[str], msg=""
     ):
         """Expect the columns to exactly match a specified list"""
         df = _get_dataframe_type(df)
