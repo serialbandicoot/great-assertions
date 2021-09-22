@@ -95,27 +95,32 @@ class GreatAssertions(unittest.TestCase):
         return
 
     def assertExpectColumnValuesToBeOfType(
-        self, df, column: str, type_: object, msg=""
+        self, df, column: str, type_: Union[str, float, int], msg=""
     ):
         """Expect a column to contain values of a specified data type."""
 
         df = _get_dataframe_type(df)
 
         df_type = df[column].dtypes
-        if type_ in ["string", "char", str]:
+        fstr = f"Column {column} was not type {type_}"
+        if type_ is str:
             if df_type.char != "O":
-                msg = self._formatMessage(msg, f"Column {column} was not type {type_}")
+                msg = self._formatMessage(msg, fstr)
                 raise self.failureException(msg)
 
-        if type_ in ["int", int]:
+        if type_ is int:
             if df_type.char != "l":
-                msg = self._formatMessage(msg, f"Column {column} was not type {type_}")
+                msg = self._formatMessage(msg, fstr)
                 raise self.failureException(msg)
 
-        if type_ in ["float", float]:
+        if type_ is float:
             if df_type.char != "d":
-                msg = self._formatMessage(msg, f"Column {column} was not type {type_}")
+                msg = self._formatMessage(msg, fstr)
                 raise self.failureException(msg)
+
+        if type_ not in [str, int, float]:
+            msg = self._formatMessage(msg, "Please check available types; str, float, int")
+            raise self.failureException(msg) 
 
         return
 
@@ -135,8 +140,7 @@ class GreatAssertions(unittest.TestCase):
         self,
         df,
         column_set: Optional[Union[Set[str], List[str]]],
-        exact_match: Optional[bool] = True,
-        msg="",
+        msg=""
     ):
         """Expect the columns to match a specified set."""
         df = _get_dataframe_type(df)

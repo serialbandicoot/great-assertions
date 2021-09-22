@@ -20,6 +20,7 @@ Decription of the exceptions and their method attributes
 | ------------- | ------------- | ------------- |
 | df| DataFrame | Pandas/PySpark |
 | expected_count| int | Integer number of expected row count |
+| msg | str | Additional optional message information if exception is raised |
 
 ### assertExpectColumnValuesToBeBetween
 
@@ -29,7 +30,17 @@ Decription of the exceptions and their method attributes
 | column| str | Column name |
 | min_value| float | The minimum value expected in the column |
 | max_value| float | The maximum value expected in the column |
+| msg | str | Additional optional message information if exception is raised |
 
 #### Additional Notes
 
 The assertion is inclusive of the min and max value
+
+### assertExpectColumnValuesToMatchRegex
+
+|  Assertion | Type | Description |
+| ------------- | ------------- | ------------- |
+| df| DataFrame | Pandas/PySpark |
+| column| str | Column name |
+| regex | str | If the regular expression fails this will cause the raised exception |
+| msg | str | Additional optional message information if exception is raised |

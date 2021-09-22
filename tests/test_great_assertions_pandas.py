@@ -102,9 +102,20 @@ class GreatAssertionPandasTests(GreatAssertions):
                 "col_3": [10.45, 20.32, 30.23],
             }
         )
-        self.assertExpectColumnValuesToBeOfType(df, "col_1", "str")
-        self.assertExpectColumnValuesToBeOfType(df, "col_2", "int")
-        self.assertExpectColumnValuesToBeOfType(df, "col_3", "float")
+        self.assertExpectColumnValuesToBeOfType(df, "col_1", str)
+        self.assertExpectColumnValuesToBeOfType(df, "col_2", int)
+        self.assertExpectColumnValuesToBeOfType(df, "col_3", float)
+
+    def test_pandas_expect_column_values_to_be_of_type_fail_type(self):
+        df = pd.DataFrame(
+            {
+                "col_1": ["BA2"],
+            }
+        )
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectColumnValuesToBeOfType(df, "col_1", object)
+       
+        assert "Please check available types; str, float, int" in str(excinfo.value)
 
     def test_pandas_expect_column_values_to_be_of_type_fail(self):
         df = pd.DataFrame(
@@ -115,19 +126,19 @@ class GreatAssertionPandasTests(GreatAssertions):
             }
         )
         with pytest.raises(AssertionError) as excinfo:
-            self.assertExpectColumnValuesToBeOfType(df, "col_1", "int")
+            self.assertExpectColumnValuesToBeOfType(df, "col_1", int)
 
-        assert "Column col_1 was not type int" in str(excinfo.value)
-
-        with pytest.raises(AssertionError) as excinfo:
-            self.assertExpectColumnValuesToBeOfType(df, "col_2", "float")
-
-        assert "Column col_2 was not type float" in str(excinfo.value)
+        assert "Column col_1 was not type <class 'int'>" in str(excinfo.value)
 
         with pytest.raises(AssertionError) as excinfo:
-            self.assertExpectColumnValuesToBeOfType(df, "col_3", "string")
+            self.assertExpectColumnValuesToBeOfType(df, "col_2", float)
 
-        assert "Column col_3 was not type string" in str(excinfo.value)
+        assert "Column col_2 was not type <class 'float'>" in str(excinfo.value)
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectColumnValuesToBeOfType(df, "col_3", str)
+
+        assert "Column col_3 was not type <class 'str'>" in str(excinfo.value)
 
     def test_assert_pandas_expect_table_columns_to_match_ordered_list(self):
         df = pd.DataFrame({"col_1": [100], "col_2": ['a'], "col_3": [1.01]})

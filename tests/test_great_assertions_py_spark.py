@@ -143,9 +143,9 @@ class GreatAssertionPySparkTests(GreatAssertions):
                 {"col_1": "SW1", "col_2": 30, "col_3": 10.45},
             ]
         )
-        self.assertExpectColumnValuesToBeOfType(df, "col_1", "str")
-        self.assertExpectColumnValuesToBeOfType(df, "col_2", "int")
-        self.assertExpectColumnValuesToBeOfType(df, "col_3", "float")
+        self.assertExpectColumnValuesToBeOfType(df, "col_1", str)
+        self.assertExpectColumnValuesToBeOfType(df, "col_2", int)
+        self.assertExpectColumnValuesToBeOfType(df, "col_3", float)
 
     def test_pyspark_expect_column_values_to_be_of_type_fail(self):
         df = self.spark.createDataFrame(
@@ -157,19 +157,19 @@ class GreatAssertionPySparkTests(GreatAssertions):
         )
 
         with pytest.raises(AssertionError) as excinfo:
-            self.assertExpectColumnValuesToBeOfType(df, "col_1", "int")
+            self.assertExpectColumnValuesToBeOfType(df, "col_1", int)
 
-        assert "Column col_1 was not type int" in str(excinfo.value)
-
-        with pytest.raises(AssertionError) as excinfo:
-            self.assertExpectColumnValuesToBeOfType(df, "col_2", "float")
-
-        assert "Column col_2 was not type float" in str(excinfo.value)
+        assert "Column col_1 was not type <class 'int'>" in str(excinfo.value)
 
         with pytest.raises(AssertionError) as excinfo:
-            self.assertExpectColumnValuesToBeOfType(df, "col_3", "string")
+            self.assertExpectColumnValuesToBeOfType(df, "col_2", float)
 
-        assert "Column col_3 was not type string" in str(excinfo.value)
+        assert "Column col_2 was not type <class 'float'>" in str(excinfo.value)
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectColumnValuesToBeOfType(df, "col_3", str)
+
+        assert "Column col_3 was not type <class 'str'>" in str(excinfo.value)
 
     def test_assert_pyspark_expect_table_columns_to_match_ordered_list(self):
         df = self.spark.createDataFrame(
