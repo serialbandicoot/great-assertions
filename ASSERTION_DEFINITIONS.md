@@ -9,3 +9,27 @@
 | assertExpectColumnValuesToBeOfType | Expect a column to contain values of a specified data type |
 | assertExpectTableColumnsToMatchOrderedList | Expect the columns to exactly match a specified list |
 | assertExpectTableColumnsToMatchSet | Expect the columns to match a specified set. |
+
+## Assertions Params
+
+Decription of the exceptions and their method attributes
+
+### assertExpectTableRowCountToEqual
+
+|  Assertion | Type | Description |
+| ------------- | ------------- | ------------- |
+| df| DataFrame | Pandas/PySpark |
+| expected_count| int | Integer number of expected row count |
+
+### assertExpectColumnValuesToBeBetween
+
+|  Assertion | Type | Description |
+| ------------- | ------------- | ------------- |
+| df| DataFrame | Pandas/PySpark |
+| column| str | Column name |
+| min_value| float | The minimum value expected in the column |
+| max_value| float | The maximum value expected in the column |
+
+#### Additional Notes
+
+The assertion is inclusive of the min and max value
