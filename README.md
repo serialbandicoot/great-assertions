@@ -8,7 +8,7 @@ For example if you wanted to use `expect_column_values_to_be_between` then you c
 
 ## Install
 ```bash
-pip install grea-assertions
+pip install great-assertions
 ```
 
 ## Code example Pandas
