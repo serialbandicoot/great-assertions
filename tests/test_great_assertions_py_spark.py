@@ -127,13 +127,13 @@ class GreatAssertionPySparkTests(GreatAssertions):
 
     def test_pyspark_assert_expect_column_values_to_be_in_set_fail(self):
         df_fruits = [{"col_1": "Tomato"}, {"col_1": "Cherry"}, {"col_1": "Apple"}]
-        fruits = set(("Apple", "Orage", "Pear", "Cherry"))
+        fruits = set(("Apple", "Orange", "Pear", "Cherry"))
         df = self.spark.createDataFrame(df_fruits)
 
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectColumnValuesToBeInSet(df, "col_1", fruits)
 
-        assert "Column col_1 was not in the provided set" in str(excinfo.value)
+        assert "Column col_1 provided set was not in Tomato, Cherry, Apple" in str(excinfo.value)
 
     def test_pyspark_expect_column_values_to_be_of_type(self):
         df = self.spark.createDataFrame(

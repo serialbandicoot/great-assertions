@@ -93,8 +93,9 @@ class GreatAssertions(unittest.TestCase):
 
         result = df[~df[column].isin(value_set)] == False
         if len(result) > 0:
+            column_unique_list = df[column].unique().tolist()
             msg = self._formatMessage(
-                msg, f"Column {column} was not in the provided set"
+                msg, f"Column {column} provided set was not in {', '.join(column_unique_list)}"
             )
             raise self.failureException(msg)
 

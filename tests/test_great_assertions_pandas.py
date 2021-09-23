@@ -83,21 +83,21 @@ class GreatAssertionPandasTests(GreatAssertions):
         )
 
     def test_pandas_assert_expect_column_values_to_be_in_set(self):
-        fruits = ["Apple", "Orage", "Pear", "Cherry", "Apricot(Summer)"]
-        fruits_set = set(("Apple", "Orage", "Pear", "Cherry", "Apricot(Summer)"))
+        fruits = ["Apple", "Orange", "Pear", "Cherry", "Apricot(Summer)"]
+        fruits_set = set(("Apple", "Orange", "Pear", "Cherry", "Apricot(Summer)"))
         df = pd.DataFrame({"col_1": fruits})
 
         self.assertExpectColumnValuesToBeInSet(df, "col_1", fruits_set)
         self.expect_column_values_to_be_in_set(df, "col_1", fruits_set)
 
     def test_pandas_assert_expect_column_values_to_be_in_set_fail(self):
-        fruits = set(("Apple", "Orage", "Pear", "Cherry"))
+        fruits = set(("Apple", "Orange", "Pear", "Cherry"))
         df = pd.DataFrame({"col_1": ["Tomato", "Cherry", "Apple"]})
 
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectColumnValuesToBeInSet(df, "col_1", fruits)
 
-        assert "Column col_1 was not in the provided set" in str(excinfo.value)
+        assert "Column col_1 provided set was not in Tomato, Cherry, Apple" in str(excinfo.value)
 
     def test_pandas_expect_column_values_to_be_of_type(self):
         df = pd.DataFrame(
