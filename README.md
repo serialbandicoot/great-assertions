@@ -54,6 +54,8 @@ class GreatAssertionTests(GreatAssertions):
 | assertExpectColumnValuesToBeOfType  | :white_check_mark: | :white_check_mark: |
 | assertExpectTableColumnsToMatchOrderedList  | :white_check_mark: | :white_check_mark: |
 | assertExpectTableColumnsToMatchSet  | :white_check_mark: | :white_check_mark: |
+| assertExpectDateRangeToBeMoreThan  | :white_check_mark: | :white_check_mark: |
+| assertExpectDateRangeToBeLessThan  | :white_check_mark: | :white_check_mark: |
 
 ## Assertion Descriptions
 

@@ -194,3 +194,34 @@ class GreatAssertionPandasTests(GreatAssertions):
             self.assertExpectTableColumnsToMatchSet(df, list(("col_2", "col_1")))
 
         assert "Columns did not match set" in str(excinfo.value)
+
+    def test_assert_expect_date_range_to_be_less_than(self):
+        df = pd.DataFrame({"col_1": ["2019-05-13", "2018-12-12", "2015-10-01"]})
+
+        self.assertExpectDateRangeToBeLessThan(df, "col_1", "2019-05-14")
+
+    def test_assert_expect_date_range_to_be_less_than_formatted(self):
+        df = pd.DataFrame({"col_1": ["2019/05/13", "2018/12/12", "2015/10/01"]})
+
+        self.assertExpectDateRangeToBeLessThan(df, "col_1", "2019/05/14", format="%Y/%m/%d")    
+
+    def test_assert_expect_date_range_to_be_less_than_fail(self):
+        df = pd.DataFrame({"col_1": ["2019-05-13", "2018-12-12", "2015-10-01"]})
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectDateRangeToBeLessThan(df, "col_1", "2019-05-13")        
+
+        assert "Column col_1 date is greater or equal than 2019-05-13 found 2019-05-13" in str(excinfo.value)    
+
+    def test_assert_expect_date_range_to_be_more_than(self):
+        df = pd.DataFrame({"col_1": ["2019-05-13", "2018-12-12", "2015-10-01"]})
+
+        self.assertExpectDateRangeToBeMoreThan(df, "col_1", "2015-09-30")
+
+    def test_assert_expect_date_range_to_be_more_than_fail(self):
+        df = pd.DataFrame({"col_1": ["2019-05-13", "2018-12-12", "2015-10-01"]})
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectDateRangeToBeMoreThan(df, "col_1", "2015-10-01")        
+
+        assert "Column col_1 is less or equal than 2015-10-01 found 2015-10-01" in str(excinfo.value)  

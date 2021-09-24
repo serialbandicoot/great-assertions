@@ -9,6 +9,8 @@
 | [assertExpectColumnValuesToBeOfType](#assertExpectColumnValuesToBeOfType) | Expect a column to contain values of a specified data type |
 | [assertExpectTableColumnsToMatchOrderedList](#assertExpectTableColumnsToMatchOrderedList)  | Expect the columns to exactly match a specified list |
 | [assertExpectTableColumnsToMatchSet](#assertExpectTableColumnsToMatchSet) | Expect the columns to match a specified set. |
+| [assertExpectDateRangeToBeMoreThan](#assertExpectDateRangeToBeMoreThan) | Expect the columns to be more than datetime. |
+| [assertExpectDateRangeToBeLessThan](#assertExpectDateRangeToBeLessThan) | Expect the columns to be less than datetime. |
 
 ## Assertions Params
 
@@ -79,4 +81,24 @@ The assertion is inclusive of the min and max value
 | df| DataFrame | Pandas/PySpark |
 | column| str | Column name |
 | column_list | list/set | A list of strings |
+| msg | str | Additional optional message information if exception is raised |
+
+### assertExpectDateRangeToBeMoreThan
+
+|  Assertion | Type | Description |
+| ------------- | ------------- | ------------- |
+| df| DataFrame | Pandas/PySpark |
+| column| str | Column name |
+| date | str | The date of the string in the chosen format to compare, default is "%Y-%m-%d" |
+| format | str | Provide the format, to convert from in the DataFrame |
+| msg | str | Additional optional message information if exception is raised |
+
+### assertExpectDateRangeToBeLessThan
+
+|  Assertion | Type | Description |
+| ------------- | ------------- | ------------- |
+| df| DataFrame | Pandas/PySpark |
+| column| str | Column name |
+| date | str | The date of the string in the chosen format to compare, default is "%Y-%m-%d" |
+| format | str | Provide the format, to convert from in the DataFrame |
 | msg | str | Additional optional message information if exception is raised |

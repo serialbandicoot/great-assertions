@@ -1,4 +1,5 @@
 import unittest
+from datetime import datetime
 from typing import Optional, Union, Set, List
 
 
@@ -72,11 +73,11 @@ class GreatAssertions(unittest.TestCase):
 
         df = _get_dataframe_type(df)
 
-        result = df[df[column].str.match(regex) == False]
-        if len(result) > 0:
+        results = df[df[column].str.match(regex) == False]
+        if len(results) > 0:
             msg = self._formatMessage(
                 msg,
-                f"Column {column} did not match regular expression, found {result[column].values[0]}",
+                f"Column {column} did not match regular expression, found {results[column].values[0]}",
             )
             raise self.failureException(msg)
 
@@ -91,8 +92,8 @@ class GreatAssertions(unittest.TestCase):
 
         df = _get_dataframe_type(df)
 
-        result = df[~df[column].isin(value_set)] == False
-        if len(result) > 0:
+        results = df[~df[column].isin(value_set)] == False
+        if len(results) > 0:
             # Sort if possible, otherwise just output
             try:
                 column_unique_list = df[column].unique().tolist()
@@ -119,7 +120,8 @@ class GreatAssertions(unittest.TestCase):
         df_type = df[column].dtypes
         fstr = f"Column {column} was not type {type_}"
         if type_ is str:
-            if df_type.char != "O":
+            # Consider object a string
+            if df_type.char != "O" and df_type.char != "S":
                 msg = self._formatMessage(msg, fstr)
                 raise self.failureException(msg)
 
@@ -171,3 +173,40 @@ class GreatAssertions(unittest.TestCase):
             raise self.failureException(msg)
 
     expect_table_columns_to_match_set = assertExpectTableColumnsToMatchSet
+
+    def assertExpectDateRangeToBeLessThan(self, df, column: str, date: str, format="%Y-%m-%d", msg=""):
+        """Expect the columns to be less than datetime."""
+
+        df = _get_dataframe_type(df)
+        df[column] = df[column].apply(lambda x: datetime.strptime(x, format))
+
+        results = df[df[column] >= datetime.strptime(date, format)]
+
+        if len(results) > 0:
+            dt = results[column].values[0].astype('datetime64[D]')
+            msg = self._formatMessage(
+                msg,
+                f"Column {column} date is greater or equal than {date} found {dt}",
+            )
+            raise self.failureException(msg)
+
+        return
+
+    def assertExpectDateRangeToBeMoreThan(self, df, column: str, date: str, format="%Y-%m-%d", msg=""):
+        """Expect the columns to be more than datetime."""
+
+        df = _get_dataframe_type(df)
+        df[column] = df[column].apply(lambda x: datetime.strptime(x, format))
+
+        results = df[df[column] <= datetime.strptime(date, format)]
+
+        if len(results) > 0:
+            dt = results[column].values[0].astype('datetime64[D]')
+            msg = self._formatMessage(
+                msg,
+                f"Column {column} is less or equal than {date} found {dt}",
+            )
+            raise self.failureException(msg)
+
+        return    
+        
