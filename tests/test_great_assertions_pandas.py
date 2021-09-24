@@ -97,7 +97,7 @@ class GreatAssertionPandasTests(GreatAssertions):
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectColumnValuesToBeInSet(df, "col_1", fruits)
 
-        assert "Column col_1 provided set was not in Tomato, Cherry, Apple" in str(excinfo.value)
+        assert "Column col_1 provided set was not in Apple, Cherry, Tomato" in str(excinfo.value)
 
     def test_pandas_assert_expect_column_values_to_be_in_set_fail_with_type(self):
         fruits = set(("Apple", "Orange", "Pear", "Cherry"))

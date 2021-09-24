@@ -93,7 +93,13 @@ class GreatAssertions(unittest.TestCase):
 
         result = df[~df[column].isin(value_set)] == False
         if len(result) > 0:
-            column_unique_list = df[column].unique().tolist()
+            # Sort if possible, otherwise just output
+            try:
+                column_unique_list = df[column].unique().tolist()
+                column_unique_list = sorted(column_unique_list)
+            except TypeError:
+                pass
+
             msg = self._formatMessage(
                 msg, f"Column {column} provided set was not in {', '.join(map(str, column_unique_list))}"
             )
