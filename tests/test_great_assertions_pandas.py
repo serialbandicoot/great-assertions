@@ -206,6 +206,11 @@ class GreatAssertionPandasTests(GreatAssertions):
 
         self.assertExpectDateRangeToBeLessThan(df, "col_1", "2019-05-14")
 
+    def test_assert_expect_date_range_to_be_less_than_default(self):
+        df = pd.DataFrame({"col_1": [""]})
+
+        self.assertExpectDateRangeToBeLessThan(df, "col_1", "1900-01-02")
+
     def test_assert_expect_date_range_to_be_less_than_formatted(self):
         df = pd.DataFrame({"col_1": ["2019/05/13", "2018/12/12", "2015/10/01"]})
 
@@ -228,6 +233,11 @@ class GreatAssertionPandasTests(GreatAssertions):
         df = pd.DataFrame({"col_1": ["2019-05-13", "2018-12-12", "2015-10-01"]})
 
         self.assertExpectDateRangeToBeMoreThan(df, "col_1", "2015-09-30")
+
+    def test_assert_expect_date_range_to_be_more_than_default(self):
+        df = pd.DataFrame({"col_1": [""]})
+
+        self.assertExpectDateRangeToBeMoreThan(df, "col_1", "1899-12-31")
 
     def test_assert_expect_date_range_to_be_more_than_fail(self):
         df = pd.DataFrame({"col_1": ["2019-05-13", "2018-12-12", "2015-10-01"]})

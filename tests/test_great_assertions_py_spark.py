@@ -249,6 +249,11 @@ class GreatAssertionPySparkTests(GreatAssertions):
             df, "col_1", "2019/05/14", format="%Y/%m/%d"
         )
 
+    def test_assert_expect_date_range_to_be_less_than_default(self):
+        df = self.spark.createDataFrame([{"col_1": ""}])
+
+        self.assertExpectDateRangeToBeLessThan(df, "col_1", "1900-01-02")
+
     def test_assert_expect_date_range_to_be_less_than_fail(self):
         df = self.spark.createDataFrame(
             [
@@ -274,6 +279,11 @@ class GreatAssertionPySparkTests(GreatAssertions):
             ]
         )
         self.assertExpectDateRangeToBeMoreThan(df, "col_1", "2015-09-30")
+
+    def test_assert_expect_date_range_to_be_more_than_default(self):
+        df = self.spark.createDataFrame([{"col_1": ""}])
+
+        self.assertExpectDateRangeToBeMoreThan(df, "col_1", "1899-12-31")
 
     def test_assert_expect_date_range_to_be_more_than_fail(self):
         df = self.spark.createDataFrame(

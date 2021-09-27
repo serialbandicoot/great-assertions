@@ -13,6 +13,13 @@ def _get_dataframe_type(df):
     raise AssertionError("Not a valid pandas/pyspark DataFrame")
 
 
+def _default_null_dates(dt, format):
+    if dt == "":
+        return datetime.strptime("1900-01-01", "%Y-%m-%d")
+    else:
+        return datetime.strptime(dt, format)
+
+
 class GreatAssertions(unittest.TestCase):
     def assertExpectTableRowCountToEqual(self, df, expected_count: int, msg=""):
         """Expect the number of rows in this table to equal the number of rows in a different table."""
@@ -166,7 +173,7 @@ class GreatAssertions(unittest.TestCase):
         self, df, column_set: Optional[Union[Set[str], List[str]]], msg=""
     ):
         """Expect the columns to match a specified set."""
-        
+
         df = _get_dataframe_type(df)
 
         column_set = set(column_set) if column_set is not None else set()
@@ -188,10 +195,14 @@ class GreatAssertions(unittest.TestCase):
             column (str)   : The name of the column to be examined
             date (str)     : The date as a string, using the chosen format or default as %Y-%m-%d
             msg (str)      : Optional message if the assertion fails
+
+        Notes
+        ----------
+        Empty values are converted to 1900-01-01.
         """
 
         df = _get_dataframe_type(df)
-        df[column] = df[column].apply(lambda x: datetime.strptime(x, format))
+        df[column] = df[column].apply(lambda dt: _default_null_dates(dt, format))
 
         results = df[df[column] >= datetime.strptime(date, format)]
 
@@ -217,10 +228,14 @@ class GreatAssertions(unittest.TestCase):
             column (str)   : The name of the column to be examined
             date (str)     : The date as a string, using the chosen format or default as %Y-%m-%d
             msg (str)      : Optional message if the assertion fails
+
+        Notes
+        ----------
+        Empty values are converted to 1900-01-01.
         """
 
         df = _get_dataframe_type(df)
-        df[column] = df[column].apply(lambda x: datetime.strptime(x, format))
+        df[column] = df[column].apply(lambda dt: _default_null_dates(dt, format))
 
         results = df[df[column] <= datetime.strptime(date, format)]
 
@@ -247,10 +262,14 @@ class GreatAssertions(unittest.TestCase):
             date_start (str) : The start date as a string, using the chosen format or default as %Y-%m-%d
             date_end (str)   : The end date as a string, using the chosen format or default as %Y-%m-%d
             msg (str)        : Optional message if the assertion fails
+
+        Notes
+        ----------
+        Empty values are converted to 1900-01-01.
         """
 
         df = _get_dataframe_type(df)
-        df[column] = df[column].apply(lambda x: datetime.strptime(x, format))
+        df[column] = df[column].apply(lambda dt: _default_null_dates(dt, format))
 
         start_date = datetime.strptime(date_start, format)
         end_date = datetime.strptime(date_end, format)
