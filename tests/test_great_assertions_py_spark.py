@@ -41,7 +41,9 @@ class GreatAssertionPySparkTests(GreatAssertions):
         df = self.spark.createDataFrame(
             [{"col_1": 100}, {"col_1": 200}, {"col_1": 300}]
         )
-        self.assertExpectColumnValuesToBeBetween(df, "col_1", min_value = 99, max_value = 301)
+        self.assertExpectColumnValuesToBeBetween(
+            df, "col_1", min_value=99, max_value=301
+        )
 
         # float
         df = self.spark.createDataFrame(
@@ -133,7 +135,9 @@ class GreatAssertionPySparkTests(GreatAssertions):
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectColumnValuesToBeInSet(df, "col_1", fruits)
 
-        assert "Column col_1 provided set was not in Apple, Cherry, Tomato" in str(excinfo.value)
+        assert "Column col_1 provided set was not in Apple, Cherry, Tomato" in str(
+            excinfo.value
+        )
 
     def test_pyspark_expect_column_values_to_be_of_type(self):
         df = self.spark.createDataFrame(
@@ -241,7 +245,9 @@ class GreatAssertionPySparkTests(GreatAssertions):
                 {"col_1": "2015/10/01"},
             ]
         )
-        self.assertExpectDateRangeToBeLessThan(df, "col_1", "2019/05/14", format="%Y/%m/%d")      
+        self.assertExpectDateRangeToBeLessThan(
+            df, "col_1", "2019/05/14", format="%Y/%m/%d"
+        )
 
     def test_assert_expect_date_range_to_be_less_than_fail(self):
         df = self.spark.createDataFrame(
@@ -252,9 +258,12 @@ class GreatAssertionPySparkTests(GreatAssertions):
             ]
         )
         with pytest.raises(AssertionError) as excinfo:
-            self.assertExpectDateRangeToBeLessThan(df, "col_1", "2019-05-13")        
+            self.assertExpectDateRangeToBeLessThan(df, "col_1", "2019-05-13")
 
-        assert "Column col_1 date is greater or equal than 2019-05-13 found 2019-05-13" in str(excinfo.value)    
+        assert (
+            "Column col_1 date is greater or equal than 2019-05-13 found 2019-05-13"
+            in str(excinfo.value)
+        )
 
     def test_assert_expect_date_range_to_be_more_than(self):
         df = self.spark.createDataFrame(
@@ -276,6 +285,93 @@ class GreatAssertionPySparkTests(GreatAssertions):
         )
 
         with pytest.raises(AssertionError) as excinfo:
-            self.assertExpectDateRangeToBeMoreThan(df, "col_1", "2015-10-01")        
+            self.assertExpectDateRangeToBeMoreThan(df, "col_1", "2015-10-01")
 
-        assert "Column col_1 is less or equal than 2015-10-01 found 2015-10-01" in str(excinfo.value)  
+        assert "Column col_1 is less or equal than 2015-10-01 found 2015-10-01" in str(
+            excinfo.value
+        )
+
+    def test_assert_expect_date_range_to_be_between(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": "2010-01-02"},
+                {"col_1": "2025-01-01"},
+            ]
+        )
+
+        self.assertExpectDateRangeToBeBetween(
+            df, "col_1", date_start="2010-01-01", date_end="2025-01-02"
+        )
+
+    def test_assert_expect_date_range_to_be_between_start_date_greater_than_end(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": "1975-01-01"},
+            ]
+        )
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectDateRangeToBeBetween(
+                df, "col_1", date_start="1950-01-02", date_end="1950-01-01"
+            )
+
+        assert (
+            "Column col_1 start date 1950-01-02 cannot be greater than end_date 1950-01-01"
+            in str(excinfo.value)
+        )
+
+    def test_assert_expect_date_range_to_be_between_fail(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": "2010-01-02"},
+                {"col_1": "2025-01-02"},
+            ]
+        )
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectDateRangeToBeBetween(
+                df, "col_1", date_start="2010-01-03", date_end="2025-01-03"
+            )
+
+        assert (
+            "Column col_1 is not between 2010-01-03 and 2025-01-03 found 2010-01-02"
+            in str(excinfo.value)
+        )
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectDateRangeToBeBetween(
+                df, "col_1", date_start="2010-01-01", date_end="2025-01-01"
+            )
+
+        assert (
+            "Column col_1 is not between 2010-01-01 and 2025-01-01 found 2025-01-02"
+            in str(excinfo.value)
+        )
+
+    def test_assert_expect_date_range_to_be_between_fail_equal(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": "2010-01-02"},
+                {"col_1": "2025-01-02"},
+            ]
+        )
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectDateRangeToBeBetween(
+                df, "col_1", date_start="2010-01-02", date_end="2025-01-03"
+            )
+
+        assert (
+            "Column col_1 is not between 2010-01-02 and 2025-01-03 found 2010-01-02"
+            in str(excinfo.value)
+        )
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectDateRangeToBeBetween(
+                df, "col_1", date_start="2010-01-01", date_end="2025-01-02"
+            )
+
+        assert (
+            "Column col_1 is not between 2010-01-01 and 2025-01-02 found 2025-01-02"
+            in str(excinfo.value)
+        )

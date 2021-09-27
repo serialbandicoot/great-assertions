@@ -6,9 +6,9 @@ from typing import Optional, Union, Set, List
 def _get_dataframe_type(df):
     _type = str(type(df))
     if "pyspark" in _type:
-        return df.toPandas()
+        return df.toPandas().copy(deep=True)
     elif "pandas" in _type:
-        return df
+        return df.copy(deep=True)
 
     raise AssertionError("Not a valid pandas/pyspark DataFrame")
 
@@ -102,7 +102,8 @@ class GreatAssertions(unittest.TestCase):
                 pass
 
             msg = self._formatMessage(
-                msg, f"Column {column} provided set was not in {', '.join(map(str, column_unique_list))}"
+                msg,
+                f"Column {column} provided set was not in {', '.join(map(str, column_unique_list))}",
             )
             raise self.failureException(msg)
 
@@ -174,8 +175,10 @@ class GreatAssertions(unittest.TestCase):
 
     expect_table_columns_to_match_set = assertExpectTableColumnsToMatchSet
 
-    def assertExpectDateRangeToBeLessThan(self, df, column: str, date: str, format="%Y-%m-%d", msg=""):
-        """Expect the columns to be less than datetime."""
+    def assertExpectDateRangeToBeLessThan(
+        self, df, column: str, date: str, format="%Y-%m-%d", msg=""
+    ):
+        """Expect the columns to be less than date."""
 
         df = _get_dataframe_type(df)
         df[column] = df[column].apply(lambda x: datetime.strptime(x, format))
@@ -183,7 +186,7 @@ class GreatAssertions(unittest.TestCase):
         results = df[df[column] >= datetime.strptime(date, format)]
 
         if len(results) > 0:
-            dt = results[column].values[0].astype('datetime64[D]')
+            dt = results[column].values[0].astype("datetime64[D]")
             msg = self._formatMessage(
                 msg,
                 f"Column {column} date is greater or equal than {date} found {dt}",
@@ -192,8 +195,10 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    def assertExpectDateRangeToBeMoreThan(self, df, column: str, date: str, format="%Y-%m-%d", msg=""):
-        """Expect the columns to be more than datetime."""
+    def assertExpectDateRangeToBeMoreThan(
+        self, df, column: str, date: str, format="%Y-%m-%d", msg=""
+    ):
+        """Expect the date columns to be more than date."""
 
         df = _get_dataframe_type(df)
         df[column] = df[column].apply(lambda x: datetime.strptime(x, format))
@@ -201,12 +206,41 @@ class GreatAssertions(unittest.TestCase):
         results = df[df[column] <= datetime.strptime(date, format)]
 
         if len(results) > 0:
-            dt = results[column].values[0].astype('datetime64[D]')
+            dt = results[column].values[0].astype("datetime64[D]")
             msg = self._formatMessage(
                 msg,
                 f"Column {column} is less or equal than {date} found {dt}",
             )
             raise self.failureException(msg)
 
-        return    
-        
+        return
+
+    def assertExpectDateRangeToBeBetween(
+        self, df, column: str, date_start: str, date_end: str, format="%Y-%m-%d", msg=""
+    ):
+        """Expect the date columns to be between a start and end date."""
+
+        df = _get_dataframe_type(df)
+        df[column] = df[column].apply(lambda x: datetime.strptime(x, format))
+
+        start_date = datetime.strptime(date_start, format)
+        end_date = datetime.strptime(date_end, format)
+
+        if start_date > end_date:
+            msg = self._formatMessage(
+                msg,
+                f"Column {column} start date {date_start} cannot be greater than end_date {end_date}",
+            )
+
+        mask = (df[column] <= start_date) | (df[column] >= end_date)
+        results = df.loc[mask]
+
+        if len(results) > 0:
+            dt = results[column].values[0].astype("datetime64[D]")
+            msg = self._formatMessage(
+                msg,
+                f"Column {column} is not between {date_start} and {date_end} found {dt}",
+            )
+            raise self.failureException(msg)
+
+        return

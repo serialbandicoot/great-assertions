@@ -38,5 +38,5 @@ class GreatAssertionExternalSourceTests(GreatAssertions):
     def test_external_source_with_delimited_text(self):
         filepath = os.path.join("tests", "data", "external_delimited_source.txt")
         df = pd.read_csv(filepath, sep="|")
-        
+
         self.assertExpectTableRowCountToEqual(df, 4)
