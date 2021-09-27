@@ -166,6 +166,7 @@ class GreatAssertions(unittest.TestCase):
         self, df, column_set: Optional[Union[Set[str], List[str]]], msg=""
     ):
         """Expect the columns to match a specified set."""
+        
         df = _get_dataframe_type(df)
 
         column_set = set(column_set) if column_set is not None else set()
@@ -178,7 +179,16 @@ class GreatAssertions(unittest.TestCase):
     def assertExpectDateRangeToBeLessThan(
         self, df, column: str, date: str, format="%Y-%m-%d", msg=""
     ):
-        """Expect the columns to be less than date."""
+        """
+        Expect the date columns to be less than date (Inclusive).
+
+        Parameters
+        ----------
+            df (DataFrame) : Pandas or PySpark DataFrame
+            column (str)   : The name of the column to be examined
+            date (str)     : The date as a string, using the chosen format or default as %Y-%m-%d
+            msg (str)      : Optional message if the assertion fails
+        """
 
         df = _get_dataframe_type(df)
         df[column] = df[column].apply(lambda x: datetime.strptime(x, format))
@@ -198,7 +208,16 @@ class GreatAssertions(unittest.TestCase):
     def assertExpectDateRangeToBeMoreThan(
         self, df, column: str, date: str, format="%Y-%m-%d", msg=""
     ):
-        """Expect the date columns to be more than date."""
+        """
+        Expect the date columns to be more than date (Inclusive).
+
+        Parameters
+        ----------
+            df (DataFrame) : Pandas or PySpark DataFrame
+            column (str)   : The name of the column to be examined
+            date (str)     : The date as a string, using the chosen format or default as %Y-%m-%d
+            msg (str)      : Optional message if the assertion fails
+        """
 
         df = _get_dataframe_type(df)
         df[column] = df[column].apply(lambda x: datetime.strptime(x, format))
@@ -218,7 +237,17 @@ class GreatAssertions(unittest.TestCase):
     def assertExpectDateRangeToBeBetween(
         self, df, column: str, date_start: str, date_end: str, format="%Y-%m-%d", msg=""
     ):
-        """Expect the date columns to be between a start and end date."""
+        """
+        Expect the date columns to be between a start and end date.
+
+        Parameters
+        ----------
+            df (DataFrame)   : Pandas or PySpark DataFrame
+            column (str)     : The name of the column to be examined
+            date_start (str) : The start date as a string, using the chosen format or default as %Y-%m-%d
+            date_end (str)   : The end date as a string, using the chosen format or default as %Y-%m-%d
+            msg (str)        : Optional message if the assertion fails
+        """
 
         df = _get_dataframe_type(df)
         df[column] = df[column].apply(lambda x: datetime.strptime(x, format))
