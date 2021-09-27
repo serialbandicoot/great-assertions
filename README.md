@@ -56,6 +56,7 @@ class GreatAssertionTests(GreatAssertions):
 | assertExpectTableColumnsToMatchSet  | :white_check_mark: | :white_check_mark: |
 | assertExpectDateRangeToBeMoreThan  | :white_check_mark: | :white_check_mark: |
 | assertExpectDateRangeToBeLessThan  | :white_check_mark: | :white_check_mark: |
+| assertExpectDateRangeToBeBetween  | :white_check_mark: | :white_check_mark: |
 
 ## Assertion Descriptions
 

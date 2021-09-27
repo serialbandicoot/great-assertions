@@ -73,7 +73,7 @@ class GreatAssertions(unittest.TestCase):
 
         df = _get_dataframe_type(df)
 
-        results = df[df[column].str.match(regex) == False]
+        results = df[df[column].astype(str).str.match(regex) == False]
         if len(results) > 0:
             msg = self._formatMessage(
                 msg,

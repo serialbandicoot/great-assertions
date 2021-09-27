@@ -40,3 +40,9 @@ class GreatAssertionExternalSourceTests(GreatAssertions):
         df = pd.read_csv(filepath, sep="|")
 
         self.assertExpectTableRowCountToEqual(df, 4)
+
+    def test_external_source_with_delimited_text(self):
+        filepath = os.path.join("tests", "data", "external_delimited_source.txt")
+        df = pd.read_csv(filepath, sep="|")
+
+        self.expect_column_values_to_match_regex(df, "col2", "^[0-9]{2}$")
