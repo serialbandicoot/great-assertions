@@ -292,3 +292,44 @@ class GreatAssertions(unittest.TestCase):
             raise self.failureException(msg)
 
         return
+
+    def assertExpectColumnMeanToBeBetween(
+        self, df, column, min_value: float, max_value: float, msg=""
+    ):
+        """
+        Expect the column mean to be between a minimum value and a maximum value (inclusive).
+
+        Parameters
+        ----------
+            df (DataFrame)    : Pandas or PySpark DataFrame
+            column (str)      : The name of the column to be examined
+            min_value (float) : The minimum value for the column mean
+            max_value (float) : The maximum value for the column mean
+        """
+
+        df = _get_dataframe_type(df)
+
+        if min_value > max_value:
+            msg = self._formatMessage(
+                msg,
+                f"Column {column} min_value {min_value} cannot be greater than max_value {max_value}",
+            )
+
+        mean_value = df[column].mean()
+        if min_value > mean_value:
+            msg = self._formatMessage(
+                msg,
+                f"Column {column} mean {format(mean_value, '.5f')} is less than min_value {min_value}",
+            )
+            raise self.failureException(msg)
+
+        if max_value < mean_value:
+            msg = self._formatMessage(
+                msg,
+                f"Column {column} mean {format(mean_value, '.5f')} is greater than max_value {max_value}",
+            )
+            raise self.failureException(msg)
+
+        return
+
+    expect_column_mean_to_be_between = assertExpectColumnMeanToBeBetween

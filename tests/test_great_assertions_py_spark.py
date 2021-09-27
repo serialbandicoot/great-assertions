@@ -385,3 +385,62 @@ class GreatAssertionPySparkTests(GreatAssertions):
             "Column col_1 is not between 2010-01-01 and 2025-01-02 found 2025-01-02"
             in str(excinfo.value)
         )
+
+    def test_expect_column_mean_to_be_between(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": 100.05},
+                {"col_1": 200.01},
+                {"col_1": 300.05},
+            ]
+        )
+
+        self.assertExpectColumnMeanToBeBetween(df, "col_1", 100.0, 400.0)
+
+    def test_expect_column_mean_to_be_between_min_greater_than_max_fail(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": 100.05},
+                {"col_1": 200.01},
+                {"col_1": 300.05},
+            ]
+        )
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectColumnMeanToBeBetween(df, "col_1", 200.0, 100.0)
+
+        assert "Column col_1 mean 200.03667 is greater than max_value 100.0" in str(
+            excinfo.value
+        )
+
+    def test_expect_column_mean_to_be_between_fail_min_value(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": 100.05},
+                {"col_1": 200.01},
+                {"col_1": 300.05},
+            ]
+        )
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectColumnMeanToBeBetween(df, "col_1", 300.0, 400.0)
+
+        assert "Column col_1 mean 200.03667 is less than min_value 300.0" in str(
+            excinfo.value
+        )
+
+    def test_expect_column_mean_to_be_between_fail_max_value(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": 100.05},
+                {"col_1": 200.01},
+                {"col_1": 300.05},
+            ]
+        )
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectColumnMeanToBeBetween(df, "col_1", 100.0, 200.0)
+
+        assert "Column col_1 mean 200.03667 is greater than max_value 200.0" in str(
+            excinfo.value
+        )
