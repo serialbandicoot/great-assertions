@@ -1,11 +1,11 @@
 name: Codecov
-on: [push, pull_request]
+on: [push]
 jobs:
   run:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest]
     env:
       OS: ${{ matrix.os }}
       PYTHON: '3.7'
@@ -20,7 +20,7 @@ jobs:
         pip install pytest
         pip install pytest-cov
         pip install -r test-requirements.txt
-        pytest --cov=./ --cov-report=xml
+        py.test --cov-report term --cov-report xml:coverage/coverage.xml --cov=great_assertions
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
@@ -28,8 +28,3 @@ jobs:
         directory: ./coverage/reports/
         env_vars: OS,PYTHON
         fail_ci_if_error: true
-        files: ./coverage1.xml,./coverage2.xml
-        flags: unittests
-        name: codecov-umbrella
-        path_to_write_report: ./coverage/codecov_report.txt
-        verbose: true

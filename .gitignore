@@ -133,3 +133,6 @@ dmypy.json
 
 # TestResults
 test-results/
+
+# Cover
+coverage/
