@@ -2,6 +2,8 @@
 
 [![serialbandicoot](https://circleci.com/gh/serialbandicoot/great-assertions.svg?style=svg)](<LINK>)
 
+[![flake8 Lint](https://github.com/serialbandicoot/great-assertions/actions/workflows/flake8.yml/badge.svg)](https://github.com/serialbandicoot/great-assertions/actions/workflows/flake8.yml)
+
 This library is inspired by the Great Expectations library. The library has made the various expectations found in Great Expectations available when using the inbuilt python unittest assertions.
 
 For example if you wanted to use `expect_column_values_to_be_between` then you can access `assertExpectColumnValuesToBeBetween`.
