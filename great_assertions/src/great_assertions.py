@@ -191,9 +191,7 @@ class GreatAssertions(unittest.TestCase):
     def assertExpectTableColumnsToMatchSet(
         self, df, column_set: Optional[Union[Set[str], List[str]]], msg=""
     ):
-        """
-        Expect the columns to match a specified set.
-        
+        """Expect the columns to match a specified set.
 
         Parameters
         ----------
@@ -201,9 +199,7 @@ class GreatAssertions(unittest.TestCase):
             column (str)   : The name of the column to be examined
             date (str)     : The date as a string, using the chosen format or default as %Y-%m-%d
             msg (str)      : Optional message if the assertion fails
-            
         """
-
         df = _get_dataframe_type(df)
 
         column_set = set(column_set) if column_set is not None else set()
