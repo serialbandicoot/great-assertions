@@ -1,3 +1,5 @@
+"""Great Assertions."""
+
 import pathlib
 from setuptools import setup
 

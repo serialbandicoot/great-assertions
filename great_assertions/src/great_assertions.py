@@ -1,3 +1,10 @@
+"""
+Great Assertions.
+
+This library is inspired by the Great Expectations library. The library has made the various expectations found in Great Expectations available when using the inbuilt python unittest assertions.
+For example if you wanted to use expect_column_values_to_be_between then you can access assertExpectColumnValuesToBeBetween.
+"""
+
 import unittest
 from datetime import datetime
 from typing import Optional, Union, Set, List
@@ -21,10 +28,15 @@ def _default_null_dates(dt, format):
 
 
 class GreatAssertions(unittest.TestCase):
+    """
+    GreatAssertions.
+
+    A class which inherits unittest.TestCase and appends Great Expectation styled assertions
+
+    """
+
     def assertExpectTableRowCountToEqual(self, df, expected_count: int, msg=""):
-        """
-        Expect the number of rows in this table to equal the number of rows in a different table.
-        """
+        """Expect the number of rows in this table to equal the number of rows in a different table."""
 
         df = _get_dataframe_type(df)
         actual_row_count = len(df)
@@ -43,9 +55,7 @@ class GreatAssertions(unittest.TestCase):
     def assertExpectColumnValuesToBeBetween(
         self, df, column: str, min_value: float, max_value: float, msg=""
     ):
-        """
-        Expect column entries to be between a minimum value and a maximum value (inclusive).
-        """
+        """Expect column entries to be between a minimum value and a maximum value (inclusive)."""
 
         if max_value < min_value:
             msg = self._formatMessage(
@@ -77,14 +87,18 @@ class GreatAssertions(unittest.TestCase):
     expect_column_values_to_be_between = assertExpectColumnValuesToBeBetween
 
     def assertExpectColumnValuesToMatchRegex(self, df, column: str, regex: str, msg=""):
-        """Expect column entries to be strings that do NOT match a given regular expression.
+        """
+        Expect column entries to be strings that do NOT match a given regular expression.
+
         The regex must not match any portion of the provided string. For example, “[at]+”
         would identify the following strings as expected: “fish”, “dog”, and the following
-        as unexpected: “cat”, “hat”"""
+        as unexpected: “cat”, “hat”
+
+        """
 
         df = _get_dataframe_type(df)
 
-        results = df[df[column].astype(str).str.match(regex) == False]
+        results = df[df[column].astype(str).str.match(regex) is False]
         if len(results) > 0:
             msg = self._formatMessage(
                 msg,
@@ -103,7 +117,7 @@ class GreatAssertions(unittest.TestCase):
 
         df = _get_dataframe_type(df)
 
-        results = df[~df[column].isin(value_set)] == False
+        results = df[~df[column].isin(value_set)] is False
         if len(results) > 0:
             # Sort if possible, otherwise just output
             try:
@@ -160,7 +174,8 @@ class GreatAssertions(unittest.TestCase):
     def assertExpectTableColumnsToMatchOrderedList(
         self, df, column_list: List[str], msg=""
     ):
-        """Expect the columns to exactly match a specified list"""
+        """Expect the columns to exactly match a specified list."""
+
         df = _get_dataframe_type(df)
 
         if list(df.columns) != column_list:
@@ -254,7 +269,13 @@ class GreatAssertions(unittest.TestCase):
         return
 
     def assertExpectDateRangeToBeBetween(
-        self, df, column: str, date_start: str, date_end: str, format="%Y-%m-%d", msg=""
+        self,
+        df,
+        column: str,
+        date_start: str,
+        date_end: str,
+        format="%Y-%m-%d",
+        msg="",
     ):
         """
         Expect the date columns to be between a start and end date.
