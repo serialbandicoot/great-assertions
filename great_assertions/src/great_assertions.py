@@ -204,7 +204,7 @@ class GreatAssertions(unittest.TestCase):
 
         column_set = set(column_set) if column_set is not None else set()
         if set(df.columns) != column_set:
-            msg = self._formatMessage(msg, "Columns did not match set")
+            msg = self._formatMessage(msg, f"Columns did not match set found {', '.join(map(str, df.columns))}")
             raise self.failureException(msg)
 
     expect_table_columns_to_match_set = assertExpectTableColumnsToMatchSet
@@ -309,8 +309,9 @@ class GreatAssertions(unittest.TestCase):
         if start_date > end_date:
             msg = self._formatMessage(
                 msg,
-                f"Column {column} start date {date_start} cannot be greater than end_date {end_date}",
+                f"Column {column} start date {date_start} cannot be greater than end_date {date_end}",
             )
+            raise self.failureException(msg)
 
         mask = (df[column] <= start_date) | (df[column] >= end_date)
         results = df.loc[mask]
@@ -346,6 +347,7 @@ class GreatAssertions(unittest.TestCase):
                 msg,
                 f"Column {column} min_value {min_value} cannot be greater than max_value {max_value}",
             )
+            raise self.failureException(msg)
 
         mean_value = df[column].mean()
         if min_value > mean_value:
