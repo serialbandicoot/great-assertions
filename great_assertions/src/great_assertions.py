@@ -98,7 +98,7 @@ class GreatAssertions(unittest.TestCase):
 
         df = _get_dataframe_type(df)
 
-        results = df[df[column].astype(str).str.match(regex) is False]
+        results = df[df[column].astype(str).str.match(regex).eq(False)]
         if len(results) > 0:
             msg = self._formatMessage(
                 msg,
@@ -117,7 +117,7 @@ class GreatAssertions(unittest.TestCase):
 
         df = _get_dataframe_type(df)
 
-        results = df[~df[column].isin(value_set)] is False
+        results = df[~df[column].isin(value_set)].eq(False)
         if len(results) > 0:
             # Sort if possible, otherwise just output
             try:

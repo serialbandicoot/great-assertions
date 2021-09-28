@@ -73,14 +73,14 @@ class GreatAssertionPandasTests(GreatAssertions):
         )
 
     def test_pandas_assert_expect_column_values_to_match_regex(self):
-        df = pd.DataFrame({"col_1": ["BA2", "BA15", "SW1"]})
+        df = pd.DataFrame({"col_1": ["BA2", "BA15", "Sw1"]})
         self.assertExpectColumnValuesToMatchRegex(
             df, "col_1", "^[a-zA-Z]{2}[0-9]{1,2}$"
         )
         self.expect_column_values_to_match_regex(df, "col_1", "^[a-zA-Z]{2}[0-9]{1,2}$")
 
     def test_pandas_assert_expect_column_values_to_match_regex_fail(self):
-        df = pd.DataFrame({"col_1": ["BA2", "BA151", "SW1", "AAA13"]})
+        df = pd.DataFrame({"col_1": ["bA2", "BA151", "SW1", "AAA13"]})
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectColumnValuesToMatchRegex(
                 df, "col_1", "^[a-zA-Z]{2}[0-9]{1,2}$"
