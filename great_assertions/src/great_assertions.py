@@ -22,7 +22,9 @@ def _default_null_dates(dt, format):
 
 class GreatAssertions(unittest.TestCase):
     def assertExpectTableRowCountToEqual(self, df, expected_count: int, msg=""):
-        """Expect the number of rows in this table to equal the number of rows in a different table."""
+        """
+        Expect the number of rows in this table to equal the number of rows in a different table.
+        """
 
         df = _get_dataframe_type(df)
         actual_row_count = len(df)
@@ -41,7 +43,9 @@ class GreatAssertions(unittest.TestCase):
     def assertExpectColumnValuesToBeBetween(
         self, df, column: str, min_value: float, max_value: float, msg=""
     ):
-        """Expect column entries to be between a minimum value and a maximum value (inclusive)."""
+        """
+        Expect column entries to be between a minimum value and a maximum value (inclusive).
+        """
 
         if max_value < min_value:
             msg = self._formatMessage(
