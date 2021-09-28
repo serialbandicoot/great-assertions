@@ -22,6 +22,7 @@ jobs:
         pip install -r test-requirements.txt
         py.test --cov-report term --cov=./ --cov-report=xml
         ls
+        cat coverage.xml
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
