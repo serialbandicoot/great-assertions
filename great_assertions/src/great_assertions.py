@@ -460,3 +460,5 @@ class GreatAssertions(unittest.TestCase):
                     f"Column {column} the actual value count of ({key}) is {format(key_percent, '.5f')}% is more than the min allowed of {value_counts[key]['min']}%",
                 )
                 raise self.failureException(msg)
+
+        return
