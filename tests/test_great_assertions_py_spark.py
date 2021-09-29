@@ -211,7 +211,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
                 df, list(("col_2", "col_1", "col_3"))
             )
 
-        assert "Ordered columns did not match : " == str(excinfo.value)
+        assert "Ordered columns did not match ordered columns col_1, col_2, col_3 : " == str(excinfo.value)
 
     def test_assert_pyspark_expect_table_columns_to_match_set(self):
         df = self.spark.createDataFrame(

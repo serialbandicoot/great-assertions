@@ -179,7 +179,7 @@ class GreatAssertions(unittest.TestCase):
         df = _get_dataframe_type(df)
 
         if list(df.columns) != column_list:
-            msg = self._formatMessage(msg, "Ordered columns did not match")
+            msg = self._formatMessage(msg, f"Ordered columns did not match ordered columns {', '.join(map(str, df.columns))}")
             raise self.failureException(msg)
 
         return
