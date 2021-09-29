@@ -398,7 +398,9 @@ class GreatAssertionPandasTests(GreatAssertions):
         value_counts = {"Y": {"min": 55, "max": 65}}
 
         with pytest.raises(AssertionError) as excinfo:
-            self.assertExpectColumnValueCountsPercentToBeBetween(df, "col_1", value_counts)
+            self.assertExpectColumnValueCountsPercentToBeBetween(
+                df, "col_1", value_counts
+            )
 
         assert (
             "Column col_1 the actual value count of (Y) is 50.00000% is less than the min allowed of 55% : "
@@ -414,9 +416,56 @@ class GreatAssertionPandasTests(GreatAssertions):
         value_counts = {"Y": {"min": 35, "max": 40}}
 
         with pytest.raises(AssertionError) as excinfo:
-            self.assertExpectColumnValueCountsPercentToBeBetween(df, "col_1", value_counts)
+            self.assertExpectColumnValueCountsPercentToBeBetween(
+                df, "col_1", value_counts
+            )
 
         assert (
-            "Column col_1 the actual value count of (Y) is 50.00000% is more than the min allowed of 35% : "
+            "Column col_1 the actual value count of (Y) is 50.00000% is more than the max allowed of 40% : "
             == str(excinfo.value)
         )
+
+    def test_expect_column_value_counts_percent_to_be_between_fail_key_error(self):
+        df = pd.DataFrame(
+            {
+                "col_1": ["Y", "N", "Maybe"],
+            }
+        )
+        value_counts = {"Yes": {"min": 0, "max": 0}}
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectColumnValueCountsPercentToBeBetween(
+                df, "col_1", value_counts
+            )
+
+        assert (
+            "Check the key 'Yes' is in the available value counts names Maybe, N, Y : "
+            == str(excinfo.value)
+        )
+
+    def test_expect_column_value_counts_percent_to_be_between_fail_min_max_key_error(
+        self,
+    ):
+        df = pd.DataFrame(
+            {
+                "col_1": ["Y"],
+            }
+        )
+
+        # Assert verify min
+        value_counts = {"Y": {"minimum": 0, "max": 0}}
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectColumnValueCountsPercentToBeBetween(
+                df, "col_1", value_counts
+            )
+
+        assert "Value count for key 'Y' not contain 'min' : " == str(excinfo.value)
+
+        # Assert verify max
+        value_counts = {"Y": {"min": 0, "maximum": 0}}
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectColumnValueCountsPercentToBeBetween(
+                df, "col_1", value_counts
+            )
+
+        assert "Value count for key 'Y' not contain 'max' : " == str(excinfo.value)

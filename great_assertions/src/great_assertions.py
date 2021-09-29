@@ -433,12 +433,20 @@ class GreatAssertions(unittest.TestCase):
                 "col_1": ["Y", "Y", "N", "Y", "Y", "N", "N", "Y", "Y", "N"],
             }
         )
+
         value_counts = {"Y": {"min": 55, "max": 65}, "N": {"min": 35, "max": 45}}
+
+        self.assertExpectColumnValueCountsPercentToBeBetween(
+                df, "col_1", value_counts
+        )
+
+        Notes
+        -------
 
         col_1 actual percentages: Y - 60%, N - 40%
 
         The percent tolerance for Y is 55% to 65%, therefore 60% is valid
-        and N is 35% to 45%, therefore 40% is also valid
+        and N is 35% to 45%, meaning 40% is valid
 
         """
 
@@ -446,18 +454,39 @@ class GreatAssertions(unittest.TestCase):
         result = df[column].value_counts()
 
         for key in value_counts:
-            key_percent = (result[key] / len(df)) * 100
-            if value_counts[key]["min"] > key_percent:
+
+            # Verify keys from resulting DataFrame
+            try:
+                key_percent = (result[key] / len(df)) * 100
+            except KeyError as e:
+                msg = self._formatMessage(
+                    msg,
+                    f"Check the key {str(e)} is in the available value counts names {', '.join(sorted(result.index.tolist()))}",
+                )
+                raise self.failureException(msg)
+
+            # Verify min/max from resulting provided value counts
+            try:
+                min = value_counts[key]["min"]
+                max = value_counts[key]["max"]
+            except KeyError as e:
+                msg = self._formatMessage(
+                    msg,
+                    f"Value count for key '{key}' not contain {str(e)}",
+                )
+                raise self.failureException(msg)
+
+            if min > key_percent:
                 msg = self._formatMessage(
                     msg,
                     f"Column {column} the actual value count of ({key}) is {format(key_percent, '.5f')}% is less than the min allowed of {value_counts[key]['min']}%",
                 )
                 raise self.failureException(msg)
 
-            if value_counts[key]["max"] < key_percent:
+            if max < key_percent:
                 msg = self._formatMessage(
                     msg,
-                    f"Column {column} the actual value count of ({key}) is {format(key_percent, '.5f')}% is more than the min allowed of {value_counts[key]['min']}%",
+                    f"Column {column} the actual value count of ({key}) is {format(key_percent, '.5f')}% is more than the max allowed of {value_counts[key]['max']}%",
                 )
                 raise self.failureException(msg)
 
