@@ -12,6 +12,8 @@
 | [assertExpectDateRangeToBeMoreThan](#assertExpectDateRangeToBeMoreThan) | Expect the columns to be more than date (Inclusive). |
 | [assertExpectDateRangeToBeLessThan](#assertExpectDateRangeToBeLessThan) | Expect the columns to be less than date (Inclusive). |
 | [assertExpectDateRangeToBeBetween](#assertExpectDateRangeToBeLessThan) | Expect the columns to be between a start and end date (Not inclusive). |
+| [assertExpectColumnMeanToBeBetween](#assertExpectColumnMeanToBeBetween) | Expect the column mean to be between a minimum value and a maximum value (inclusive). |
+| [assertExpectColumnValueCountsPercentToBeBetween](#assertExpectColumnValueCountsPercentToBeBetween) | Expect the value counts for each grouping to be a percentage between (Inclusive). |
 
 ## Assertions Params
 
@@ -113,4 +115,24 @@ The assertion is inclusive of the min and max value
 | date_start | str | The start date of the string in the chosen format to compare, default is "%Y-%m-%d" |
 | date_start | str | The end date of the string in the chosen format to compare, default is "%Y-%m-%d" |
 | format | str | Provide the format, to convert from in the DataFrame |
+| msg | str | Additional optional message information if exception is raised |
+
+### assertExpectColumnMeanToBeBetween
+
+|  Assertion | Type | Description |
+| ------------- | ------------- | ------------- |
+| df| DataFrame | Pandas/PySpark |
+| column| str | Column name |
+| min_value  | float | The minimum value for the column mean|
+| max_value | float | The maximum value for the column mean|
+| format | str | Provide the format, to convert from in the DataFrame |
+| msg | str | Additional optional message information if exception is raised |
+
+### assertExpectColumnValueCountsPercentToBeBetween
+
+|  Assertion | Type | Description |
+| ------------- | ------------- | ------------- |
+| df| DataFrame | Pandas/PySpark |
+| column| str | Column name |
+| value_counts  | dict | A dictionary of group names and thie associated min-max percentage values |
 | msg | str | Additional optional message information if exception is raised |

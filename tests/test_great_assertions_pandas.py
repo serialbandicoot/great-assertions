@@ -190,7 +190,10 @@ class GreatAssertionPandasTests(GreatAssertions):
                 df, list(("col_2", "col_1", "col_3"))
             )
 
-        assert "Ordered columns did not match ordered columns col_1, col_2, col_3 : " == str(excinfo.value)
+        assert (
+            "Ordered columns did not match ordered columns col_1, col_2, col_3 : "
+            == str(excinfo.value)
+        )
 
     def test_assert_pandas_expect_table_columns_to_match_set(self):
         df = pd.DataFrame({"col_1": [100], "col_2": ["a"], "col_3": [1.01]})
@@ -206,12 +209,16 @@ class GreatAssertionPandasTests(GreatAssertions):
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectTableColumnsToMatchSet(df, set(("col_2", "col_1")))
 
-        assert "Columns did not match set found col_1, col_2, col_3 : " == str(excinfo.value)
+        assert "Columns did not match set found col_1, col_2, col_3 : " == str(
+            excinfo.value
+        )
 
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectTableColumnsToMatchSet(df, list(("col_2", "col_1")))
 
-        assert "Columns did not match set found col_1, col_2, col_3 : " == str(excinfo.value)
+        assert "Columns did not match set found col_1, col_2, col_3 : " == str(
+            excinfo.value
+        )
 
     def test_assert_expect_date_range_to_be_less_than(self):
         df = pd.DataFrame({"col_1": ["2019-05-13", "2018-12-12", "2015-10-01"]})
@@ -257,8 +264,9 @@ class GreatAssertionPandasTests(GreatAssertions):
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectDateRangeToBeMoreThan(df, "col_1", "2015-10-01")
 
-        assert "Column col_1 is less or equal than 2015-10-01 found 2015-10-01 : " == str(
-            excinfo.value
+        assert (
+            "Column col_1 is less or equal than 2015-10-01 found 2015-10-01 : "
+            == str(excinfo.value)
         )
 
     def test_assert_expect_date_range_to_be_between(self):
@@ -342,9 +350,10 @@ class GreatAssertionPandasTests(GreatAssertions):
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectColumnMeanToBeBetween(df, "col_1", 200.0, 100.0)
 
-        assert "Column col_1 min_value 200.0 cannot be greater than max_value 100.0 : " == str(
-            excinfo.value
-        )        
+        assert (
+            "Column col_1 min_value 200.0 cannot be greater than max_value 100.0 : "
+            == str(excinfo.value)
+        )
 
     def test_expect_column_mean_to_be_between_fail_min_value(self):
         df = pd.DataFrame({"col_1": [100.05, 200.01, 300.05]})
@@ -364,4 +373,50 @@ class GreatAssertionPandasTests(GreatAssertions):
 
         assert "Column col_1 mean 200.03667 is greater than max_value 200.0 : " == str(
             excinfo.value
+        )
+
+    def test_expect_column_value_counts_percent_to_be_between(self):
+        df = pd.DataFrame(
+            {
+                "col_1": ["Y", "Y", "N", "Y", "Y", "N", "N", "Y", "N", ""],
+            }
+        )
+        value_counts = {
+            "Y": {"min": 45, "max": 55},
+            "N": {"min": 35, "max": 45},
+            "": {"min": 5, "max": 15},
+        }
+
+        self.assertExpectColumnValueCountsPercentToBeBetween(df, "col_1", value_counts)
+
+    def test_expect_column_value_counts_percent_to_be_between_fail_min(self):
+        df = pd.DataFrame(
+            {
+                "col_1": ["Y", "Y", "N", "Y", "Y", "N", "N", "Y", "Y", "", "N", ""],
+            }
+        )
+        value_counts = {"Y": {"min": 55, "max": 65}}
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectColumnValueCountsPercentToBeBetween(df, "col_1", value_counts)
+
+        assert (
+            "Column col_1 the actual value count of (Y) is 50.00000% is less than the min allowed of 55% : "
+            == str(excinfo.value)
+        )
+
+    def test_expect_column_value_counts_percent_to_be_between_fail_max(self):
+        df = pd.DataFrame(
+            {
+                "col_1": ["Y", "Y", "N", "Y", "Y", "N", "N", "Y", "Y", "", "N", ""],
+            }
+        )
+        value_counts = {"Y": {"min": 35, "max": 40}}
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectColumnValueCountsPercentToBeBetween(df, "col_1", value_counts)
+
+        assert (
+            "Column col_1 the actual value count of (Y) is 50.00000% is more than the min allowed of 35% : "
+            == str(excinfo.value)
         )

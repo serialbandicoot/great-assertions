@@ -57,6 +57,8 @@ class GreatAssertionTests(GreatAssertions):
 | assertExpectDateRangeToBeMoreThan  | :white_check_mark: | :white_check_mark: |
 | assertExpectDateRangeToBeLessThan  | :white_check_mark: | :white_check_mark: |
 | assertExpectDateRangeToBeBetween  | :white_check_mark: | :white_check_mark: |
+| assertExpectColumnMeanToBeBetween  | :white_check_mark: | :white_check_mark: |
+| assertExpectColumnValueCountsPercentToBeBetween  | :white_check_mark: | :white_check_mark: |
 
 ## Assertion Descriptions
 

@@ -1,8 +1,10 @@
 """
 Great Assertions.
 
-This library is inspired by the Great Expectations library. The library has made the various expectations found in Great Expectations available when using the inbuilt python unittest assertions.
+This library is inspired by the Great Expectations library and has made various expectations found in Great Expectations available when using the inbuilt python unittest assertions.
 For example if you wanted to use expect_column_values_to_be_between then you can access assertExpectColumnValuesToBeBetween.
+
+The library has also added in further expectations, which may be similar or new.  
 """
 
 import unittest
@@ -36,7 +38,14 @@ class GreatAssertions(unittest.TestCase):
     """
 
     def assertExpectTableRowCountToEqual(self, df, expected_count: int, msg=""):
-        """Expect the number of rows in this table to equal the number of rows in a different table."""
+        """Expect the number of rows to equal the count.
+
+        Parameters
+        ----------
+            df (DataFrame)       : Pandas or PySpark DataFrame
+            expected_count (int) : The expected row count of the DataFrame
+            msg (str)            : Optional message if the assertion fails
+        """
 
         df = _get_dataframe_type(df)
         actual_row_count = len(df)
@@ -55,7 +64,17 @@ class GreatAssertions(unittest.TestCase):
     def assertExpectColumnValuesToBeBetween(
         self, df, column: str, min_value: float, max_value: float, msg=""
     ):
-        """Expect column entries to be between a minimum value and a maximum value (inclusive)."""
+        """
+        Expect column entries to be between a minimum value and a maximum value (inclusive).
+
+        Parameters
+        ----------
+            df (DataFrame)    : Pandas or PySpark DataFrame
+            column (str)      : The name of the column to be examined
+            min_value (float) : Minimum value of the column
+            max_value (float) : Maximum value of the column
+            msg (str)         : Optional message if the assertion fails
+        """
 
         if max_value < min_value:
             msg = self._formatMessage(
@@ -113,7 +132,16 @@ class GreatAssertions(unittest.TestCase):
     def assertExpectColumnValuesToBeInSet(
         self, df, column: str, value_set: set, msg=""
     ):
-        """Expect each column value to be in a given set."""
+        """
+        Expect each column value to be in a given set.
+
+        Parameters
+        ----------
+            df (DataFrame)  : Pandas or PySpark DataFrame
+            column (str)    : The name of the column to be examined
+            value_set (str) : Set of values found in the column
+            msg (str)       : Optional message if the assertion fails
+        """
 
         df = _get_dataframe_type(df)
 
@@ -174,12 +202,24 @@ class GreatAssertions(unittest.TestCase):
     def assertExpectTableColumnsToMatchOrderedList(
         self, df, column_list: List[str], msg=""
     ):
-        """Expect the columns to exactly match a specified list."""
+        """
+        Expect the columns to exactly match a specified list.
+
+        Parameters
+        ----------
+            df (DataFrame)    : Pandas or PySpark DataFrame
+            column (str)      : The name of the column to be examined
+            column_list (str) : List of column names in matched by order
+            msg (str)         : Optional message if the assertion fails
+        """
 
         df = _get_dataframe_type(df)
 
         if list(df.columns) != column_list:
-            msg = self._formatMessage(msg, f"Ordered columns did not match ordered columns {', '.join(map(str, df.columns))}")
+            msg = self._formatMessage(
+                msg,
+                f"Ordered columns did not match ordered columns {', '.join(map(str, df.columns))}",
+            )
             raise self.failureException(msg)
 
         return
@@ -204,7 +244,10 @@ class GreatAssertions(unittest.TestCase):
 
         column_set = set(column_set) if column_set is not None else set()
         if set(df.columns) != column_set:
-            msg = self._formatMessage(msg, f"Columns did not match set found {', '.join(map(str, df.columns))}")
+            msg = self._formatMessage(
+                msg,
+                f"Columns did not match set found {', '.join(map(str, df.columns))}",
+            )
             raise self.failureException(msg)
 
     expect_table_columns_to_match_set = assertExpectTableColumnsToMatchSet
@@ -338,6 +381,7 @@ class GreatAssertions(unittest.TestCase):
             column (str)      : The name of the column to be examined
             min_value (float) : The minimum value for the column mean
             max_value (float) : The maximum value for the column mean
+            msg (str)         : Optional message if the assertion fails
         """
 
         df = _get_dataframe_type(df)
@@ -367,3 +411,52 @@ class GreatAssertions(unittest.TestCase):
         return
 
     expect_column_mean_to_be_between = assertExpectColumnMeanToBeBetween
+
+    def assertExpectColumnValueCountsPercentToBeBetween(
+        self, df, column: str, value_counts: dict, msg=""
+    ):
+        """
+        Expect the value counts for each grouping to be a percentage between (Inclusive).
+
+        Parameters
+        ----------
+            df (DataFrame)      : Pandas or PySpark DataFrame
+            column (str)        : The name of the column to be examined
+            value_counts (dict) : A dictionary of group names and thie associated min-max percentage values
+            msg (str)           : Optional message if the assertion fails
+
+        Example
+        -------
+
+        df = pd.DataFrame(
+            {
+                "col_1": ["Y", "Y", "N", "Y", "Y", "N", "N", "Y", "Y", "N"],
+            }
+        )
+        value_counts = {"Y": {"min": 55, "max": 65}, "N": {"min": 35, "max": 45}}
+
+        col_1 actual percentages: Y - 60%, N - 40%
+
+        The percent tolerance for Y is 55% to 65%, therefore 60% is valid
+        and N is 35% to 45%, therefore 40% is also valid
+
+        """
+
+        df = _get_dataframe_type(df)
+        result = df[column].value_counts()
+
+        for key in value_counts:
+            key_percent = (result[key] / len(df)) * 100
+            if value_counts[key]["min"] > key_percent:
+                msg = self._formatMessage(
+                    msg,
+                    f"Column {column} the actual value count of ({key}) is {format(key_percent, '.5f')}% is less than the min allowed of {value_counts[key]['min']}%",
+                )
+                raise self.failureException(msg)
+
+            if value_counts[key]["max"] < key_percent:
+                msg = self._formatMessage(
+                    msg,
+                    f"Column {column} the actual value count of ({key}) is {format(key_percent, '.5f')}% is more than the min allowed of {value_counts[key]['min']}%",
+                )
+                raise self.failureException(msg)
