@@ -4,7 +4,7 @@ Great Assertions.
 This library is inspired by the Great Expectations library and has made various expectations found in Great Expectations available when using the inbuilt python unittest assertions.
 For example if you wanted to use expect_column_values_to_be_between then you can access assertExpectColumnValuesToBeBetween.
 
-The library has also added in further expectations, which may be similar or new.  
+The library has also added in further expectations, which may be similar or new.
 """
 
 import unittest
