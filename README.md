@@ -1,6 +1,6 @@
 # Great Assertions
 
-[![serialbandicoot](https://circleci.com/gh/serialbandicoot/great-assertions.svg?style=svg)](<LINK>) [![flake8 Lint](https://github.com/serialbandicoot/great-assertions/actions/workflows/flake8.yml/badge.svg)](https://github.com/serialbandicoot/great-assertions/actions/workflows/flake8.yml) [![codecov](https://codecov.io/gh/serialbandicoot/great-assertions/branch/master/graph/badge.svg?token=OKBB0E5EUC)](https://codecov.io/gh/serialbandicoot/great-assertions)
+[![serialbandicoot](https://circleci.com/gh/serialbandicoot/great-assertions.svg?style=svg)](<LINK>) [![flake8 Lint](https://github.com/serialbandicoot/great-assertions/actions/workflows/flake8.yml/badge.svg)](https://github.com/serialbandicoot/great-assertions/actions/workflows/flake8.yml) [![codecov](https://codecov.io/gh/serialbandicoot/great-assertions/branch/master/graph/badge.svg?token=OKBB0E5EUC)](https://codecov.io/gh/serialbandicoot/great-assertions) [![CodeQL](https://github.com/serialbandicoot/great-assertions/workflows/CodeQL/badge.svg)](https://github.com/serialbandicoot/great-assertions/actions?query=workflow%3ACodeQL)
 
 This library is inspired by the Great Expectations library. The library has made the various expectations found in Great Expectations available when using the inbuilt python unittest assertions.
 
