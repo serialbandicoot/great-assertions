@@ -285,6 +285,8 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
+    expect_date_range_to_be_less_than = assertExpectDateRangeToBeLessThan    
+
     def assertExpectDateRangeToBeMoreThan(
         self, df, column: str, date: str, format="%Y-%m-%d", msg=""
     ):
@@ -317,6 +319,8 @@ class GreatAssertions(unittest.TestCase):
             raise self.failureException(msg)
 
         return
+
+    assert_expect_date_range_to_be_more_than = assertExpectDateRangeToBeMoreThan
 
     def assertExpectDateRangeToBeBetween(
         self,
@@ -368,6 +372,8 @@ class GreatAssertions(unittest.TestCase):
             raise self.failureException(msg)
 
         return
+
+    expect_date_range_to_be_between = assertExpectDateRangeToBeBetween    
 
     def assertExpectColumnMeanToBeBetween(
         self, df, column, min_value: float, max_value: float, msg=""
@@ -461,7 +467,7 @@ class GreatAssertions(unittest.TestCase):
             except KeyError as e:
                 msg = self._formatMessage(
                     msg,
-                    f"Check the key {str(e)} is in the available value counts names {', '.join(sorted(result.index.tolist()))}",
+                    f"Check the key {str(e)} is not in the available value counts names {', '.join(sorted(result.index.tolist()))}",
                 )
                 raise self.failureException(msg)
 
@@ -491,3 +497,5 @@ class GreatAssertions(unittest.TestCase):
                 raise self.failureException(msg)
 
         return
+
+    expect_column_value_counts_percent_to_be_between = assertExpectColumnValueCountsPercentToBeBetween

@@ -565,7 +565,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
             )
 
         assert (
-            "Check the key 'Yes' is in the available value counts names Maybe, N, Y : "
+            "Check the key 'Yes' is not in the available value counts names Maybe, N, Y : "
             == str(excinfo.value)
         )
 
