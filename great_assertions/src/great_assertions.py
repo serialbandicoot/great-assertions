@@ -285,7 +285,7 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    expect_date_range_to_be_less_than = assertExpectDateRangeToBeLessThan    
+    expect_date_range_to_be_less_than = assertExpectDateRangeToBeLessThan
 
     def assertExpectDateRangeToBeMoreThan(
         self, df, column: str, date: str, format="%Y-%m-%d", msg=""
@@ -373,7 +373,7 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    expect_date_range_to_be_between = assertExpectDateRangeToBeBetween    
+    expect_date_range_to_be_between = assertExpectDateRangeToBeBetween
 
     def assertExpectColumnMeanToBeBetween(
         self, df, column, min_value: float, max_value: float, msg=""
@@ -446,14 +446,13 @@ class GreatAssertions(unittest.TestCase):
                 df, "col_1", value_counts
         )
 
-        Notes
-        -------
+        BlHAA
+        -----
 
         col_1 actual percentages: Y - 60%, N - 40%
 
         The percent tolerance for Y is 55% to 65%, therefore 60% is valid
         and N is 35% to 45%, meaning 40% is valid
-
         """
 
         df = _get_dataframe_type(df)
@@ -498,4 +497,6 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    expect_column_value_counts_percent_to_be_between = assertExpectColumnValueCountsPercentToBeBetween
+    expect_column_value_counts_percent_to_be_between = (
+        assertExpectColumnValueCountsPercentToBeBetween
+    )
