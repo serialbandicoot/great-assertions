@@ -21,6 +21,18 @@ def _get_dataframe_type(df):
 
     raise AssertionError("Not a valid pandas/pyspark DataFrame")
 
+def _get_dataframe_import_type(data_frame):
+    _type = str(type(data_frame))
+    if "pyspark.sql.dataframe.DataFrame" in _type:
+        from .ga_spark import GASpark as df
+
+        return df(data_frame)
+    elif "pandas.core.frame.DataFrame" in _type:
+        from .ga_pandas import GAPandas as df
+
+        return df(data_frame)
+
+    raise AssertionError("Not a valid pandas/pyspark DataFrame")
 
 def _default_null_dates(dt, format):
     if dt == "":
@@ -47,8 +59,8 @@ class GreatAssertions(unittest.TestCase):
             msg (str)            : Optional message if the assertion fails
         """
 
-        df = _get_dataframe_type(df)
-        actual_row_count = len(df)
+        df = _get_dataframe_import_type(df)
+        actual_row_count = df.get_row_count
 
         if expected_count != actual_row_count:
             msg = self._formatMessage(
@@ -213,7 +225,7 @@ class GreatAssertions(unittest.TestCase):
             msg (str)         : Optional message if the assertion fails
         """
 
-        df = _get_dataframe_type(df)
+        df = _get_dataframe_import_type(df)
 
         if list(df.columns) != column_list:
             msg = self._formatMessage(
@@ -240,7 +252,7 @@ class GreatAssertions(unittest.TestCase):
             date (str)     : The date as a string, using the chosen format or default as %Y-%m-%d
             msg (str)      : Optional message if the assertion fails
         """
-        df = _get_dataframe_type(df)
+        df = _get_dataframe_import_type(df)
 
         column_set = set(column_set) if column_set is not None else set()
         if set(df.columns) != column_set:

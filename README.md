@@ -83,3 +83,6 @@ if __name__ == '__main__':
     unittest.main()   
 ```
 
+## Notes
+
+If you get an arrows function warning when running in Databricks, this will happen becuase a toPandas() method is called. The plan is to remove pandas conversion for Spark at a later date as use native PySpark code. For make sure the datasets are not too big, to cause the driver to crash.
