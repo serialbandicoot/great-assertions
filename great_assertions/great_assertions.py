@@ -21,18 +21,20 @@ def _get_dataframe_type(df):
 
     raise AssertionError("Not a valid pandas/pyspark DataFrame")
 
+
 def _get_dataframe_import_type(data_frame):
     _type = str(type(data_frame))
     if "pyspark.sql.dataframe.DataFrame" in _type:
-        from .ga_spark import GASpark as df
+        from great_assertions.src.ga_spark import GASpark as df
 
         return df(data_frame)
     elif "pandas.core.frame.DataFrame" in _type:
-        from .ga_pandas import GAPandas as df
+        from great_assertions.src.ga_pandas import GAPandas as df
 
         return df(data_frame)
 
     raise AssertionError("Not a valid pandas/pyspark DataFrame")
+
 
 def _default_null_dates(dt, format):
     if dt == "":

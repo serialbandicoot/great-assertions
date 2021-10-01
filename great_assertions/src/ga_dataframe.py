@@ -1,7 +1,14 @@
+"""Great Assertions."""
+
+
 class GADataFrame:
-    def __init__(self, df) -> None:
+    """Great Assertions."""
+
+    def __init__(self, df):
+        """Great Assertions."""
         self.df = df
 
-    @property   
+    @property
     def columns(self) -> list:
-        return self.df.columns   
+        """List of columns from Pandas or PySpark."""
+        return self.df.columns

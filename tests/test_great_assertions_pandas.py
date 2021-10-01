@@ -1,4 +1,4 @@
-from great_assertions.src.great_assertions import GreatAssertions
+from great_assertions.great_assertions import GreatAssertions
 import pandas as pd
 import pytest
 
