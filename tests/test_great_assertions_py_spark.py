@@ -1,4 +1,4 @@
-from great_assertions.great_assertions import GreatAssertions
+from src.great_assertions import GreatAssertions
 from pyspark.sql import SparkSession
 import pytest
 

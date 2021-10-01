@@ -1,7 +1,7 @@
 """Great Assertions."""
 
 import pathlib
-from setuptools import setup
+from setuptools import setup, find_packages
 
 # The directory containing this file
 HERE = pathlib.Path(__file__).parent
@@ -12,7 +12,7 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="great-assertions",
-    version="0.0.26",
+    version="0.0.27",
     description="Inspired by the library great-expectations",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -27,7 +27,8 @@ setup(
     python_requires=">=3.6",  # Minimum version requirement of the package
     py_modules=["great_assertions"],  # Name of the python package
     package_dir={
-        "": "great_assertions/src"
+        "great_assertions": "src"
     },  # Directory of the source code of the package
     install_requires=[],
+    packages=find_packages(exclude=["contrib*", "docs*", "tests*", "examples*"]),
 )

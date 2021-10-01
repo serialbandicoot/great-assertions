@@ -25,11 +25,11 @@ def _get_dataframe_type(df):
 def _get_dataframe_import_type(data_frame):
     _type = str(type(data_frame))
     if "pyspark.sql.dataframe.DataFrame" in _type:
-        from great_assertions.src.ga_spark import GASpark as df
+        from src.ga_spark import GASpark as df
 
         return df(data_frame)
     elif "pandas.core.frame.DataFrame" in _type:
-        from great_assertions.src.ga_pandas import GAPandas as df
+        from src.ga_pandas import GAPandas as df
 
         return df(data_frame)
 

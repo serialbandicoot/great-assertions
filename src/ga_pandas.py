@@ -1,5 +1,5 @@
 """Great Assertions."""
-from great_assertions.src.ga_dataframe import GADataFrame
+from src.ga_dataframe import GADataFrame
 
 
 class GAPandas(GADataFrame):
