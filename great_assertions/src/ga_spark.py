@@ -1,6 +1,6 @@
 """Great Assertions."""
 
-from .ga_dataframe import GADataFrame
+from great_assertions.src.ga_dataframe import GADataFrame
 
 
 class GASpark(GADataFrame):
