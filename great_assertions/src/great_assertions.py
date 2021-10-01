@@ -25,13 +25,9 @@ def _get_dataframe_type(df):
 def _get_dataframe_import_type(data_frame):
     _type = str(type(data_frame))
     if "pyspark.sql.dataframe.DataFrame" in _type:
-        from src.ga_spark import GASpark as df
-
-        return df(data_frame)
+        return GASpark(data_frame)
     elif "pandas.core.frame.DataFrame" in _type:
-        from src.ga_pandas import GAPandas as df
-
-        return df(data_frame)
+        return GAPandas(data_frame)
 
     raise AssertionError("Not a valid pandas/pyspark DataFrame")
 
@@ -42,6 +38,51 @@ def _default_null_dates(dt, format):
     else:
         return datetime.strptime(dt, format)
 
+class GADataFrame:
+    """Great Assertions."""
+
+    def __init__(self, df):
+        """Great Assertions."""
+        self.df = df
+
+    @property
+    def columns(self) -> list:
+        """List of columns from Pandas or PySpark."""
+        return self.df.columns
+
+class GASpark(GADataFrame):
+    """Great Assertions."""
+
+    def __init__(self, df):
+        """Great Assertions."""
+        super().__init__(df)
+
+    @property
+    def get_row_count(self) -> int:
+        """
+        Calculate the row count.
+
+        :returns: The row count value
+
+        """
+        return self.df.count()
+
+class GAPandas(GADataFrame):
+    """Great Assertions."""
+
+    def __init__(self, df) -> None:
+        """Great Assertions."""
+        super().__init__(df.copy(deep=True))
+
+    @property
+    def get_row_count(self) -> int:
+        """
+        Calculate the row count.
+
+        :returns: The row count value
+
+        """
+        return len(self.df)
 
 class GreatAssertions(unittest.TestCase):
     """
