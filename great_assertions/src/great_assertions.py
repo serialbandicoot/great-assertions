@@ -38,6 +38,7 @@ def _default_null_dates(dt, format):
     else:
         return datetime.strptime(dt, format)
 
+
 class GADataFrame:
     """Great Assertions."""
 
@@ -49,6 +50,7 @@ class GADataFrame:
     def columns(self) -> list:
         """List of columns from Pandas or PySpark."""
         return self.df.columns
+
 
 class GASpark(GADataFrame):
     """Great Assertions."""
@@ -69,12 +71,13 @@ class GASpark(GADataFrame):
 
     def column_mean(self, column: str) -> int:
         """
-        Calculate the mean of a Column
-        
-        :returns: The mean value of the column provided
-        """    
+        Calculate the mean of a Column.
 
-        return self.df.agg({column : "mean"}).first()[0]        
+        :returns: The mean value of the column provided
+        """
+
+        return self.df.agg({column: "mean"}).first()[0]
+
 
 class GAPandas(GADataFrame):
     """Great Assertions."""
@@ -95,12 +98,13 @@ class GAPandas(GADataFrame):
 
     def column_mean(self, column: str) -> int:
         """
-        Calculate the mean of a Column
-        
+        Calculate the mean of a Column.
+
         :returns: The mean value of the column provided
-        """    
+        """
 
         return self.df[column].mean()
+
 
 class GreatAssertions(unittest.TestCase):
     """

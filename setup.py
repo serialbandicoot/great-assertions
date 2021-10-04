@@ -1,7 +1,7 @@
 """Great Assertions."""
 
 import pathlib
-from setuptools import setup, find_packages
+from setuptools import setup
 
 # The directory containing this file
 HERE = pathlib.Path(__file__).parent
@@ -29,5 +29,5 @@ setup(
     package_dir={
         "": "great_assertions/src"
     },  # Directory of the source code of the package
-    install_requires=[]
+    install_requires=[],
 )
