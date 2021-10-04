@@ -59,29 +59,29 @@ List of available assertions
 +---------------------------------------------------+------------------------+------------------------+
 |                                                   | Pandas                 | PySpark                |
 +===================================================+========================+========================+
-| assertExpectTableRowCountToEqual                  | :white_check_mark:   | :white_check_mark:       |
+| assertExpectTableRowCountToEqual                  | :white_check_mark:     | :white_check_mark:     |
 +---------------------------------------------------+------------------------+------------------------+
-| assertExpectColumnValuesToBeBetween               | :white_check_mark:   | :white_check_mark:       |
+| assertExpectColumnValuesToBeBetween               | :white_check_mark:     | :white_check_mark:     |
 +---------------------------------------------------+------------------------+------------------------+
-| assertExpectColumnValuesToMatchRegex              | :white_check_mark:   | :white_check_mark:       |
+| assertExpectColumnValuesToMatchRegex              | :white_check_mark:     | :white_check_mark:     |
 +---------------------------------------------------+------------------------+------------------------+
-| assertExpectColumnValuesToBeInSet                 | :white_check_mark:   | :white_check_mark:       |
+| assertExpectColumnValuesToBeInSet                 | :white_check_mark:     | :white_check_mark:     |
 +---------------------------------------------------+------------------------+------------------------+
-| assertExpectColumnValuesToBeOfType                | :white_check_mark:   | :white_check_mark:       |
+| assertExpectColumnValuesToBeOfType                | :white_check_mark:     | :white_check_mark:     |
 +---------------------------------------------------+------------------------+------------------------+
-| assertExpectTableColumnsToMatchOrderedList        | :white_check_mark:   | :white_check_mark:       |
+| assertExpectTableColumnsToMatchOrderedList        | :white_check_mark:     | :white_check_mark:     |
 +---------------------------------------------------+------------------------+------------------------+
-| assertExpectTableColumnsToMatchSet                | :white_check_mark:   | :white_check_mark:       |   
+| assertExpectTableColumnsToMatchSet                | :white_check_mark:     | :white_check_mark:     |  
 +---------------------------------------------------+------------------------+------------------------+
-| assertExpectDateRangeToBeMoreThan                 | :white_check_mark:   | :white_check_mark:       |
+| assertExpectDateRangeToBeMoreThan                 | :white_check_mark:     | :white_check_mark:     |
 +---------------------------------------------------+------------------------+------------------------+
-| assertExpectDateRangeToBeLessThan                 | :white_check_mark:   | :white_check_mark:       |
+| assertExpectDateRangeToBeLessThan                 | :white_check_mark:     | :white_check_mark:     |
 +---------------------------------------------------+------------------------+------------------------+
-| assertExpectDateRangeToBeBetween                  | :white_check_mark:   | :white_check_mark:       |
+| assertExpectDateRangeToBeBetween                  | :white_check_mark:     | :white_check_mark:     |
 +---------------------------------------------------+------------------------+------------------------+
-| assertExpectColumnMeanToBeBetween                 | :white_check_mark:   | :white_check_mark:       |
+| assertExpectColumnMeanToBeBetween                 | :white_check_mark:     | :white_check_mark:     |
 +---------------------------------------------------+------------------------+------------------------+
-| assertExpectColumnValueCountsPercentToBeBetween   | :white_check_mark:   | :white_check\mark:       |
+| assertExpectColumnValueCountsPercentToBeBetween   | :white_check_mark:     | :white_check_mark:     |
 +---------------------------------------------------+------------------------+------------------------+
 
 Assertion Descriptions
