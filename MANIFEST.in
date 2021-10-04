@@ -1,0 +1,5 @@
+include *.py
+include *.md
+include *.txt
+recursive-include tests/data *
+include tests/*.py

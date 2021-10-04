@@ -10,6 +10,8 @@ The library has also added in further expectations, which may be similar or new.
 import unittest
 from datetime import datetime
 from typing import Optional, Union, Set, List
+from great_assertions.ga_spark import GASpark
+from great_assertions.ga_pandas import GAPandas
 
 
 def _get_dataframe_type(df):
@@ -37,73 +39,6 @@ def _default_null_dates(dt, format):
         return datetime.strptime("1900-01-01", "%Y-%m-%d")
     else:
         return datetime.strptime(dt, format)
-
-
-class GADataFrame:
-    """Great Assertions."""
-
-    def __init__(self, df):
-        """Great Assertions."""
-        self.df = df
-
-    @property
-    def columns(self) -> list:
-        """List of columns from Pandas or PySpark."""
-        return self.df.columns
-
-
-class GASpark(GADataFrame):
-    """Great Assertions."""
-
-    def __init__(self, df):
-        """Great Assertions."""
-        super().__init__(df)
-
-    @property
-    def row_count(self) -> int:
-        """
-        Calculate the row count.
-
-        :returns: The row count value
-
-        """
-        return self.df.count()
-
-    def column_mean(self, column: str) -> int:
-        """
-        Calculate the mean of a Column.
-
-        :returns: The mean value of the column provided
-        """
-
-        return self.df.agg({column: "mean"}).first()[0]
-
-
-class GAPandas(GADataFrame):
-    """Great Assertions."""
-
-    def __init__(self, df) -> None:
-        """Great Assertions."""
-        super().__init__(df.copy(deep=True))
-
-    @property
-    def row_count(self) -> int:
-        """
-        Calculate the row count.
-
-        :returns: The row count value
-
-        """
-        return len(self.df)
-
-    def column_mean(self, column: str) -> int:
-        """
-        Calculate the mean of a Column.
-
-        :returns: The mean value of the column provided
-        """
-
-        return self.df[column].mean()
 
 
 class GreatAssertions(unittest.TestCase):
