@@ -127,7 +127,7 @@ Development
 -----------
 
 To create a development environment, create a virtualenv and make a
-development installation::
+development installation
 
 ::
 
