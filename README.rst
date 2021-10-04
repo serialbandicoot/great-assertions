@@ -81,7 +81,7 @@ List of available assertions
 +---------------------------------------------------+------------------------+------------------------+
 | assertExpectColumnMeanToBeBetween                 | :white_check_mark:     | :white_check_mark:     |
 +---------------------------------------------------+------------------------+------------------------+
-| assertExpectColumnValueCountsPercentToBeBetween   | :white_check_mark:     | :white_check_mark:     |
+| assertExpectColumnValueCountsPercentToBeBetween   | :white_check_mark:     | white_check_mark       |
 +---------------------------------------------------+------------------------+------------------------+
 
 Assertion Descriptions
