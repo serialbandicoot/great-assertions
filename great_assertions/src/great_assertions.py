@@ -58,7 +58,7 @@ class GASpark(GADataFrame):
         super().__init__(df)
 
     @property
-    def get_row_count(self) -> int:
+    def row_count(self) -> int:
         """
         Calculate the row count.
 
@@ -66,6 +66,15 @@ class GASpark(GADataFrame):
 
         """
         return self.df.count()
+
+    def column_mean(self, column: str) -> int:
+        """
+        Calculate the mean of a Column
+        
+        :returns: The mean value of the column provided
+        """    
+
+        return self.df.agg({column : "mean"}).first()[0]        
 
 class GAPandas(GADataFrame):
     """Great Assertions."""
@@ -75,7 +84,7 @@ class GAPandas(GADataFrame):
         super().__init__(df.copy(deep=True))
 
     @property
-    def get_row_count(self) -> int:
+    def row_count(self) -> int:
         """
         Calculate the row count.
 
@@ -83,6 +92,15 @@ class GAPandas(GADataFrame):
 
         """
         return len(self.df)
+
+    def column_mean(self, column: str) -> int:
+        """
+        Calculate the mean of a Column
+        
+        :returns: The mean value of the column provided
+        """    
+
+        return self.df[column].mean()
 
 class GreatAssertions(unittest.TestCase):
     """
@@ -103,7 +121,7 @@ class GreatAssertions(unittest.TestCase):
         """
 
         df = _get_dataframe_import_type(df)
-        actual_row_count = df.get_row_count
+        actual_row_count = df.row_count
 
         if expected_count != actual_row_count:
             msg = self._formatMessage(
@@ -445,7 +463,7 @@ class GreatAssertions(unittest.TestCase):
             msg (str)         : Optional message if the assertion fails
         """
 
-        df = _get_dataframe_type(df)
+        df = _get_dataframe_import_type(df)
 
         if min_value > max_value:
             msg = self._formatMessage(
@@ -454,7 +472,7 @@ class GreatAssertions(unittest.TestCase):
             )
             raise self.failureException(msg)
 
-        mean_value = df[column].mean()
+        mean_value = df.column_mean(column)
         if min_value > mean_value:
             msg = self._formatMessage(
                 msg,
