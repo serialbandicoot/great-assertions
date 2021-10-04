@@ -131,14 +131,14 @@ development installation::
 
 ::
 
-    $ virtualenv ve
-    $ source ve/bin/activation
+    virtualenv ve
+    source ve/bin/activation
 
 To run tests, just use pytest
 
 ::
 
-    (ve) $ pytest     
+    (ve) pytest     
 
 .. |serialbandicoot| image:: https://circleci.com/gh/serialbandicoot/great-assertions.svg?style=svg
    :target: LINK
