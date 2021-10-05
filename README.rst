@@ -22,7 +22,7 @@ Code example Pandas
 
 .. code:: python
 
-    from great_assertions.great_assertions import GreatAssertions
+    from great_assertions import GreatAssertions
     import pandas as pd
 
     class GreatAssertionTests(GreatAssertions):
@@ -35,7 +35,7 @@ Code example PySpark
 
 .. code:: python
 
-    from great_assertions.great_assertions import GreatAssertions
+    from great_assertions import GreatAssertions
     from pyspark.sql import SparkSession
 
     class GreatAssertionTests(GreatAssertions):
