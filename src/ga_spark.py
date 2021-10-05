@@ -1,4 +1,4 @@
-from great_assertions.ga_dataframe import GADataFrame
+from src.ga_dataframe import GADataFrame
 
 
 class GASpark(GADataFrame):
