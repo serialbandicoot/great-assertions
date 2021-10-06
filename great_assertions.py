@@ -65,10 +65,7 @@ class GreatAssertions(unittest.TestCase):
         """
 
         if max_value < min_value:
-            msg = self._formatMessage(
-                msg,
-                "Max value must be greater than min value",
-            )
+            msg = self._formatMessage(msg, "Max value must be greater than min value",)
             raise self.failureException(msg)
 
         df = _get_dataframe_import_type(df)
@@ -103,13 +100,13 @@ class GreatAssertions(unittest.TestCase):
 
         """
 
-        df = _get_dataframe_type(df)
+        df = _get_dataframe_import_type(df)
 
-        results = df[df[column].astype(str).str.match(regex).eq(False)]
-        if len(results) > 0:
+        results = df.check_regex(column, regex)
+        if results.row_count > 0:
             msg = self._formatMessage(
                 msg,
-                f"Column {column} did not match regular expression, found {results[column].values[0]}",
+                f"Column {column} did not match regular expression, found {results.first(column)}",
             )
             raise self.failureException(msg)
 
@@ -241,17 +238,18 @@ class GreatAssertions(unittest.TestCase):
     expect_table_columns_to_match_set = assertExpectTableColumnsToMatchSet
 
     def assertExpectDateRangeToBeLessThan(
-        self, df, column: str, date: str, format="%Y-%m-%d", msg=""
+        self, df, column: str, date: str, date_format="%Y-%m-%d", msg=""
     ):
         """
         Expect the date columns to be less than date (Inclusive).
 
         Parameters
         ----------
-            df (DataFrame) : Pandas or PySpark DataFrame
-            column (str)   : The name of the column to be examined
-            date (str)     : The date as a string, using the chosen format or default as %Y-%m-%d
-            msg (str)      : Optional message if the assertion fails
+            df (DataFrame)    : Pandas or PySpark DataFrame
+            column (str)      : The name of the column to be examined
+            date (str)        : The date as a string, using the chosen format or default as %Y-%m-%d
+            date_format (str) : The format of the date defaulted to %Y-%m-%d
+            msg (str)         : Optional message if the assertion fails
 
         Notes
         ----------
@@ -259,15 +257,14 @@ class GreatAssertions(unittest.TestCase):
         """
 
         df = _get_dataframe_type(df)
-        df[column] = df[column].apply(lambda dt: _default_null_dates(dt, format))
+        df[column] = df[column].apply(lambda dt: _default_null_dates(dt, date_format))
 
-        results = df[df[column] >= datetime.strptime(date, format)]
+        results = df[df[column] >= datetime.strptime(date, date_format)]
 
         if len(results) > 0:
             dt = results[column].values[0].astype("datetime64[D]")
             msg = self._formatMessage(
-                msg,
-                f"Column {column} date is greater or equal than {date} found {dt}",
+                msg, f"Column {column} date is greater or equal than {date} found {dt}",
             )
             raise self.failureException(msg)
 
@@ -276,17 +273,18 @@ class GreatAssertions(unittest.TestCase):
     expect_date_range_to_be_less_than = assertExpectDateRangeToBeLessThan
 
     def assertExpectDateRangeToBeMoreThan(
-        self, df, column: str, date: str, format="%Y-%m-%d", msg=""
+        self, df, column: str, date: str, date_format="%Y-%m-%d", msg=""
     ):
         """
         Expect the date columns to be more than date (Inclusive).
 
         Parameters
         ----------
-            df (DataFrame) : Pandas or PySpark DataFrame
-            column (str)   : The name of the column to be examined
-            date (str)     : The date as a string, using the chosen format or default as %Y-%m-%d
-            msg (str)      : Optional message if the assertion fails
+            df (DataFrame)    : Pandas or PySpark DataFrame
+            column (str)      : The name of the column to be examined
+            date (str)        : The date as a string, using the chosen format or default as %Y-%m-%d
+            date_format (str) : The format of the date defaulted to %Y-%m-%d
+            msg (str)         : Optional message if the assertion fails
 
         Notes
         ----------
@@ -294,15 +292,14 @@ class GreatAssertions(unittest.TestCase):
         """
 
         df = _get_dataframe_type(df)
-        df[column] = df[column].apply(lambda dt: _default_null_dates(dt, format))
+        df[column] = df[column].apply(lambda dt: _default_null_dates(dt, date_format))
 
-        results = df[df[column] <= datetime.strptime(date, format)]
+        results = df[df[column] <= datetime.strptime(date, date_format)]
 
         if len(results) > 0:
             dt = results[column].values[0].astype("datetime64[D]")
             msg = self._formatMessage(
-                msg,
-                f"Column {column} is less or equal than {date} found {dt}",
+                msg, f"Column {column} is less or equal than {date} found {dt}",
             )
             raise self.failureException(msg)
 
@@ -316,7 +313,7 @@ class GreatAssertions(unittest.TestCase):
         column: str,
         date_start: str,
         date_end: str,
-        format="%Y-%m-%d",
+        date_format="%Y-%m-%d",
         msg="",
     ):
         """
@@ -324,11 +321,12 @@ class GreatAssertions(unittest.TestCase):
 
         Parameters
         ----------
-            df (DataFrame)   : Pandas or PySpark DataFrame
-            column (str)     : The name of the column to be examined
-            date_start (str) : The start date as a string, using the chosen format or default as %Y-%m-%d
-            date_end (str)   : The end date as a string, using the chosen format or default as %Y-%m-%d
-            msg (str)        : Optional message if the assertion fails
+            df (DataFrame)    : Pandas or PySpark DataFrame
+            column (str)      : The name of the column to be examined
+            date_start (str)  : The start date as a string, using the chosen format or default as %Y-%m-%d
+            date_end (str)    : The end date as a string, using the chosen format or default as %Y-%m-%d
+            date_format (str) : The format of the date defaulted to %Y-%m-%d
+            msg (str)         : Optional message if the assertion fails
 
         Notes
         ----------
@@ -336,10 +334,10 @@ class GreatAssertions(unittest.TestCase):
         """
 
         df = _get_dataframe_type(df)
-        df[column] = df[column].apply(lambda dt: _default_null_dates(dt, format))
+        df[column] = df[column].apply(lambda dt: _default_null_dates(dt, date_format))
 
-        start_date = datetime.strptime(date_start, format)
-        end_date = datetime.strptime(date_end, format)
+        start_date = datetime.strptime(date_start, date_format)
+        end_date = datetime.strptime(date_end, date_format)
 
         if start_date > end_date:
             msg = self._formatMessage(
@@ -460,23 +458,22 @@ class GreatAssertions(unittest.TestCase):
 
             # Verify min/max from resulting provided value counts
             try:
-                min = value_counts[key]["min"]
-                max = value_counts[key]["max"]
+                column_min = value_counts[key]["min"]
+                column_max = value_counts[key]["max"]
             except KeyError as e:
                 msg = self._formatMessage(
-                    msg,
-                    f"Value count for key '{key}' not contain {str(e)}",
+                    msg, f"Value count for key '{key}' not contain {str(e)}",
                 )
                 raise self.failureException(msg)
 
-            if min > key_percent:
+            if column_min > key_percent:
                 msg = self._formatMessage(
                     msg,
                     f"Column {column} the actual value count of ({key}) is {format(key_percent, '.5f')}% is less than the min allowed of {value_counts[key]['min']}%",
                 )
                 raise self.failureException(msg)
 
-            if max < key_percent:
+            if column_max < key_percent:
                 msg = self._formatMessage(
                     msg,
                     f"Column {column} the actual value count of ({key}) is {format(key_percent, '.5f')}% is more than the max allowed of {value_counts[key]['max']}%",

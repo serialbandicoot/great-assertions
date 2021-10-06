@@ -17,9 +17,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
         )
         self.assertExpectTableRowCountToEqual(df, 3)
 
-    def test_pyspark_expect_table_row_count_to_equal_raises_type_error(
-        self,
-    ):
+    def test_pyspark_expect_table_row_count_to_equal_raises_type_error(self,):
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectTableRowCountToEqual(1, 1)
 
@@ -59,9 +57,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
         )
         self.assertExpectColumnValuesToBeBetween(df, "col_1", 100.05, 300.05)
 
-    def test_pyspark_assert_expect_column_values_to_be_between_min_fail(
-        self,
-    ):
+    def test_pyspark_assert_expect_column_values_to_be_between_min_fail(self,):
         df = self.spark.createDataFrame(
             [{"col_1": 100}, {"col_1": 200}, {"col_1": 300}]
         )
@@ -85,9 +81,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
 
         assert "Max value must be greater than min value : " == str(excinfo.value)
 
-    def test_pyspark_assert_expect_column_values_to_be_between_max_fail(
-        self,
-    ):
+    def test_pyspark_assert_expect_column_values_to_be_between_max_fail(self,):
         df = self.spark.createDataFrame(
             [{"col_1": 100}, {"col_1": 200}, {"col_1": 300}]
         )
@@ -109,6 +103,10 @@ class GreatAssertionPySparkTests(GreatAssertions):
         )
 
     def test_pyspark_assert_expect_column_values_to_match_regex_fail(self):
+        import sys
+
+        print(sys.executable)
+
         df = self.spark.createDataFrame(
             [{"col_1": "BA2"}, {"col_1": "BA151"}, {"col_1": "AAA13"}]
         )
@@ -185,26 +183,14 @@ class GreatAssertionPySparkTests(GreatAssertions):
 
         assert "Column col_3 was not type <class 'str'> : " == str(excinfo.value)
 
-    def test_assert_pyspark_expect_table_columns_to_match_ordered_list(
-        self,
-    ):
-        df = self.spark.createDataFrame(
-            [
-                {"col_1": 100, "col_2": "a", "col_3": 1.01},
-            ]
-        )
+    def test_assert_pyspark_expect_table_columns_to_match_ordered_list(self,):
+        df = self.spark.createDataFrame([{"col_1": 100, "col_2": "a", "col_3": 1.01},])
         self.assertExpectTableColumnsToMatchOrderedList(
             df, list(("col_1", "col_2", "col_3"))
         )
 
-    def test_assert_pyspark_expect_table_columns_to_match_ordered_list_fail(
-        self,
-    ):
-        df = self.spark.createDataFrame(
-            [
-                {"col_1": 100, "col_2": "a", "col_3": 1.01},
-            ]
-        )
+    def test_assert_pyspark_expect_table_columns_to_match_ordered_list_fail(self,):
+        df = self.spark.createDataFrame([{"col_1": 100, "col_2": "a", "col_3": 1.01},])
 
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectTableColumnsToMatchOrderedList(
@@ -217,22 +203,14 @@ class GreatAssertionPySparkTests(GreatAssertions):
         )
 
     def test_assert_pyspark_expect_table_columns_to_match_set(self):
-        df = self.spark.createDataFrame(
-            [
-                {"col_1": 100, "col_2": "a", "col_3": 1.01},
-            ]
-        )
+        df = self.spark.createDataFrame([{"col_1": 100, "col_2": "a", "col_3": 1.01},])
         self.assertExpectTableColumnsToMatchSet(df, set(("col_1", "col_2", "col_3")))
         self.assertExpectTableColumnsToMatchSet(df, set(("col_2", "col_1", "col_3")))
         self.assertExpectTableColumnsToMatchSet(df, list(("col_1", "col_2", "col_3")))
         self.assertExpectTableColumnsToMatchSet(df, list(("col_2", "col_1", "col_3")))
 
     def test_assert_pyspark_expect_table_columns_to_match_set_fail(self):
-        df = self.spark.createDataFrame(
-            [
-                {"col_1": 100, "col_2": "a", "col_3": 1.01},
-            ]
-        )
+        df = self.spark.createDataFrame([{"col_1": 100, "col_2": "a", "col_3": 1.01},])
 
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectTableColumnsToMatchSet(df, set(("col_2", "col_1")))
@@ -250,21 +228,13 @@ class GreatAssertionPySparkTests(GreatAssertions):
 
     def test_assert_expect_date_range_to_be_less_than(self):
         df = self.spark.createDataFrame(
-            [
-                {"col_1": "2019-05-13"},
-                {"col_1": "2018-12-12"},
-                {"col_1": "2015-10-01"},
-            ]
+            [{"col_1": "2019-05-13"}, {"col_1": "2018-12-12"}, {"col_1": "2015-10-01"},]
         )
         self.assertExpectDateRangeToBeLessThan(df, "col_1", "2019-05-14")
 
     def test_assert_expect_date_range_to_be_less_than_formatted(self):
         df = self.spark.createDataFrame(
-            [
-                {"col_1": "2019/05/13"},
-                {"col_1": "2018/12/12"},
-                {"col_1": "2015/10/01"},
-            ]
+            [{"col_1": "2019/05/13"}, {"col_1": "2018/12/12"}, {"col_1": "2015/10/01"},]
         )
         self.assertExpectDateRangeToBeLessThan(
             df, "col_1", "2019/05/14", format="%Y/%m/%d"
@@ -277,11 +247,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
 
     def test_assert_expect_date_range_to_be_less_than_fail(self):
         df = self.spark.createDataFrame(
-            [
-                {"col_1": "2019-05-13"},
-                {"col_1": "2018-12-12"},
-                {"col_1": "2015-10-01"},
-            ]
+            [{"col_1": "2019-05-13"}, {"col_1": "2018-12-12"}, {"col_1": "2015-10-01"},]
         )
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectDateRangeToBeLessThan(df, "col_1", "2019-05-13")
@@ -293,11 +259,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
 
     def test_assert_expect_date_range_to_be_more_than(self):
         df = self.spark.createDataFrame(
-            [
-                {"col_1": "2019-05-13"},
-                {"col_1": "2018-12-12"},
-                {"col_1": "2015-10-01"},
-            ]
+            [{"col_1": "2019-05-13"}, {"col_1": "2018-12-12"}, {"col_1": "2015-10-01"},]
         )
         self.assertExpectDateRangeToBeMoreThan(df, "col_1", "2015-09-30")
 
@@ -308,11 +270,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
 
     def test_assert_expect_date_range_to_be_more_than_fail(self):
         df = self.spark.createDataFrame(
-            [
-                {"col_1": "2019-05-13"},
-                {"col_1": "2018-12-12"},
-                {"col_1": "2015-10-01"},
-            ]
+            [{"col_1": "2019-05-13"}, {"col_1": "2018-12-12"}, {"col_1": "2015-10-01"},]
         )
 
         with pytest.raises(AssertionError) as excinfo:
@@ -325,24 +283,15 @@ class GreatAssertionPySparkTests(GreatAssertions):
 
     def test_assert_expect_date_range_to_be_between(self):
         df = self.spark.createDataFrame(
-            [
-                {"col_1": "2010-01-02"},
-                {"col_1": "2025-01-01"},
-            ]
+            [{"col_1": "2010-01-02"}, {"col_1": "2025-01-01"},]
         )
 
         self.assertExpectDateRangeToBeBetween(
             df, "col_1", date_start="2010-01-01", date_end="2025-01-02"
         )
 
-    def test_assert_expect_date_range_to_be_between_start_date_greater_than_end(
-        self,
-    ):
-        df = self.spark.createDataFrame(
-            [
-                {"col_1": "1975-01-01"},
-            ]
-        )
+    def test_assert_expect_date_range_to_be_between_start_date_greater_than_end(self,):
+        df = self.spark.createDataFrame([{"col_1": "1975-01-01"},])
 
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectDateRangeToBeBetween(
@@ -356,10 +305,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
 
     def test_assert_expect_date_range_to_be_between_fail(self):
         df = self.spark.createDataFrame(
-            [
-                {"col_1": "2010-01-02"},
-                {"col_1": "2025-01-02"},
-            ]
+            [{"col_1": "2010-01-02"}, {"col_1": "2025-01-02"},]
         )
 
         with pytest.raises(AssertionError) as excinfo:
@@ -384,10 +330,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
 
     def test_assert_expect_date_range_to_be_between_fail_equal(self):
         df = self.spark.createDataFrame(
-            [
-                {"col_1": "2010-01-02"},
-                {"col_1": "2025-01-02"},
-            ]
+            [{"col_1": "2010-01-02"}, {"col_1": "2025-01-02"},]
         )
 
         with pytest.raises(AssertionError) as excinfo:
@@ -412,24 +355,14 @@ class GreatAssertionPySparkTests(GreatAssertions):
 
     def test_expect_column_mean_to_be_between(self):
         df = self.spark.createDataFrame(
-            [
-                {"col_1": 100.05},
-                {"col_1": 200.01},
-                {"col_1": 300.05},
-            ]
+            [{"col_1": 100.05}, {"col_1": 200.01}, {"col_1": 300.05},]
         )
 
         self.assertExpectColumnMeanToBeBetween(df, "col_1", 100.0, 400.0)
 
-    def test_expect_column_mean_to_be_between_min_greater_than_max_fail(
-        self,
-    ):
+    def test_expect_column_mean_to_be_between_min_greater_than_max_fail(self,):
         df = self.spark.createDataFrame(
-            [
-                {"col_1": 100.05},
-                {"col_1": 200.01},
-                {"col_1": 300.05},
-            ]
+            [{"col_1": 100.05}, {"col_1": 200.01}, {"col_1": 300.05},]
         )
 
         with pytest.raises(AssertionError) as excinfo:
@@ -442,11 +375,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
 
     def test_expect_column_mean_to_be_between_fail_min_value(self):
         df = self.spark.createDataFrame(
-            [
-                {"col_1": 100.05},
-                {"col_1": 200.01},
-                {"col_1": 300.05},
-            ]
+            [{"col_1": 100.05}, {"col_1": 200.01}, {"col_1": 300.05},]
         )
 
         with pytest.raises(AssertionError) as excinfo:
@@ -458,11 +387,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
 
     def test_expect_column_mean_to_be_between_fail_max_value(self):
         df = self.spark.createDataFrame(
-            [
-                {"col_1": 100.05},
-                {"col_1": 200.01},
-                {"col_1": 300.05},
-            ]
+            [{"col_1": 100.05}, {"col_1": 200.01}, {"col_1": 300.05},]
         )
 
         with pytest.raises(AssertionError) as excinfo:
@@ -551,11 +476,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
 
     def test_expect_column_value_counts_percent_to_be_between_fail_key_error(self):
         df = self.spark.createDataFrame(
-            [
-                {"col_1": "Y"},
-                {"col_1": "N"},
-                {"col_1": "Maybe"},
-            ]
+            [{"col_1": "Y"}, {"col_1": "N"}, {"col_1": "Maybe"},]
         )
         value_counts = {"Yes": {"min": 0, "max": 0}}
 
@@ -572,11 +493,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
     def test_expect_column_value_counts_percent_to_be_between_fail_min_max_key_error(
         self,
     ):
-        df = self.spark.createDataFrame(
-            [
-                {"col_1": "Y"},
-            ]
-        )
+        df = self.spark.createDataFrame([{"col_1": "Y"},])
 
         # Assert verify min
         value_counts = {"Y": {"minimum": 0, "max": 0}}

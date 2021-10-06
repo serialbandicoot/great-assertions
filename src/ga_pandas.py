@@ -44,3 +44,24 @@ class GAPandas(GADataFrame):
         """
 
         return self.df[column].max()
+
+    def check_regex(self, column: str, regex: str):
+        """
+        Filter column values which DO NOT conform to a regex
+
+        :returns: The dataframe of results
+        """
+
+        filtered_dataframe = self.df[
+            self.df[column].astype(str).str.match(regex).eq(False)
+        ]
+        return GAPandas(filtered_dataframe)
+
+    def first(self, column: str) -> str:
+        """
+        The first value found in the column
+
+        :returns: The string of the value
+        """
+
+        return str(self.df[column].values[0])

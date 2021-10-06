@@ -23,8 +23,8 @@ def _get_dataframe_import_type(data_frame):
     raise AssertionError("Not a valid pandas/pyspark DataFrame")
 
 
-def _default_null_dates(dt, format):
+def _default_null_dates(dt, date_format):
     if dt == "":
         return datetime.strptime("1900-01-01", "%Y-%m-%d")
     else:
-        return datetime.strptime(dt, format)
+        return datetime.strptime(dt, date_format)
