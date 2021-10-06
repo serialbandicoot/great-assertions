@@ -39,7 +39,9 @@ class GreatAssertionPandasTests(GreatAssertions):
         df = pd.DataFrame({"col_1": [100.05, 200.01, 300.05], "col_2": [10, 20, 30]})
         self.assertExpectColumnValuesToBeBetween(df, "col_1", 100.05, 300.05)
 
-    def test_pandas_assert_expect_column_values_to_be_between_min_fail(self,):
+    def test_pandas_assert_expect_column_values_to_be_between_min_fail(
+        self,
+    ):
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectColumnValuesToBeBetween(df, "col_1", 101, 301)
@@ -58,7 +60,9 @@ class GreatAssertionPandasTests(GreatAssertions):
 
         assert "Max value must be greater than min value : " == str(excinfo.value)
 
-    def test_pandas_assert_expect_column_values_to_be_between_max_fail(self,):
+    def test_pandas_assert_expect_column_values_to_be_between_max_fail(
+        self,
+    ):
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectColumnValuesToBeBetween(df, "col_1", 99, 299)
@@ -105,7 +109,9 @@ class GreatAssertionPandasTests(GreatAssertions):
             excinfo.value
         )
 
-    def test_pandas_assert_expect_column_values_to_be_in_set_fail_with_type(self,):
+    def test_pandas_assert_expect_column_values_to_be_in_set_fail_with_type(
+        self,
+    ):
         fruits = set(("Apple", "Orange", "Pear", "Cherry"))
         df = pd.DataFrame({"col_1": ["Tomato", 1.0, "Apple"]})
 
@@ -130,7 +136,11 @@ class GreatAssertionPandasTests(GreatAssertions):
         self.expect_column_values_to_be_of_type(df, "col_3", float)
 
     def test_pandas_expect_column_values_to_be_of_type_fail_type(self):
-        df = pd.DataFrame({"col_1": ["BA2"],})
+        df = pd.DataFrame(
+            {
+                "col_1": ["BA2"],
+            }
+        )
         with pytest.raises(AssertionError) as excinfo:
             self.assertExpectColumnValuesToBeOfType(df, "col_1", object)
 
@@ -159,7 +169,9 @@ class GreatAssertionPandasTests(GreatAssertions):
 
         assert "Column col_3 was not type <class 'str'> : " == str(excinfo.value)
 
-    def test_assert_pandas_expect_table_columns_to_match_ordered_list(self,):
+    def test_assert_pandas_expect_table_columns_to_match_ordered_list(
+        self,
+    ):
         df = pd.DataFrame({"col_1": [100], "col_2": ["a"], "col_3": [1.01]})
         self.assertExpectTableColumnsToMatchOrderedList(
             df, list(("col_1", "col_2", "col_3"))
@@ -168,7 +180,9 @@ class GreatAssertionPandasTests(GreatAssertions):
             df, list(("col_1", "col_2", "col_3"))
         )
 
-    def test_assert_pandas_expect_table_columns_to_match_ordered_list_fail(self,):
+    def test_assert_pandas_expect_table_columns_to_match_ordered_list_fail(
+        self,
+    ):
         df = pd.DataFrame({"col_1": [100], "col_2": ["a"], "col_3": [1.01]})
 
         with pytest.raises(AssertionError) as excinfo:
@@ -184,10 +198,10 @@ class GreatAssertionPandasTests(GreatAssertions):
     def test_assert_pandas_expect_table_columns_to_match_set(self):
         df = pd.DataFrame({"col_1": [100], "col_2": ["a"], "col_3": [1.01]})
         self.assertExpectTableColumnsToMatchSet(df, set(("col_1", "col_2", "col_3")))
-        # self.assertExpectTableColumnsToMatchSet(df, set(("col_2", "col_1", "col_3")))
-        # self.assertExpectTableColumnsToMatchSet(df, list(("col_1", "col_2", "col_3")))
-        # self.assertExpectTableColumnsToMatchSet(df, list(("col_2", "col_1", "col_3")))
-        # self.expect_table_columns_to_match_set(df, list(("col_2", "col_1", "col_3")))
+        self.assertExpectTableColumnsToMatchSet(df, set(("col_2", "col_1", "col_3")))
+        self.assertExpectTableColumnsToMatchSet(df, list(("col_1", "col_2", "col_3")))
+        self.assertExpectTableColumnsToMatchSet(df, list(("col_2", "col_1", "col_3")))
+        self.expect_table_columns_to_match_set(df, list(("col_2", "col_1", "col_3")))
 
     def test_assert_pandas_expect_table_columns_to_match_set_fail(self):
         df = pd.DataFrame({"col_1": [100], "col_2": ["a"], "col_3": [1.01]})
@@ -262,7 +276,9 @@ class GreatAssertionPandasTests(GreatAssertions):
             df, "col_1", date_start="2010-01-01", date_end="2025-01-02"
         )
 
-    def test_assert_expect_date_range_to_be_between_start_date_greater_than_end(self,):
+    def test_assert_expect_date_range_to_be_between_start_date_greater_than_end(
+        self,
+    ):
         df = pd.DataFrame({"col_1": ["1975-01-01"]})
 
         with pytest.raises(AssertionError) as excinfo:
@@ -326,7 +342,9 @@ class GreatAssertionPandasTests(GreatAssertions):
 
         self.assertExpectColumnMeanToBeBetween(df, "col_1", 100.0, 400.0)
 
-    def test_expect_column_mean_to_be_between_min_greater_than_max_fail(self,):
+    def test_expect_column_mean_to_be_between_min_greater_than_max_fail(
+        self,
+    ):
         df = pd.DataFrame({"col_1": [100.05, 200.01, 300.05]})
 
         with pytest.raises(AssertionError) as excinfo:
@@ -358,7 +376,11 @@ class GreatAssertionPandasTests(GreatAssertions):
         )
 
     def test_expect_column_value_counts_percent_to_be_between(self):
-        df = pd.DataFrame({"col_1": ["Y", "Y", "N", "Y", "Y", "N", "N", "Y", "N", ""],})
+        df = pd.DataFrame(
+            {
+                "col_1": ["Y", "Y", "N", "Y", "Y", "N", "N", "Y", "N", ""],
+            }
+        )
         value_counts = {
             "Y": {"min": 45, "max": 55},
             "N": {"min": 35, "max": 45},
@@ -369,7 +391,9 @@ class GreatAssertionPandasTests(GreatAssertions):
 
     def test_expect_column_value_counts_percent_to_be_between_fail_min(self):
         df = pd.DataFrame(
-            {"col_1": ["Y", "Y", "N", "Y", "Y", "N", "N", "Y", "Y", "", "N", ""],}
+            {
+                "col_1": ["Y", "Y", "N", "Y", "Y", "N", "N", "Y", "Y", "", "N", ""],
+            }
         )
         value_counts = {"Y": {"min": 55, "max": 65}}
 
@@ -385,7 +409,9 @@ class GreatAssertionPandasTests(GreatAssertions):
 
     def test_expect_column_value_counts_percent_to_be_between_fail_max(self):
         df = pd.DataFrame(
-            {"col_1": ["Y", "Y", "N", "Y", "Y", "N", "N", "Y", "Y", "", "N", ""],}
+            {
+                "col_1": ["Y", "Y", "N", "Y", "Y", "N", "N", "Y", "Y", "", "N", ""],
+            }
         )
         value_counts = {"Y": {"min": 35, "max": 40}}
 
@@ -400,7 +426,11 @@ class GreatAssertionPandasTests(GreatAssertions):
         )
 
     def test_expect_column_value_counts_percent_to_be_between_fail_key_error(self):
-        df = pd.DataFrame({"col_1": ["Y", "N", "Maybe"],})
+        df = pd.DataFrame(
+            {
+                "col_1": ["Y", "N", "Maybe"],
+            }
+        )
         value_counts = {"Yes": {"min": 0, "max": 0}}
 
         with pytest.raises(AssertionError) as excinfo:
@@ -416,7 +446,11 @@ class GreatAssertionPandasTests(GreatAssertions):
     def test_expect_column_value_counts_percent_to_be_between_fail_min_max_key_error(
         self,
     ):
-        df = pd.DataFrame({"col_1": ["Y"],})
+        df = pd.DataFrame(
+            {
+                "col_1": ["Y"],
+            }
+        )
 
         # Assert verify min
         value_counts = {"Y": {"minimum": 0, "max": 0}}
