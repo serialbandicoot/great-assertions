@@ -44,3 +44,22 @@ class GASpark(GADataFrame):
         """
 
         return self.df.agg({column: "max"}).first()[0]
+
+    def check_regex(self, column: str, regex: str) -> GADataFrame:
+        """
+        Filter column values which DO NOT conform to a regex
+
+        :returns: The dataframe of results
+        """
+
+        filtered_dataframe = self.df.filter(~self.df[column].rlike(regex))
+        return GASpark(filtered_dataframe)
+
+    def first(self, column: str) -> str:
+        """
+        The first value found in the column
+
+        :returns: The string of the value
+        """
+
+        return str(self.df.collect()[0][column])
