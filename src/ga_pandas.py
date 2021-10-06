@@ -26,3 +26,21 @@ class GAPandas(GADataFrame):
         """
 
         return self.df[column].mean()
+
+    def column_min(self, column: str) -> int:
+        """
+        Calculate the min of a Column.
+
+        :returns: The min value of the column provided
+        """
+
+        return self.df[column].min()
+
+    def column_max(self, column: str) -> int:
+        """
+        Calculate the max of a Column.
+
+        :returns: The max value of the column provided
+        """
+
+        return self.df[column].max()

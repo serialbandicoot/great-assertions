@@ -117,11 +117,11 @@ Options 2
 Notes
 -----
 
-If you get an arrows function warning when running in Databricks, this
-will happen becuase a toPandas() method is called. The plan is to remove
-pandas conversion for Spark at a later date as use native PySpark code.
-For make sure the datasets are not too big, to cause the driver to
-crash.
+If you get an arrows function warning when running in Databricks, this will happen 
+becuase a toPandas() method is being used for many of the assertions. The plan is 
+to remove pandas conversion for pure PySpark code. If this is an issue please raise 
+an issue so this method can be prioritised. For now its advisable to makre sure the 
+datasets are not too big, which cause the driver to crash.
 
 Development
 -----------
