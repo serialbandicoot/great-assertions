@@ -71,9 +71,9 @@ class GreatAssertions(unittest.TestCase):
             )
             raise self.failureException(msg)
 
-        df = _get_dataframe_type(df)
+        df = _get_dataframe_import_type(df)
 
-        column_min = df[column].min()
+        column_min = df.column_min(column)
         if float(column_min) < float(min_value):
             msg = self._formatMessage(
                 msg,
@@ -81,7 +81,7 @@ class GreatAssertions(unittest.TestCase):
             )
             raise self.failureException(msg)
 
-        column_max = df[column].max()
+        column_max = df.column_max(column)
         if float(max_value) < float(column_max):
             msg = self._formatMessage(
                 msg,
