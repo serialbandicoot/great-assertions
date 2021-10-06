@@ -65,7 +65,10 @@ class GreatAssertions(unittest.TestCase):
         """
 
         if max_value < min_value:
-            msg = self._formatMessage(msg, "Max value must be greater than min value",)
+            msg = self._formatMessage(
+                msg,
+                "Max value must be greater than min value",
+            )
             raise self.failureException(msg)
 
         df = _get_dataframe_import_type(df)
@@ -165,7 +168,7 @@ class GreatAssertions(unittest.TestCase):
                 raise self.failureException(msg)
 
         if type_ is int:
-            if df_type.num != 7:
+            if df_type.num not in [7, 9]:
                 msg = self._formatMessage(msg, fstr)
                 raise self.failureException(msg)
 
@@ -264,7 +267,8 @@ class GreatAssertions(unittest.TestCase):
         if len(results) > 0:
             dt = results[column].values[0].astype("datetime64[D]")
             msg = self._formatMessage(
-                msg, f"Column {column} date is greater or equal than {date} found {dt}",
+                msg,
+                f"Column {column} date is greater or equal than {date} found {dt}",
             )
             raise self.failureException(msg)
 
@@ -299,7 +303,8 @@ class GreatAssertions(unittest.TestCase):
         if len(results) > 0:
             dt = results[column].values[0].astype("datetime64[D]")
             msg = self._formatMessage(
-                msg, f"Column {column} is less or equal than {date} found {dt}",
+                msg,
+                f"Column {column} is less or equal than {date} found {dt}",
             )
             raise self.failureException(msg)
 
@@ -462,7 +467,8 @@ class GreatAssertions(unittest.TestCase):
                 column_max = value_counts[key]["max"]
             except KeyError as e:
                 msg = self._formatMessage(
-                    msg, f"Value count for key '{key}' not contain {str(e)}",
+                    msg,
+                    f"Value count for key '{key}' not contain {str(e)}",
                 )
                 raise self.failureException(msg)
 
