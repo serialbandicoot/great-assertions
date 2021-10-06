@@ -160,17 +160,17 @@ class GreatAssertions(unittest.TestCase):
         fstr = f"Column {column} was not type {type_}"
         if type_ is str:
             # Consider object a string
-            if df_type.char != "O" and df_type.char != "S":
+            if df_type.num != 17:
                 msg = self._formatMessage(msg, fstr)
                 raise self.failureException(msg)
 
         if type_ is int:
-            if df_type.char != "l":
+            if df_type.num != 7:
                 msg = self._formatMessage(msg, fstr)
                 raise self.failureException(msg)
 
         if type_ is float:
-            if df_type.char != "d":
+            if df_type.num != 12:
                 msg = self._formatMessage(msg, fstr)
                 raise self.failureException(msg)
 
