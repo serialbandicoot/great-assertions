@@ -15,7 +15,43 @@ from src.utils import (
     _get_dataframe_type,
 )
 from typing import Optional, Union, Set, List
+from unittest.runner import TextTestResult
 
+
+class GreatAssertionResult(TextTestResult):
+    def __init__(self, *args, **kwargs):
+        super(GreatAssertionResult, self).__init__(*args, **kwargs)
+        self.successes = []
+
+    def addSuccess(self, test):
+        super(GreatAssertionResult, self).addSuccess(test)
+        self.successes.append(test)
+
+    def _get_result(self, result_type: list) -> int:
+        return list(filter(lambda x: x[0]._testMethodName, result_type))
+
+    def to_result_table(self):
+        import pandas as pd
+
+        succeeded = list(
+            filter(lambda success: success._testMethodName, self.successes)
+        )
+        errors = self._get_result(self.errors)
+        failures = self._get_result(self.failures)
+        skipped = self._get_result(self.skipped)
+
+        data = [
+            ["succeeded", len(succeeded)],
+            ["errors", len(errors)],
+            ["fails", len(failures)],
+            ["skipped", len(skipped)],
+        ]
+
+        return pd.DataFrame(data, columns=["type", "quantity"])
+
+
+    def to_pie(self, label="Test Result"):
+        return self.to_result_table().groupby(['type']).sum().plot(kind='pie', y='quantity', label=label)
 
 class GreatAssertions(unittest.TestCase):
     """
