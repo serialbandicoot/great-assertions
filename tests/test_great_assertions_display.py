@@ -68,8 +68,6 @@ class GreatAssertionDisplayTests(unittest.TestCase):
         self.assertTrue(actual.get_title(), "My Test Result")
 
     def test_to_full_results_table(self):
-        import numpy as np
-
         col = ["Test Method", "Test Information", "Test Status"]
         data = [
             ["test_fail1", "Stack trace of Fail", "Fail"],
@@ -77,11 +75,11 @@ class GreatAssertionDisplayTests(unittest.TestCase):
             ["test_fail3", "Stack trace of Fail", "Fail"],
             ["test_error1", "Stack trace of error", "Error"],
             ["test_error2", "Stack trace of error", "Error"],
-            ["test_skip", np.nan, "Skip"],
-            ["test_pass1", np.nan, "Pass"],
-            ["test_pass2", np.nan, "Pass"],
-            ["test_pass3", np.nan, "Pass"],
-            ["test_pass4", np.nan, "Pass"],
+            ["test_skip", "", "Skip"],
+            ["test_pass1", "", "Pass"],
+            ["test_pass2", "", "Pass"],
+            ["test_pass3", "", "Pass"],
+            ["test_pass4", "", "Pass"],
         ]
         expected = pd.DataFrame(data, columns=col)
 
@@ -92,7 +90,7 @@ class GreatAssertionDisplayTests(unittest.TestCase):
         test_cols = ["Test Method", "Test Status"]
         assert_frame_equal(expected[test_cols], actual[test_cols])
         assert_equal(actual.columns, expected.columns)
-        
+
         # Check order
         self.assertEqual(expected.iloc[0]["Test Status"], "Fail")
         self.assertEqual(expected.iloc[3]["Test Status"], "Error")
@@ -100,4 +98,7 @@ class GreatAssertionDisplayTests(unittest.TestCase):
         self.assertEqual(expected.iloc[6]["Test Status"], "Pass")
 
         # Check Test Info
-        self.assertAlmostEqual(expected.iloc[0]["Test Information"], "Stack trace of Fail")
+        self.assertAlmostEqual(
+            expected.iloc[0]["Test Information"], "Stack trace of Fail"
+        )
+        self.assertAlmostEqual(expected.iloc[6]["Test Information"], "")
