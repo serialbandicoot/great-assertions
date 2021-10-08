@@ -138,6 +138,8 @@ For a more visual representation of the results, when using in Databricks or Jup
     result.to_pie()
 
 .. image:: docs/img/pie.png
+    :width: 400
+    :alt: Pie Chart
 
 Notes
 -----
