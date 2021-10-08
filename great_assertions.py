@@ -27,18 +27,21 @@ class GreatAssertionResult(TextTestResult):
         super(GreatAssertionResult, self).addSuccess(test)
         self.successes.append(test)
 
-    def _get_result(self, result_type: list) -> int:
+    def _get_result_quantity(self, result_type: list) -> int:
         return list(filter(lambda x: x[0]._testMethodName, result_type))
 
-    def to_result_table(self):
+    def _get_result_name(self, result_type: list) -> int:
+        return list(filter(lambda x: x[0]._testMethodName, result_type))
+
+    def to_results_table(self):
         import pandas as pd
 
         succeeded = list(
             filter(lambda success: success._testMethodName, self.successes)
         )
-        errors = self._get_result(self.errors)
-        failures = self._get_result(self.failures)
-        skipped = self._get_result(self.skipped)
+        errors = self._get_result_quantity(self.errors)
+        failures = self._get_result_quantity(self.failures)
+        skipped = self._get_result_quantity(self.skipped)
 
         data = [
             ["succeeded", len(succeeded)],
@@ -49,12 +52,32 @@ class GreatAssertionResult(TextTestResult):
 
         return pd.DataFrame(data, columns=["type", "quantity"])
 
-    def to_pie(self, label="Test Result"):
+    def _test_info(self, iter, status: str):
+        return [iter[0]._testMethodName, str(iter[1]), status]
+
+    def to_full_results_table(self):
+        import pandas as pd
+        import numpy as np
+
+        data = []
+        [data.append(self._test_info(f, "Fail")) for f in self.failures]
+        [data.append(self._test_info(e, "Error")) for e in self.errors]
+        [data.append(self._test_info(s, "Skip")) for s in self.skipped]
+        [
+            data.append([success._testMethodName, np.NaN, "Pass"])
+            for success in self.successes
+        ]
+
+        col = ["Test Method", "Test Information", "Test Status"]
+
+        return pd.DataFrame(data, columns=col)
+
+    def to_pie(self, title="Test Result"):
         return (
-            self.to_result_table()
+            self.to_results_table()
             .groupby(["type"])
             .sum()
-            .plot(kind="pie", y="quantity", label=label)
+            .plot(kind="pie", y="quantity", title=title)
         )
 
 
