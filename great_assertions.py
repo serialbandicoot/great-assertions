@@ -49,9 +49,14 @@ class GreatAssertionResult(TextTestResult):
 
         return pd.DataFrame(data, columns=["type", "quantity"])
 
-
     def to_pie(self, label="Test Result"):
-        return self.to_result_table().groupby(['type']).sum().plot(kind='pie', y='quantity', label=label)
+        return (
+            self.to_result_table()
+            .groupby(["type"])
+            .sum()
+            .plot(kind="pie", y="quantity", label=label)
+        )
+
 
 class GreatAssertions(unittest.TestCase):
     """

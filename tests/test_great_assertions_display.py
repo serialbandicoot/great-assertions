@@ -46,8 +46,8 @@ def _run_tests(test_class):
     testRunner = unittest.runner.TextTestRunner(resultclass=GreatAssertionResult)
     return testRunner.run(suite)
 
-class GreatAssertionDisplayTests(unittest.TestCase):
 
+class GreatAssertionDisplayTests(unittest.TestCase):
     def test_to_result_table(self):
 
         col = ["type", "quantity"]
@@ -64,5 +64,4 @@ class GreatAssertionDisplayTests(unittest.TestCase):
 
     def test_to_pie(self):
         actual = _run_tests(DisplayTest).to_pie("My Test Result")
-        self.assertTrue(actual.get_ylabel(), "My Test Result")  
-
+        self.assertTrue(actual.get_ylabel(), "My Test Result")
