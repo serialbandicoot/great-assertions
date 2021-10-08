@@ -40,7 +40,7 @@ class GreatAssertionPandasTests(GreatAssertions):
         df = pd.DataFrame({"col_1": [100.02, 200.01, 300.01], "col_2": [10, 20, 30]})
         self.assertExpectColumnValuesToBeBetween(df, "col_1", 100.01, 300.02)
 
-        # Same float
+        # Equality float
         df = pd.DataFrame({"col_1": [100.05, 200.01, 300.05], "col_2": [10, 20, 30]})
         self.assertExpectColumnValuesToBeBetween(df, "col_1", 100.05, 300.05)
 
