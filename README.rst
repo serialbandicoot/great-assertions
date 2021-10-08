@@ -138,8 +138,25 @@ For a more visual representation of the results, when using in Databricks or Jup
     result.to_pie()
 
 .. image:: docs/img/pie.png
-    :width: 400
+    :width: 300
     :alt: Pie Chart
+
+.. code:: python
+
+    result.to_results_table()
+
+.. image:: docs/img/results_table.png
+    :width: 300
+    :alt: Results Table   
+
+.. code:: python
+
+    result.to_full_results_table()
+
+.. image:: docs/img/full_results_table.png
+    :width: 500
+    :alt: Full Results Table   
+
 
 Notes
 -----
