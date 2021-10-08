@@ -88,7 +88,7 @@ Assertion Descriptions
 ----------------------
 
 For a description of the assertions see `Assertion
-Definitions <ASSERTION_DEFINITIONS.md>`__
+Definitions <docs/assertion_definitions.md>`__
 
 Running the tests
 -----------------
@@ -113,6 +113,31 @@ Options 2
 
     if __name__ == '__main__':
         unittest.main()   
+
+Pie Charts and Tables
+---------------------
+
+For a more visual representation of the results, when using in Databricks or Jupyter Notebooks. The results can be outputed as tables or pie-chart.
+
+.. code:: python
+
+    import unittest
+    from great_assertions import GreatAssertionResult, GreatAssertions
+
+    class DisplayTest(GreatAssertions):
+        def test_pass1(self):
+            assert True is True
+
+        def test_fail(self):
+            assert "Hello" == "World"    
+
+    suite = unittest.TestLoader().loadTestsFromTestCase(DisplayTest)
+    test_runner = unittest.runner.TextTestRunner(resultClass = GreatAssertionResult)
+    result = test_runner.run(suit)
+
+    result.to_pie()
+
+.. image:: docs/img/pie.png
 
 Notes
 -----
@@ -148,3 +173,4 @@ To run tests, just use pytest
    :target: https://codecov.io/gh/serialbandicoot/great-assertions
 .. |CodeQL| image:: https://github.com/serialbandicoot/great-assertions/workflows/CodeQL/badge.svg
    :target: https://github.com/serialbandicoot/great-assertions/actions?query=workflow%3ACodeQL
+
