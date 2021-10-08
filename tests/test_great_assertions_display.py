@@ -2,7 +2,6 @@ import unittest
 from great_assertions import GreatAssertionResult
 import pandas as pd
 from pandas.testing import assert_frame_equal
-import pytest
 
 
 class DisplayTest(unittest.TestCase):
