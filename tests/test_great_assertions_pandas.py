@@ -10,6 +10,11 @@ class GreatAssertionPandasTests(GreatAssertions):
 
         assert "Not a valid pandas/pyspark DataFrame" == str(excinfo.value)
 
+        with pytest.raises(AssertionError) as excinfo:
+            self.assertExpectColumnValuesToBeInSet(1, "col_1", set(("Apple")))
+
+        assert "Not a valid pandas/pyspark DataFrame" == str(excinfo.value)
+
     def test_pandas_expect_table_row_count_to_equal(self):
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
         self.assertExpectTableRowCountToEqual(df, 3)
