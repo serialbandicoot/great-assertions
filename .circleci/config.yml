@@ -45,8 +45,7 @@ jobs:
           # This assumes pytest is installed via the install-package step above
           command: |
             mkdir test-results
-            py.test --junitxml=test-results/junit.xml --cov-report term --cov-report xml:test-results/coverage.xml --cov-report html:test-results/cov_html --cov=great_assertions
-
+            pytest --cov-report term --cov=./ --cov-report html:test-results/cov_html -cov-report --junitxml=test-results/junit.xml --cov-report xml:test-results/coverage.xml
       - store_test_results:
           path: test-results
 
