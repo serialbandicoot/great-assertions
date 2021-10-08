@@ -30,9 +30,6 @@ class GreatAssertionResult(TextTestResult):
     def _get_result_quantity(self, result_type: list) -> int:
         return list(filter(lambda x: x[0]._testMethodName, result_type))
 
-    def _get_result_name(self, result_type: list) -> int:
-        return list(filter(lambda x: x[0]._testMethodName, result_type))
-
     def to_results_table(self):
         import pandas as pd
 
