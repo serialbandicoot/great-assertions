@@ -47,7 +47,7 @@ class GreatAssertionResult(TextTestResult):
             ["skipped", len(skipped)],
         ]
 
-        return pd.DataFrame(data, columns=["type", "quantity"])
+        return pd.DataFrame(data, columns=["Type", "Quantity"])
 
     def _test_info(self, iter, status: str):
         return [iter[0]._testMethodName, str(iter[1]), status]
@@ -61,7 +61,7 @@ class GreatAssertionResult(TextTestResult):
         [data.append(self._test_info(e, "Error")) for e in self.errors]
         [data.append(self._test_info(s, "Skip")) for s in self.skipped]
         [
-            data.append([success._testMethodName, np.NaN, "Pass"])
+            data.append([success._testMethodName, "", "Pass"])
             for success in self.successes
         ]
 
@@ -72,7 +72,7 @@ class GreatAssertionResult(TextTestResult):
     def to_pie(self, title="Test Result", colors=["gray", "red", "blue", "green"]):
         return (
             self.to_results_table()
-            .groupby(["type"])
+            .groupby(["Type"])
             .sum()
             .plot(kind="pie", y="Quantity", title=title, colors=colors)
         )

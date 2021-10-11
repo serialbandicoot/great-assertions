@@ -51,7 +51,7 @@ def _run_tests(test_class):
 class GreatAssertionDisplayTests(unittest.TestCase):
     def test_to_results_table(self):
 
-        col = ["type", "quantity"]
+        col = ["Type", "Quantity"]
         data = [
             ["succeeded", 4],
             ["errors", 2],
@@ -62,6 +62,7 @@ class GreatAssertionDisplayTests(unittest.TestCase):
 
         actual = _run_tests(DisplayTest).to_results_table()
         assert_frame_equal(expected, actual)
+        self.assertAlmostEqual(expected.iloc[6]["Test Information"], "")
 
     def test_to_pie(self):
         actual = _run_tests(DisplayTest).to_pie(title="My Test Result")
@@ -101,4 +102,4 @@ class GreatAssertionDisplayTests(unittest.TestCase):
         self.assertAlmostEqual(
             expected.iloc[0]["Test Information"], "Stack trace of Fail"
         )
-        self.assertAlmostEqual(expected.iloc[6]["Test Information"], "")
+        self.assertEqual(expected.iloc[9]["Test Information"], "")
