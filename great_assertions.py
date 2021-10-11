@@ -74,7 +74,7 @@ class GreatAssertionResult(TextTestResult):
             self.to_results_table()
             .groupby(["type"])
             .sum()
-            .plot(kind="pie", y="quantity", title=title, colors=colors)
+            .plot(kind="pie", y="Quantity", title=title, colors=colors)
         )
 
 
