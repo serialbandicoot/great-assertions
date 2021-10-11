@@ -26,7 +26,7 @@ class DisplayTest(unittest.TestCase):
         assert False is True
 
     def test_fail2(self):
-        assert "Hello" is "World"
+        assert "Hello" == "World"
 
     def test_error1(self):
         self.no_method_here()

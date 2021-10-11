@@ -54,7 +54,6 @@ class GreatAssertionResult(TextTestResult):
 
     def to_full_results_table(self):
         import pandas as pd
-        import numpy as np
 
         data = []
         [data.append(self._test_info(f, "Fail")) for f in self.failures]
