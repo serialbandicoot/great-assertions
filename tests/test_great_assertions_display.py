@@ -62,7 +62,6 @@ class GreatAssertionDisplayTests(unittest.TestCase):
 
         actual = _run_tests(DisplayTest).to_results_table()
         assert_frame_equal(expected, actual)
-        self.assertAlmostEqual(expected.iloc[6]["Test Information"], "")
 
     def test_to_pie(self):
         actual = _run_tests(DisplayTest).to_pie(title="My Test Result")
