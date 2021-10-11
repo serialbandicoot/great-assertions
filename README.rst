@@ -132,8 +132,8 @@ For a more visual representation of the results, when using in Databricks or Jup
             assert "Hello" == "World"    
 
     suite = unittest.TestLoader().loadTestsFromTestCase(DisplayTest)
-    test_runner = unittest.runner.TextTestRunner(resultClass = GreatAssertionResult)
-    result = test_runner.run(suit)
+    test_runner = unittest.runner.TextTestRunner(resultclass = GreatAssertionResult)
+    result = test_runner.run(suite)
 
     result.to_pie()
 

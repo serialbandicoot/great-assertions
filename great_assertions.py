@@ -69,12 +69,12 @@ class GreatAssertionResult(TextTestResult):
 
         return pd.DataFrame(data, columns=col)
 
-    def to_pie(self, title="Test Result"):
+    def to_pie(self, title="Test Result", colors=["gray", "red", "blue", "green"]):
         return (
             self.to_results_table()
             .groupby(["type"])
             .sum()
-            .plot(kind="pie", y="quantity", title=title)
+            .plot(kind="pie", y="quantity", title=title, colors=colors)
         )
 
 
@@ -82,7 +82,7 @@ class GreatAssertions(unittest.TestCase):
     """
     GreatAssertions.
 
-    A class which inherits unittest.TestCase and appends Great Expectation styled assertions
+    A class which inherits unittest.TestCase and appends Great Expectation styled Assertions
 
     """
 
