@@ -85,7 +85,7 @@ class GreatAssertions(unittest.TestCase):
 
     """
 
-    def assertExpectTableRowCountToEqual(self, df, expected_count: int, msg=""):
+    def expect_table_row_count_to_equal(self, df, expected_count: int, msg=""):
         """Expect the number of rows to equal the count.
 
         Parameters
@@ -107,9 +107,7 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    expect_table_row_count_to_equal = assertExpectTableRowCountToEqual
-
-    def assertExpectColumnValuesToBeBetween(
+    def expect_column_values_to_be_between(
         self, df, column: str, min_value: float, max_value: float, msg=""
     ):
         """
@@ -151,9 +149,7 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    expect_column_values_to_be_between = assertExpectColumnValuesToBeBetween
-
-    def assertExpectColumnValuesToMatchRegex(self, df, column: str, regex: str, msg=""):
+    def expect_column_values_to_match_regex(self, df, column: str, regex: str, msg=""):
         """
         Expect column entries to be strings that do NOT match a given regular expression.
 
@@ -175,9 +171,7 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    expect_column_values_to_match_regex = assertExpectColumnValuesToMatchRegex
-
-    def assertExpectColumnValuesToBeInSet(
+    def expect_column_values_to_be_in_set(
         self, df, column: str, value_set: set, msg=""
     ):
         """
@@ -210,9 +204,7 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    expect_column_values_to_be_in_set = assertExpectColumnValuesToBeInSet
-
-    def assertExpectColumnValuesToBeOfType(
+    def expect_column_values_to_be_of_type(
         self, df, column: str, type_: Union[str, float, int], msg=""
     ):
         """Expect a column to contain values of a specified data type."""
@@ -245,9 +237,7 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    expect_column_values_to_be_of_type = assertExpectColumnValuesToBeOfType
-
-    def assertExpectTableColumnsToMatchOrderedList(
+    def expect_table_columns_to_match_ordered_list(
         self, df, column_list: List[str], msg=""
     ):
         """
@@ -272,11 +262,7 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    expect_table_columns_to_match_ordered_list = (
-        assertExpectTableColumnsToMatchOrderedList
-    )
-
-    def assertExpectTableColumnsToMatchSet(
+    def expect_table_columns_to_match_set(
         self, df, column_set: Optional[Union[Set[str], List[str]]], msg=""
     ):
         """Expect the columns to match a specified set.
@@ -298,9 +284,7 @@ class GreatAssertions(unittest.TestCase):
             )
             raise self.failureException(msg)
 
-    expect_table_columns_to_match_set = assertExpectTableColumnsToMatchSet
-
-    def assertExpectDateRangeToBeLessThan(
+    def expect_date_range_to_be_less_than(
         self, df, column: str, date: str, date_format="%Y-%m-%d", msg=""
     ):
         """
@@ -334,9 +318,7 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    expect_date_range_to_be_less_than = assertExpectDateRangeToBeLessThan
-
-    def assertExpectDateRangeToBeMoreThan(
+    def expect_date_range_to_be_more_than(
         self, df, column: str, date: str, date_format="%Y-%m-%d", msg=""
     ):
         """
@@ -370,9 +352,7 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    assert_expect_date_range_to_be_more_than = assertExpectDateRangeToBeMoreThan
-
-    def assertExpectDateRangeToBeBetween(
+    def expect_date_range_to_be_between(
         self,
         df,
         column: str,
@@ -424,9 +404,7 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    expect_date_range_to_be_between = assertExpectDateRangeToBeBetween
-
-    def assertExpectColumnMeanToBeBetween(
+    def expect_column_mean_to_be_between(
         self, df, column, min_value: float, max_value: float, msg=""
     ):
         """
@@ -467,9 +445,7 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    expect_column_mean_to_be_between = assertExpectColumnMeanToBeBetween
-
-    def assertExpectColumnValueCountsPercentToBeBetween(
+    def expect_column_value_counts_percent_to_be_between(
         self, df, column: str, value_counts: dict, msg=""
     ):
         """
@@ -493,7 +469,7 @@ class GreatAssertions(unittest.TestCase):
 
         value_counts = {"Y": {"min": 55, "max": 65}, "N": {"min": 35, "max": 45}}
 
-        self.assertExpectColumnValueCountsPercentToBeBetween(
+        self.expect_column_value_counts_percent_to_be_between(
                 df, "col_1", value_counts
         )
 
@@ -547,7 +523,3 @@ class GreatAssertions(unittest.TestCase):
                 raise self.failureException(msg)
 
         return
-
-    expect_column_value_counts_percent_to_be_between = (
-        assertExpectColumnValueCountsPercentToBeBetween
-    )

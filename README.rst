@@ -7,8 +7,6 @@ This library is inspired by the Great Expectations library. The library
 has made the various expectations found in Great Expectations available
 when using the inbuilt python unittest assertions.
 
-For example if you wanted to use ``expect_column_values_to_be_between``
-then you can access ``assertExpectColumnValuesToBeBetween``.
 
 Install
 -------
@@ -51,7 +49,7 @@ Code example PySpark
                     {"col_1": 300, "col_2": 30},
                 ]
             )
-            self.assertExpectTableRowCountToEqual(df, 3)
+            self.expect_table_row_count_to_equal(df, 3)
 
 List of available assertions
 ----------------------------
@@ -59,29 +57,29 @@ List of available assertions
 +---------------------------------------------------+---------------------+---------------------+
 |                                                   | Pandas              | PySpark             |
 +===================================================+=====================+=====================+
-| assertExpectTableRowCountToEqual                  | :white_check_mark:: | :white_check_mark:: |
+| expect_table_row_count_to_equal                   | :white_check_mark:: | :white_check_mark:: |
 +---------------------------------------------------+---------------------+---------------------+
-| assertExpectColumnValuesToBeBetween               | :white_check_mark:: | :white_check_mark:: |
+| expect_column_values_to_be_between                | :white_check_mark:: | :white_check_mark:: |
 +---------------------------------------------------+---------------------+---------------------+
-| assertExpectColumnValuesToMatchRegex              | :white_check_mark:: | :white_check_mark:: |
+| expect_column_values_to_match_regex               | :white_check_mark:: | :white_check_mark:: |
 +---------------------------------------------------+---------------------+---------------------+
-| assertExpectColumnValuesToBeInSet                 | :white_check_mark:: | :white_check_mark:: |
+| expect_column_values_to_be_in_set                 | :white_check_mark:: | :white_check_mark:: |
 +---------------------------------------------------+---------------------+---------------------+
-| assertExpectColumnValuesToBeOfType                | :white_check_mark:: | :white_check_mark:: |
+| expect_column_values_to_be_of_type                | :white_check_mark:: | :white_check_mark:: |
 +---------------------------------------------------+---------------------+---------------------+
-| assertExpectTableColumnsToMatchOrderedList        | :white_check_mark:: | :white_check_mark:: |
+| expect_table_columns_to_match_ordered_list        | :white_check_mark:: | :white_check_mark:: |
 +---------------------------------------------------+---------------------+---------------------+
-| assertExpectTableColumnsToMatchSet                | :white_check_mark:: | :white_check_mark:: |  
+| expect_table_columns_to_match_set                 | :white_check_mark:: | :white_check_mark:: |  
 +---------------------------------------------------+---------------------+---------------------+
-| assertExpectDateRangeToBeMoreThan                 | :white_check_mark:: | :white_check_mark:: |
+| expect_date_range_to_be_more_than                 | :white_check_mark:: | :white_check_mark:: |
 +---------------------------------------------------+---------------------+---------------------+
-| assertExpectDateRangeToBeLessThan                 | :white_check_mark:: | :white_check_mark:: |
+| expect_date_range_to_be_less_than                 | :white_check_mark:: | :white_check_mark:: |
 +---------------------------------------------------+---------------------+---------------------+
-| assertExpectDateRangeToBeBetween                  | :white_check_mark:: | :white_check_mark:: |
+| expect_date_range_to_be_between                   | :white_check_mark:: | :white_check_mark:: |
 +---------------------------------------------------+---------------------+---------------------+
-| assertExpectColumnMeanToBeBetween                 | :white_check_mark:: | :white_check_mark:: |
+| expect_column_mean_to_be_between                  | :white_check_mark:: | :white_check_mark:: |
 +---------------------------------------------------+---------------------+---------------------+
-| assertExpectColumnValueCountsPercentToBeBetween   | :white_check_mark:: | :white_check_mark:: |
+| expect_column_value_counts_percent_to_be_between  | :white_check_mark:: | :white_check_mark:: |
 +---------------------------------------------------+---------------------+---------------------+
 
 Assertion Descriptions

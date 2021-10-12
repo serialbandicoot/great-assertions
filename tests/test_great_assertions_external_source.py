@@ -11,7 +11,7 @@ class GreatAssertionExternalSourceTests(GreatAssertions):
 
     def test_external_source_pandas_expect_table_row_count_to_equal(self):
         df = pd.read_csv(self.data)
-        self.assertExpectTableRowCountToEqual(df, 4)
+        self.expect_table_row_count_to_equal(df, 4)
 
     def test_external_source_pandas_expect_table_row_count_to_equal_fail(
         self,
@@ -19,14 +19,14 @@ class GreatAssertionExternalSourceTests(GreatAssertions):
         df = pd.read_csv(self.data)
 
         with pytest.raises(AssertionError) as excinfo:
-            self.assertExpectTableRowCountToEqual(df, 1)
+            self.expect_table_row_count_to_equal(df, 1)
 
         assert "expected row count is 1 the actual was 4" in str(excinfo.value)
 
     def test_external_source_pyspark_expect_table_row_count_to_equal(self):
         spark = SparkSession.builder.getOrCreate()
         df = spark.read.csv(self.data)
-        self.assertExpectTableRowCountToEqual(df, 5)
+        self.expect_table_row_count_to_equal(df, 5)
 
     def test_external_source_pyspark_expect_table_row_count_to_equal_fail(
         self,
@@ -35,7 +35,7 @@ class GreatAssertionExternalSourceTests(GreatAssertions):
         df = spark.read.csv(self.data)
 
         with pytest.raises(AssertionError) as excinfo:
-            self.assertExpectTableRowCountToEqual(df, 1)
+            self.expect_table_row_count_to_equal(df, 1)
 
         assert "expected row count is 1 the actual was 5" in str(excinfo.value)
 
@@ -43,7 +43,7 @@ class GreatAssertionExternalSourceTests(GreatAssertions):
         filepath = os.path.join("tests", "data", "external_delimited_source.txt")
         df = pd.read_csv(filepath, sep="|")
 
-        self.assertExpectTableRowCountToEqual(df, 4)
+        self.expect_table_row_count_to_equal(df, 4)
 
     def test_external_source_with_delimited_text_int_check(self):
         filepath = os.path.join("tests", "data", "external_delimited_source.txt")
