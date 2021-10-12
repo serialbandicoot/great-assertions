@@ -2,24 +2,24 @@
 
 |  Assertion | Description | 
 | ------------- | ------------- | 
-| [assertExpectTableRowCountToEqual](#assertExpectTableRowCountToEqual) | Expect the number of rows in this table to equal the number of rows in a different table |
-| [assertExpectColumnValuesToBeBetween](#assertExpectColumnValuesToBeBetween) | Expect column entries to be between a minimum value and a maximum value (inclusive) |
-| [assertExpectColumnValuesToMatchRegex](#assertExpectColumnValuesToMatchRegex) | Expect column entries to be strings that do NOT match a given regular expression |
-| [assertExpectColumnValuesToBeInSet](#assertExpectColumnValuesToBeInSet) | Expect each column value to be in a given set |
-| [assertExpectColumnValuesToBeOfType](#assertExpectColumnValuesToBeOfType) | Expect a column to contain values of a specified data type |
-| [assertExpectTableColumnsToMatchOrderedList](#assertExpectTableColumnsToMatchOrderedList)  | Expect the columns to exactly match a specified list |
-| [assertExpectTableColumnsToMatchSet](#assertExpectTableColumnsToMatchSet) | Expect the columns to match a specified set. |
-| [assertExpectDateRangeToBeMoreThan](#assertExpectDateRangeToBeMoreThan) | Expect the columns to be more than date (Inclusive). |
-| [assertExpectDateRangeToBeLessThan](#assertExpectDateRangeToBeLessThan) | Expect the columns to be less than date (Inclusive). |
-| [assertExpectDateRangeToBeBetween](#assertExpectDateRangeToBeLessThan) | Expect the columns to be between a start and end date (Not inclusive). |
-| [assertExpectColumnMeanToBeBetween](#assertExpectColumnMeanToBeBetween) | Expect the column mean to be between a minimum value and a maximum value (inclusive). |
-| [assertExpectColumnValueCountsPercentToBeBetween](#assertExpectColumnValueCountsPercentToBeBetween) | Expect the value counts for each grouping to be a percentage between (Inclusive). |
+| [expect_table_row_count_to_equal](#expect_table_row_count_to_equal) | Expect the number of rows in this table to equal the number of rows in a different table |
+| [expect_column_values_to_be_between](#expect_column_values_to_be_between) | Expect column entries to be between a minimum value and a maximum value (inclusive) |
+| [expect_column_values_to_match_regex](#expect_column_values_to_match_regex) | Expect column entries to be strings that do NOT match a given regular expression |
+| [expect_column_values_to_be_in_set](#expect_column_values_to_be_in_set) | Expect each column value to be in a given set |
+| [expect_column_values_to_be_of_type](#expect_column_values_to_be_of_type) | Expect a column to contain values of a specified data type |
+| [expect_table_columns_to_match_ordered_list](#expect_table_columns_to_match_ordered_list)  | Expect the columns to exactly match a specified list |
+| [expect_table_columns_to_match_set](#expect_table_columns_to_match_set) | Expect the columns to match a specified set. |
+| [expect_date_range_to_be_more_than](#expect_date_range_to_be_more_than) | Expect the columns to be more than date (Inclusive). |
+| [expect_date_range_to_be_less_than](#expect_date_range_to_be_less_than) | Expect the columns to be less than date (Inclusive). |
+| [expect_date_range_to_be_between](#expect_date_range_to_be_between) | Expect the columns to be between a start and end date (Not inclusive). |
+| [expect_column_mean_to_be_between](#expect_column_mean_to_be_between) | Expect the column mean to be between a minimum value and a maximum value (inclusive). |
+| [expect_column_value_counts_percent_to_be_between](#expect_column_value_counts_percent_to_be_between) | Expect the value counts for each grouping to be a percentage between (Inclusive). |
 
 ## Assertions Params
 
 Decription of the exceptions and their method attributes
 
-### assertExpectTableRowCountToEqual
+### expect_table_row_count_to_equal
 
 |  Assertion | Type | Description |
 | ------------- | ------------- | ------------- |
@@ -27,7 +27,7 @@ Decription of the exceptions and their method attributes
 | expected_count| int | Integer number of expected row count |
 | msg | str | Additional optional message information if exception is raised |
 
-### assertExpectColumnValuesToBeBetween
+### expect_column_values_to_be_between
 
 |  Assertion | Type | Description |
 | ------------- | ------------- | ------------- |
@@ -41,7 +41,7 @@ Decription of the exceptions and their method attributes
 
 The assertion is inclusive of the min and max value
 
-### assertExpectColumnValuesToMatchRegex
+### expect_column_values_to_match_regex
 
 |  Assertion | Type | Description |
 | ------------- | ------------- | ------------- |
@@ -50,7 +50,7 @@ The assertion is inclusive of the min and max value
 | regex | str | If the regular expression fails this will cause the raised exception |
 | msg | str | Additional optional message information if exception is raised |
 
-### assertExpectColumnValuesToBeInSet
+### expect_column_values_to_be_in_set
 
 |  Assertion | Type | Description |
 | ------------- | ------------- | ------------- |
@@ -59,7 +59,7 @@ The assertion is inclusive of the min and max value
 | value_set | set | A set of objects used for comparison |
 | msg | str | Additional optional message information if exception is raised |
 
-### assertExpectColumnValuesToBeOfType
+### expect_column_values_to_be_of_type
 
 |  Assertion | Type | Description |
 | ------------- | ------------- | ------------- |
@@ -68,7 +68,7 @@ The assertion is inclusive of the min and max value
 | type_ | str, int, float | The type of field you expect the value to be |
 | msg | str | Additional optional message information if exception is raised |
 
-### assertExpectTableColumnsToMatchOrderedList
+### expect_table_columns_to_match_ordered_list
 
 |  Assertion | Type | Description |
 | ------------- | ------------- | ------------- |
@@ -77,7 +77,7 @@ The assertion is inclusive of the min and max value
 | column_list | list | A list of strings |
 | msg | str | Additional optional message information if exception is raised |
 
-### assertExpectTableColumnsToMatchSet
+### expect_table_columns_to_match_set
 
 |  Assertion | Type | Description |
 | ------------- | ------------- | ------------- |
@@ -86,7 +86,7 @@ The assertion is inclusive of the min and max value
 | column_list | list/set | A list of strings |
 | msg | str | Additional optional message information if exception is raised |
 
-### assertExpectDateRangeToBeMoreThan
+### expect_date_range_to_be_more_than
 
 |  Assertion | Type | Description |
 | ------------- | ------------- | ------------- |
@@ -96,7 +96,7 @@ The assertion is inclusive of the min and max value
 | format | str | Provide the format, to convert from in the DataFrame |
 | msg | str | Additional optional message information if exception is raised |
 
-### assertExpectDateRangeToBeLessThan
+### expect_date_range_to_be_less_than
 
 |  Assertion | Type | Description |
 | ------------- | ------------- | ------------- |
@@ -106,7 +106,7 @@ The assertion is inclusive of the min and max value
 | format | str | Provide the format, to convert from in the DataFrame |
 | msg | str | Additional optional message information if exception is raised |
 
-### assertExpectDateRangeToBeBetween
+### expect_date_range_to_be_between
 
 |  Assertion | Type | Description |
 | ------------- | ------------- | ------------- |
@@ -117,7 +117,7 @@ The assertion is inclusive of the min and max value
 | format | str | Provide the format, to convert from in the DataFrame |
 | msg | str | Additional optional message information if exception is raised |
 
-### assertExpectColumnMeanToBeBetween
+### expect_column_mean_to_be_between
 
 |  Assertion | Type | Description |
 | ------------- | ------------- | ------------- |
@@ -128,7 +128,7 @@ The assertion is inclusive of the min and max value
 | format | str | Provide the format, to convert from in the DataFrame |
 | msg | str | Additional optional message information if exception is raised |
 
-### assertExpectColumnValueCountsPercentToBeBetween
+### expect_column_value_counts_percent_to_be_between
 
 |  Assertion | Type | Description |
 | ------------- | ------------- | ------------- |
