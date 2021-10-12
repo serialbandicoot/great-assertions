@@ -133,11 +133,11 @@ For a more visual representation of the results, when using in Databricks or Jup
     test_runner = unittest.runner.TextTestRunner(resultclass = GreatAssertionResult)
     result = test_runner.run(suite)
 
-    result.to_pie()
+    result.to_barh() #Also available: result.to_pie()
 
-.. image:: docs/img/pie.png
+.. image:: docs/img/barh.png
     :width: 300
-    :alt: Pie Chart
+    :alt: Bar Horizonal
 
 .. code:: python
 
@@ -154,6 +154,7 @@ For a more visual representation of the results, when using in Databricks or Jup
 .. image:: docs/img/full_results_table.png
     :width: 500
     :alt: Full Results Table   
+
 
 
 Notes
