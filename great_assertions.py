@@ -68,12 +68,19 @@ class GreatAssertionResult(TextTestResult):
 
         return pd.DataFrame(data, columns=col)
 
+    def _get_grouped_results(self):
+        return self.to_results_table().groupby(["Type"]).sum()
+
     def to_pie(self, title="Test Result", colors=["gray", "red", "blue", "green"]):
-        return (
-            self.to_results_table()
-            .groupby(["Type"])
-            .sum()
-            .plot(kind="pie", y="Quantity", title=title, colors=colors)
+        return self._get_grouped_results().plot(
+            kind="pie", y="Quantity", title=title, colors=colors
+        )
+
+    def to_barh(
+        self, title="Test Result", color=["gray", "red", "blue", "green"]
+    ):
+        return self._get_grouped_results().plot(
+            kind="barh", y="Quantity", title=title, color=color
         )
 
 

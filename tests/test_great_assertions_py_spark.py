@@ -104,9 +104,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
         df = self.spark.createDataFrame(
             [{"col_1": "BA2"}, {"col_1": "BA15"}, {"col_1": "SW1"}]
         )
-        self.expect_column_values_to_match_regex(
-            df, "col_1", "^[a-zA-Z]{2}[0-9]{1,2}$"
-        )
+        self.expect_column_values_to_match_regex(df, "col_1", "^[a-zA-Z]{2}[0-9]{1,2}$")
 
     def test_pyspark_assert_expect_column_values_to_match_regex_fail(self):
         import sys

@@ -64,8 +64,12 @@ class GreatAssertionDisplayTests(unittest.TestCase):
         assert_frame_equal(expected, actual)
 
     def test_to_pie(self):
-        actual = _run_tests(DisplayTest).to_pie(title="My Test Result")
-        self.assertTrue(actual.get_title(), "My Test Result")
+        actual = _run_tests(DisplayTest).to_pie(title="My Pie Chart")
+        self.assertEqual(actual.get_title(), "My Pie Chart")
+
+    def test_to_barh(self):
+        actual = _run_tests(DisplayTest).to_barh(title="My Bar Horizonal Result")
+        self.assertEqual(actual.get_title(), "My Bar Horizonal Result")    
 
     def test_to_full_results_table(self):
         col = ["Test Method", "Test Information", "Test Status"]
