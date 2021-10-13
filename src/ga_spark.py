@@ -81,7 +81,7 @@ class GASpark(GADataFrame):
 
         :returns: The unique values in a list
         """
-        
+
         colection = self.df.select(column).distinct().collect()
         values = [item.asDict()[column] for item in colection]
 
