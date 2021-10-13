@@ -69,7 +69,7 @@ class GreatAssertionDisplayTests(unittest.TestCase):
 
     def test_to_barh(self):
         actual = _run_tests(DisplayTest).to_barh(title="My Bar Horizonal Result")
-        self.assertEqual(actual.get_title(), "My Bar Horizonal Result")    
+        self.assertEqual(actual.get_title(), "My Bar Horizonal Result")
 
     def test_to_full_results_table(self):
         col = ["Test Method", "Test Information", "Test Status"]

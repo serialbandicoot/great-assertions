@@ -65,3 +65,23 @@ class GAPandas(GADataFrame):
         """
 
         return str(self.df[column].values[0])
+
+    def is_in_set(self, column: str, value_set: set):
+        """
+        Checks to see if the value_set is in the provided column.
+
+        :returns: The dataframe of results
+        """
+
+        filtered_dataframe = self.df[~self.df[column].isin(value_set)].eq(False)
+
+        return GAPandas(filtered_dataframe)
+
+    def unique_list(self, column: str) -> list:
+        """
+        Gets the unique values from a provided column.
+
+        :returns: The unique values in a list
+        """
+
+        return self.df[column].unique().tolist()

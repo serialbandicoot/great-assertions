@@ -63,3 +63,26 @@ class GASpark(GADataFrame):
         """
 
         return str(self.df.collect()[0][column])
+
+    def is_in_set(self, column: str, value_set: set):
+        """
+        Checks to see if the value_set is in the provided column.
+
+        :returns: The dataframe of results
+        """
+
+        filtered_dataframe = self.df[~self.df[column].isin(value_set)]
+
+        return GASpark(filtered_dataframe)
+
+    def unique_list(self, column: str) -> list:
+        """
+        Gets the unique values from a provided column.
+
+        :returns: The unique values in a list
+        """
+        
+        colection = self.df.select(column).distinct().collect()
+        values = [item.asDict()[column] for item in colection]
+
+        return values

@@ -76,9 +76,7 @@ class GreatAssertionResult(TextTestResult):
             kind="pie", y="Quantity", title=title, colors=colors
         )
 
-    def to_barh(
-        self, title="Test Result", color=["gray", "red", "blue", "green"]
-    ):
+    def to_barh(self, title="Test Result", color=["gray", "red", "blue", "green"]):
         return self._get_grouped_results().plot(
             kind="barh", y="Quantity", title=title, color=color
         )
@@ -192,13 +190,14 @@ class GreatAssertions(unittest.TestCase):
             msg (str)       : Optional message if the assertion fails
         """
 
-        df = _get_dataframe_type(df)
+        df = _get_dataframe_import_type(df)
 
-        results = df[~df[column].isin(value_set)].eq(False)
-        if len(results) > 0:
+        results = df.is_in_set(column, value_set)
+        if results.row_count > 0:
             # Sort if possible, otherwise just output
+            column_unique_list = []
             try:
-                column_unique_list = df[column].unique().tolist()
+                column_unique_list = df.unique_list(column)
                 column_unique_list = sorted(column_unique_list)
             except TypeError:
                 pass
