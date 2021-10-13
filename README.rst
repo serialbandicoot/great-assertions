@@ -156,6 +156,17 @@ For a more visual representation of the results, when using in Databricks or Jup
     :alt: Full Results Table   
 
 
+Runnng with XML-Runner
+----------------------
+
+To run with xml-runner, there is no difference to how it's currently used. However you will not be able to get method like to_results_table as these use a different `resultclass`   
+
+.. code:: python
+
+    import xmlrunner
+    suite = unittest.TestLoader().loadTestsFromTestCase(DisplayTest)
+    test_runner = xmlrunner.XMLRunner(output="test-results")
+    test_runner.run(suite)
 
 Notes
 -----
