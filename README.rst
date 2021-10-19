@@ -186,7 +186,7 @@ development installation
 ::
 
     virtualenv ve
-    source ve/bin/activation
+    source ve/bin/activate
 
 To run tests, just use pytest
 

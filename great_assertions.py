@@ -128,7 +128,7 @@ class GreatAssertions(unittest.TestCase):
         if actual_row_count <= expected_min_count:
             msg = self._formatMessage(
                 msg,
-                f"expected row count at least {expected_min_count} the actual was {actual_row_count}",
+                f"expected row count of at least {expected_min_count} but the actual was {actual_row_count}",
             )
             raise self.failureException(msg)
 
