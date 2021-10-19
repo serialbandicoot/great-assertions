@@ -112,6 +112,28 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
+    def expect_table_row_count_to_be_greater_than(self, df, expected_min_count: int, msg=""):
+        """Expect the number of rows to be greater than the count.
+
+        Parameters
+        ----------
+            df (DataFrame)       : Pandas or PySpark DataFrame
+            expected_count (int) : The expected row count of the DataFrame
+            msg (str)            : Optional message if the assertion fails
+        """
+
+        df = _get_dataframe_import_type(df)
+        actual_row_count = df.row_count
+
+        if actual_row_count <= expected_min_count:
+            msg = self._formatMessage(
+                msg,
+                f"expected row count at least {expected_min_count} the actual was {actual_row_count}",
+            )
+            raise self.failureException(msg)
+
+        return        
+
     def expect_column_values_to_be_between(
         self, df, column: str, min_value: float, max_value: float, msg=""
     ):
