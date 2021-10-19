@@ -112,7 +112,9 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    def expect_table_row_count_to_be_greater_than(self, df, expected_min_count: int, msg=""):
+    def expect_table_row_count_to_be_greater_than(
+        self, df, expected_min_count: int, msg=""
+    ):
         """Expect the number of rows to be greater than the count.
 
         Parameters
