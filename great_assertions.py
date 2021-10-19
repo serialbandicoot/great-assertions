@@ -132,7 +132,7 @@ class GreatAssertions(unittest.TestCase):
             )
             raise self.failureException(msg)
 
-        return        
+        return
 
     def expect_column_values_to_be_between(
         self, df, column: str, min_value: float, max_value: float, msg=""
