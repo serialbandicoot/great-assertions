@@ -38,6 +38,39 @@ class GreatAssertionPySparkTests(GreatAssertions):
 
         assert "expected row count is 4 the actual was 3 : " == str(excinfo.value)
 
+    def test_pyspark_expect_table_row_count_to_be_greater_than(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": 100, "col_2": 10},
+                {"col_1": 200, "col_2": 20},
+                {"col_1": 300, "col_2": 30},
+            ]
+        )
+        self.expect_table_row_count_to_be_greater_than(df, 2)
+
+    def test_pyspark_expect_table_row_count_to_be_greater_than_raises_type_error(
+        self,
+    ):
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_table_row_count_to_be_greater_than(1, 1)
+
+        assert "Not a valid pandas/pyspark DataFrame" == str(excinfo.value)
+
+    def test_pyspark_expect_table_row_count_to_be_greater_than_fails(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": 100, "col_2": 10},
+                {"col_1": 200, "col_2": 20},
+                {"col_1": 300, "col_2": 30},
+            ]
+        )
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_table_row_count_to_be_greater_than(df, 4)
+
+        assert "expected row count of at least 4 but the actual was 3 : " == str(
+            excinfo.value
+        )
+
     def test_pyspark_assert_expect_column_values_to_be_between(self):
         # int
         df = self.spark.createDataFrame(

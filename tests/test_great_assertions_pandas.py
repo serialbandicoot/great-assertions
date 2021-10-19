@@ -26,6 +26,19 @@ class GreatAssertionPandasTests(GreatAssertions):
 
         assert "expected row count is 4 the actual was 3 : " == str(excinfo.value)
 
+    def test_pandas_expect_table_row_count_to_be_greater_than(self):
+        df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
+        self.expect_table_row_count_to_be_greater_than(df, 2)
+
+    def test_pandas_expect_table_row_count_to_be_greater_than_fails(self):
+        df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_table_row_count_to_be_greater_than(df, 4)
+
+        assert "expected row count of at least 4 but the actual was 3 : " == str(
+            excinfo.value
+        )
+
     # assertExpectColumnValueLengthsToEqual
     def test_pandas_assert_expect_column_values_to_be_between(self):
         # int
