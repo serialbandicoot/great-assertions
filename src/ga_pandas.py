@@ -94,3 +94,13 @@ class GAPandas(GADataFrame):
         """
 
         return GAPandas(self.df.drop_duplicates())
+
+    def expect_frames_equal(self, right, check_dtype=True, check_index_type="equiv"):
+        from pandas.testing import assert_frame_equal
+
+        assert_frame_equal(
+            self.df,
+            right,
+            check_dtype=check_dtype,
+            check_index_type=check_index_type,
+        )
