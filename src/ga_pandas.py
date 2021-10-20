@@ -85,3 +85,12 @@ class GAPandas(GADataFrame):
         """
 
         return self.df[column].unique().tolist()
+
+    def drop_duplicates(self):
+        """
+        Drops any duplicates in the DataFrame.
+
+        :returns: The unique values in a list
+        """
+
+        return GAPandas(self.df.drop_duplicates())

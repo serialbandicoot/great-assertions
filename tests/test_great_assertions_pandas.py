@@ -39,7 +39,18 @@ class GreatAssertionPandasTests(GreatAssertions):
             excinfo.value
         )
 
-    # assertExpectColumnValueLengthsToEqual
+    def test_pandas_expect_table_has_no_duplicate_rows(self):
+        df = pd.DataFrame({"col_1": [100, 100, 300], "col_2": [10, 11, 12]})
+        self.expect_table_has_no_duplicate_rows(df)
+
+    def test_pandas_expect_table_has_no_duplicate_rows_fail(self):
+        df = pd.DataFrame({"col_1": [100, 100, 300], "col_2": [10, 10, 12]})
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_table_has_no_duplicate_rows(df)
+
+        assert "Table contains duplicate rows : " == str(excinfo.value)
+
     def test_pandas_assert_expect_column_values_to_be_between(self):
         # int
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})

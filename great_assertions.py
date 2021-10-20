@@ -1,8 +1,8 @@
 """
 Great Assertions.
 
-This library is inspired by the Great Expectations library and has made various expectations found in Great Expectations available when using the inbuilt python unittest assertions.
-For example if you wanted to use expect_column_values_to_be_between then you can access assertExpectColumnValuesToBeBetween.
+This library is inspired by the Great Expectations library and has made various expectations
+found in Great Expectations available when using the inbuilt python unittest assertions.
 
 The library has also added in further expectations, which may be similar or new.
 """
@@ -131,6 +131,28 @@ class GreatAssertions(unittest.TestCase):
             msg = self._formatMessage(
                 msg,
                 f"expected row count of at least {expected_min_count} but the actual was {actual_row_count}",
+            )
+            raise self.failureException(msg)
+
+        return
+
+    def expect_table_has_no_duplicate_rows(self, df, msg=""):
+        """Expect the table to only have unique rows.
+
+        Parameters
+        ----------
+            df (DataFrame) : Pandas or PySpark DataFrame
+            msg (str)      : Optional message if the assertion fails
+        """
+
+        df = _get_dataframe_import_type(df)
+        actual_row_count = df.row_count
+        unique_rows = df.drop_duplicates().row_count
+
+        if actual_row_count != unique_rows:
+            msg = self._formatMessage(
+                msg,
+                "Table contains duplicate rows",
             )
             raise self.failureException(msg)
 
@@ -521,9 +543,10 @@ class GreatAssertions(unittest.TestCase):
             try:
                 key_percent = (result[key] / len(df)) * 100
             except KeyError as e:
+                sorted_results = ", ".join(sorted(result.index.tolist()))
                 msg = self._formatMessage(
                     msg,
-                    f"Check the key {str(e)} is not in the available value counts names {', '.join(sorted(result.index.tolist()))}",
+                    f"Check the key {str(e)} is not in the available value counts names {sorted_results}",
                 )
                 raise self.failureException(msg)
 
