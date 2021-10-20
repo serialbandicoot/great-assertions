@@ -525,8 +525,8 @@ class GreatAssertions(unittest.TestCase):
                 df, "col_1", value_counts
         )
 
-        BlHAA
-        -----
+        Further
+        -------
 
         col_1 actual percentages: Y - 60%, N - 40%
 
