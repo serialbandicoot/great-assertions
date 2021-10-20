@@ -489,3 +489,31 @@ class GreatAssertionPandasTests(GreatAssertions):
             )
 
         assert "Value count for key 'Y' not contain 'max' : " == str(excinfo.value)
+
+    def test_expect_assert_frame_equal(self):
+        left = pd.DataFrame({"col_1": [1]})
+        right = pd.DataFrame({"col_1": [1]})
+        self.expect_frames_equal(left, right)
+
+    def test_expect_assert_frame_equal_bad_type(self):
+        from pyspark.sql import SparkSession
+
+        left = pd.DataFrame({"col_1": [1]})
+        spark = SparkSession.builder.getOrCreate()
+        right = spark.createDataFrame([{"col_1": 100}])
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_frames_equal(left, right)
+
+        assert "Different DataFrame types : " == str(excinfo.value)
+
+    def test_expect_assert_frame_equal_fail(self):
+        left = pd.DataFrame({"col_1": [1]})
+        right = pd.DataFrame({"col_1": [2]})
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_frames_equal(left, right)
+
+        # Just check the GA code, the fail is returned
+        # with panda exception or the GASpark code
+        assert "DataFrames are different" in str(excinfo.value)

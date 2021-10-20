@@ -579,5 +579,23 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    def expect_frame_equals(self):
-        pass
+    def expect_frames_equal(self, left, right, msg=""):
+        """Expect this to compare two dataframes."""
+        left = _get_dataframe_import_type(left)
+        right = _get_dataframe_import_type(right)
+
+        if type(left) != type(right):
+            msg = self._formatMessage(
+                msg,
+                "Different DataFrame types",
+            )
+            raise self.failureException(msg)
+
+        try:
+            left.expect_frames_equal(right.df)
+        except AssertionError as e:
+            msg = self._formatMessage(
+                msg,
+                f"DataFrames are different with {e}",
+            )
+            raise self.failureException(msg)
