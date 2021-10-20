@@ -578,3 +578,6 @@ class GreatAssertions(unittest.TestCase):
                 raise self.failureException(msg)
 
         return
+
+    def expect_frame_equals(self):
+        pass
