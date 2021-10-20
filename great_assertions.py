@@ -564,14 +564,16 @@ class GreatAssertions(unittest.TestCase):
             if column_min > key_percent:
                 msg = self._formatMessage(
                     msg,
-                    f"Column {column} the actual value count of ({key}) is {format(key_percent, '.5f')}% is less than the min allowed of {value_counts[key]['min']}%",
+                    f"Column {column} the actual value count of ({key}) is {format(key_percent, '.5f')}% "
+                    f"is less than the min allowed of {value_counts[key]['min']}%",
                 )
                 raise self.failureException(msg)
 
             if column_max < key_percent:
                 msg = self._formatMessage(
                     msg,
-                    f"Column {column} the actual value count of ({key}) is {format(key_percent, '.5f')}% is more than the max allowed of {value_counts[key]['max']}%",
+                    f"Column {column} the actual value count of ({key}) is {format(key_percent, '.5f')}% "
+                    f"is more than the max allowed of {value_counts[key]['max']}%",
                 )
                 raise self.failureException(msg)
 
