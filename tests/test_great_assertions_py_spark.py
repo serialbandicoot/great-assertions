@@ -71,6 +71,30 @@ class GreatAssertionPySparkTests(GreatAssertions):
             excinfo.value
         )
 
+    def test_pyspark_expect_table_has_no_duplicate_rows(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": 100, "col_2": 10},
+                {"col_1": 100, "col_2": 20},
+                {"col_1": 300, "col_2": 30},
+            ]
+        )
+        self.expect_table_has_no_duplicate_rows(df)
+
+    def test_pyspark_expect_table_has_no_duplicate_rows_fail(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": 100, "col_2": 10},
+                {"col_1": 100, "col_2": 10},
+                {"col_1": 300, "col_2": 30},
+            ]
+        )
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_table_has_no_duplicate_rows(df)
+
+        assert "Table contains duplicate rows : " == str(excinfo.value)
+
     def test_pyspark_assert_expect_column_values_to_be_between(self):
         # int
         df = self.spark.createDataFrame(

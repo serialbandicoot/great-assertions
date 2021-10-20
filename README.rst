@@ -54,33 +54,37 @@ Code example PySpark
 List of available assertions
 ----------------------------
 
-+---------------------------------------------------+---------------------+---------------------+
-|                                                   | Pandas              | PySpark             |
-+===================================================+=====================+=====================+
-| expect_table_row_count_to_equal                   | :white_check_mark:: | :white_check_mark:: |
-+---------------------------------------------------+---------------------+---------------------+
-| expect_column_values_to_be_between                | :white_check_mark:: | :white_check_mark:: |
-+---------------------------------------------------+---------------------+---------------------+
-| expect_column_values_to_match_regex               | :white_check_mark:: | :white_check_mark:: |
-+---------------------------------------------------+---------------------+---------------------+
-| expect_column_values_to_be_in_set                 | :white_check_mark:: | :white_check_mark:: |
-+---------------------------------------------------+---------------------+---------------------+
-| expect_column_values_to_be_of_type                | :white_check_mark:: | :white_check_mark:: |
-+---------------------------------------------------+---------------------+---------------------+
-| expect_table_columns_to_match_ordered_list        | :white_check_mark:: | :white_check_mark:: |
-+---------------------------------------------------+---------------------+---------------------+
-| expect_table_columns_to_match_set                 | :white_check_mark:: | :white_check_mark:: |  
-+---------------------------------------------------+---------------------+---------------------+
-| expect_date_range_to_be_more_than                 | :white_check_mark:: | :white_check_mark:: |
-+---------------------------------------------------+---------------------+---------------------+
-| expect_date_range_to_be_less_than                 | :white_check_mark:: | :white_check_mark:: |
-+---------------------------------------------------+---------------------+---------------------+
-| expect_date_range_to_be_between                   | :white_check_mark:: | :white_check_mark:: |
-+---------------------------------------------------+---------------------+---------------------+
-| expect_column_mean_to_be_between                  | :white_check_mark:: | :white_check_mark:: |
-+---------------------------------------------------+---------------------+---------------------+
-| expect_column_value_counts_percent_to_be_between  | :white_check_mark:: | :white_check_mark:: |
-+---------------------------------------------------+---------------------+---------------------+
++--------------------------------------------------+---------------------+---------------------+
+|                                                  | Pandas              | PySpark             |
++==================================================+=====================+=====================+
+| expect_table_row_count_to_equal                  | :white_check_mark:: | :white_check_mark:: |
++--------------------------------------------------+---------------------+---------------------+
+| expect_table_row_count_to_be_greater_than        | :white_check_mark:: | :white_check_mark:: |
++--------------------------------------------------+---------------------+---------------------+
+| expect_table_has_no_duplicate_rows               | :white_check_mark:: | :white_check_mark:: |
++--------------------------------------------------+---------------------+---------------------+
+| expect_column_values_to_be_between               | :white_check_mark:: | :white_check_mark:: |
++--------------------------------------------------+---------------------+---------------------+
+| expect_column_values_to_match_regex              | :white_check_mark:: | :white_check_mark:: |
++--------------------------------------------------+---------------------+---------------------+
+| expect_column_values_to_be_in_set                | :white_check_mark:: | :white_check_mark:: |
++--------------------------------------------------+---------------------+---------------------+
+| expect_column_values_to_be_of_type               | :white_check_mark:: | :white_check_mark:: |
++--------------------------------------------------+---------------------+---------------------+
+| expect_table_columns_to_match_ordered_list       | :white_check_mark:: | :white_check_mark:: |
++--------------------------------------------------+---------------------+---------------------+
+| expect_table_columns_to_match_set                | :white_check_mark:: | :white_check_mark:: |
++--------------------------------------------------+---------------------+---------------------+
+| expect_date_range_to_be_more_than                | :white_check_mark:: | :white_check_mark:: |
++--------------------------------------------------+---------------------+---------------------+
+| expect_date_range_to_be_less_than                | :white_check_mark:: | :white_check_mark:: |
++--------------------------------------------------+---------------------+---------------------+
+| expect_date_range_to_be_between                  | :white_check_mark:: | :white_check_mark:: |
++--------------------------------------------------+---------------------+---------------------+
+| expect_column_mean_to_be_between                 | :white_check_mark:: | :white_check_mark:: |
++--------------------------------------------------+---------------------+---------------------+
+| expect_column_value_counts_percent_to_be_between | :white_check_mark:: | :white_check_mark:: |
++--------------------------------------------------+---------------------+---------------------+
 
 Assertion Descriptions
 ----------------------

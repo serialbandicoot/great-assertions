@@ -86,3 +86,12 @@ class GASpark(GADataFrame):
         values = [item.asDict()[column] for item in colection]
 
         return values
+
+    def drop_duplicates(self):
+        """
+        Drops any duplicates in the DataFrame.
+
+        :returns: The unique values in a list
+        """
+
+        return GASpark(self.df.drop_duplicates())
