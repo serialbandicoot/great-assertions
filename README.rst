@@ -26,7 +26,7 @@ Code example Pandas
     class GreatAssertionTests(GreatAssertions):
         def test_expect_table_row_count_to_equal(self):
             df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
-            self.assertExpectTableRowCountToEqual(df, 3)
+            self.expect_table_row_count_to_equal(df, 3)
 
 Code example PySpark
 --------------------

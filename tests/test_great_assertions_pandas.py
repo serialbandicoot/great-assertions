@@ -1,3 +1,4 @@
+from pandas.core.indexing import check_bool_indexer
 from great_assertions import GreatAssertions
 import pandas as pd
 import pytest
@@ -494,6 +495,21 @@ class GreatAssertionPandasTests(GreatAssertions):
         left = pd.DataFrame({"col_1": [1]})
         right = pd.DataFrame({"col_1": [1]})
         self.expect_frames_equal(left, right)
+
+    def test_expect_assert_frame_equal_dtype(self):
+        left = pd.DataFrame({"col_1": [1, 2]})
+        right = pd.DataFrame({"col_1": [1, 2]})
+        left = left.astype({"col_1": "int32"})
+        right = left.astype({"col_1": "int64"})
+
+        self.expect_frames_equal(left, right, check_dtype=False)
+
+    def test_expect_assert_frame_equal_ignore_index(self):
+        df = pd.DataFrame({"col_1": [2, 1]})
+        left = df[df["col_1"] == 1]
+        right = pd.DataFrame({"col_1": [1]})
+
+        self.expect_frames_equal(left, right, check_index=False)
 
     def test_expect_assert_frame_equal_bad_type(self):
         from pyspark.sql import SparkSession
