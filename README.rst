@@ -61,6 +61,8 @@ List of available assertions
 +--------------------------------------------------+---------------------+---------------------+
 | expect_table_row_count_to_be_greater_than        | :white_check_mark:: | :white_check_mark:: |
 +--------------------------------------------------+---------------------+---------------------+
+| expect_table_row_count_to_be_less_than           | :white_check_mark:: | :white_check_mark:: |
++--------------------------------------------------+---------------------+---------------------+
 | expect_table_has_no_duplicate_rows               | :white_check_mark:: | :white_check_mark:: |
 +--------------------------------------------------+---------------------+---------------------+
 | expect_column_value_to_equal                     | :white_check_mark:: | :white_check_mark:: |
