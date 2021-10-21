@@ -17,6 +17,7 @@
 | [expect_column_mean_to_be_between](#expect_column_mean_to_be_between) | Expect the column mean to be between a minimum value and a maximum value (inclusive). |
 | [expect_column_value_counts_percent_to_be_between](#expect_column_value_counts_percent_to_be_between) | Expect the value counts for each grouping to be a percentage between (Inclusive). |
 | [expect_frame_equal](#expect_frame_equal) | Expect the value counts for each grouping to be a percentage between (Inclusive). |
+| [expect_column_value_to_equal](#expect_column_value_to_equal) | Expect the provided column and its value to equal. |
 
 ## Assertions Params
 
@@ -163,4 +164,13 @@ The assertion is inclusive of the min and max value
 | right| DataFrame | Pandas/PySpark |
 | check_dtype  | bool | Ignore Schema differences |
 | check_index  | bool | Ignore Indexes |
+| msg | str | Additional optional message information if exception is raised |
+
+### expect_column_value_to_equal
+
+|  Assertion | Type | Description |
+| ------------- | ------------- | ------------- |
+| left| DataFrame | Pandas/PySpark |
+| column| str | Column name |
+| value | object | The value of the column |
 | msg | str | Additional optional message information if exception is raised |

@@ -159,7 +159,16 @@ class GreatAssertions(unittest.TestCase):
         return
 
     def expect_column_value_to_equal(self, df, column: str, value: object, msg=""):
-        """Expect the provided column and its value to equal."""
+        """
+        Expect the provided column and its value to equal.
+
+        Parameters
+        ----------
+            df (DataFrame) : Pandas or PySpark DataFrame
+            column (str)   : The name of the column to be examined
+            value (float)  : The value of the column
+            msg (str)      : Optional message if the assertion fails
+        """
 
         df = _get_dataframe_import_type(df)
         results = df.filter(column, value)

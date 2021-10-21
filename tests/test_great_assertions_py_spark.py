@@ -722,7 +722,9 @@ class GreatAssertionPySparkTests(GreatAssertions):
 
         assert "Column col_1 was not equal, found 100 : " == str(excinfo.value)
 
-        df2 = self.spark.createDataFrame([{"col_1": "zSu"}, {"col_1": "zSu2"}, {"col_1": "zSu"}])
+        df2 = self.spark.createDataFrame(
+            [{"col_1": "zSu"}, {"col_1": "zSu2"}, {"col_1": "zSu"}]
+        )
         with pytest.raises(AssertionError) as excinfo:
             self.expect_column_value_to_equal(df2, "col_1", "zSu")
 
