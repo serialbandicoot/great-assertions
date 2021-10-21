@@ -533,3 +533,26 @@ class GreatAssertionPandasTests(GreatAssertions):
         # Just check the GA code, the fail is returned
         # with panda exception or the GASpark code
         assert "DataFrames are different" in str(excinfo.value)
+
+    def test_expect_column_value_to_equal(self):
+        df = pd.DataFrame({"col_1": [1, 1, 1, 1]})
+        self.expect_column_value_to_equal(df, "col_1", 1)
+
+        df = pd.DataFrame({"col_1": ["h", "h", "h", "h"]})
+        self.expect_column_value_to_equal(df, "col_1", "h")
+
+        df = pd.DataFrame({"col_1": [1.1, 1.1, 1.1, 1.1]})
+        self.expect_column_value_to_equal(df, "col_1", 1.1)
+
+    def test_expect_column_value_to_equal_fails(self):
+        df1 = pd.DataFrame({"col_1": [2, 2, 5, 2]})
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_column_value_to_equal(df1, "col_1", 2)
+
+        assert "Column col_1 was not equal, found 5 : " == str(excinfo.value)
+
+        df2 = pd.DataFrame({"col_1": ["d", "d", "e", "d"]})
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_column_value_to_equal(df2, "col_1", "d")
+
+        assert "Column col_1 was not equal, found e : " == str(excinfo.value)

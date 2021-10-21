@@ -704,3 +704,26 @@ class GreatAssertionPySparkTests(GreatAssertions):
         right = self.spark.createDataFrame([{"col_1": 100, "col_2": "a"}])
 
         self.expect_frames_equal(left, right, check_dtype=False)
+
+    def test_pyspark_expect_column_value_to_equal(self):
+        df = self.spark.createDataFrame([{"col_1": 200}, {"col_1": 200}])
+        self.expect_column_value_to_equal(df, "col_1", 200)
+
+        df = self.spark.createDataFrame([{"col_1": "ABC"}, {"col_1": "ABC"}])
+        self.expect_column_value_to_equal(df, "col_1", 200)
+
+        df = self.spark.createDataFrame([{"col_1": 12.72}, {"col_1": 12.72}])
+        self.expect_column_value_to_equal(df, "col_1", 12.72)
+
+    def test_expect_column_value_to_equal_fails(self):
+        df1 = self.spark.createDataFrame([{"col_1": 200}, {"col_1": 100}])
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_column_value_to_equal(df1, "col_1", 200)
+
+        assert "Column col_1 was not equal, found 100 : " == str(excinfo.value)
+
+        df2 = self.spark.createDataFrame([{"col_1": "zSu"}, {"col_1": "zSu2"}, {"col_1": "zSu"}])
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_column_value_to_equal(df2, "col_1", "zSu")
+
+        assert "Column col_1 was not equal, found zSu2 : " == str(excinfo.value)
