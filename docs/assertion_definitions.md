@@ -3,7 +3,8 @@
 |  Assertion | Description | 
 | ------------- | ------------- | 
 | [expect_table_row_count_to_equal](#expect_table_row_count_to_equal) | Expect the number of rows in this table to equal the number of rows in a different table |
-| [expect_table_row_count_to_be_greater_than](#expect_table_row_count_to_be_greater_than) | Expect the number of rows in this table to exceed the number of rows in a different table |
+| [expect_table_row_count_to_be_less_than](#expect_table_row_count_to_be_less_than) | Expect the number of rows in this table to not exceed the number of rows in a table |
+| [expect_table_row_count_to_be_greater_than](#expect_table_row_count_to_be_greater_than) | Expect the number of rows in this table to exceed the number of rows in a table |
 | [expect_table_has_no_duplicate_rows](#expect_table_has_no_duplicate_rows) | Expect the table to only have unique rows |
 | [expect_column_values_to_be_between](#expect_column_values_to_be_between) | Expect column entries to be between a minimum value and a maximum value (inclusive) |
 | [expect_column_values_to_match_regex](#expect_column_values_to_match_regex) | Expect column entries to be strings that do NOT match a given regular expression |
@@ -29,6 +30,14 @@ Decription of the exceptions and their method attributes
 | ------------- | ------------- | ------------- |
 | df| DataFrame | Pandas/PySpark |
 | expected_count| int | Integer number of expected row count |
+| msg | str | Additional optional message information if exception is raised |
+
+### expect_table_row_count_to_be_less_than
+
+|  Assertion | Type | Description |
+| ------------- | ------------- | ------------- |
+| df| DataFrame | Pandas/PySpark |
+| expected_max_count| int | Integer maxmium expected row count |
 | msg | str | Additional optional message information if exception is raised |
 
 ### expect_table_row_count_to_be_greater_than
