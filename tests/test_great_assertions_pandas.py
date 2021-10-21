@@ -40,6 +40,19 @@ class GreatAssertionPandasTests(GreatAssertions):
             excinfo.value
         )
 
+    def test_pandas_expect_table_row_count_to_be_less_than(self):
+        df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
+        self.expect_table_row_count_to_be_less_than(df, 4)
+
+    def test_pandas_expect_table_row_count_to_be_less_fails(self):
+        df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_table_row_count_to_be_less_than(df, 2)
+
+        assert "expected row count of maximum 2 but the actual was 3 : " == str(
+            excinfo.value
+        )
+
     def test_pandas_expect_table_has_no_duplicate_rows(self):
         df = pd.DataFrame({"col_1": [100, 100, 300], "col_2": [10, 11, 12]})
         self.expect_table_has_no_duplicate_rows(df)
