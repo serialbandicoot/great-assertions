@@ -95,3 +95,16 @@ class GASpark(GADataFrame):
         """
 
         return GASpark(self.df.drop_duplicates())
+
+    def expect_frames_equal(self, right, check_dtype=True, ignore_index=True):
+        if ignore_index is False:
+            print("Spark DataFrames do not have native indexes")
+
+        if check_dtype:
+            if self.df.schema != right.schema:
+                raise AssertionError("Schemas are different")
+
+        if self.df.collect() != right.collect():
+            raise AssertionError("Data is different")
+
+        return True

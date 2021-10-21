@@ -1,5 +1,5 @@
 from great_assertions import GreatAssertions
-from pyspark.sql import SparkSession
+from pyspark.sql import SparkSession, types as T
 import pytest
 
 
@@ -654,3 +654,53 @@ class GreatAssertionPySparkTests(GreatAssertions):
             )
 
         assert "Value count for key 'Y' not contain 'max' : " == str(excinfo.value)
+
+    def test_pyspark_expect_assert_frame_equal(self):
+        left = self.spark.createDataFrame([{"col_1": 100}])
+        right = self.spark.createDataFrame([{"col_1": 100}])
+
+        self.expect_frames_equal(left, right)
+
+    def test_pyspark_expect_assert_frame_equal_fail(self):
+        left = self.spark.createDataFrame([{"col_1": 100}])
+        right = self.spark.createDataFrame([{"col_2": 100}])
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_frames_equal(left, right)
+
+        assert "DataFrames are different with Schemas are different : " == str(
+            excinfo.value
+        )
+
+        left = self.spark.createDataFrame([{"col_1": 100}])
+        right = self.spark.createDataFrame([{"col_1": 200}])
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_frames_equal(left, right)
+
+        assert "DataFrames are different with Data is different : " == str(
+            excinfo.value
+        )
+
+    def test_pyspark_expect_assert_frame_equal_index_ignore(self):
+        df = self.spark.createDataFrame([{"col_1": 200}, {"col_1": 100}])
+        left = df.filter(df["col_1"] == 100)
+        right = self.spark.createDataFrame([{"col_1": 100}])
+
+        self.expect_frames_equal(left, right)
+
+    def test_pyspark_expect_assert_frame_equal_dtype(self):
+        left = self.spark.createDataFrame(
+            [
+                (100, "a"),
+            ],
+            T.StructType(
+                [
+                    T.StructField("col_1", T.IntegerType()),
+                    T.StructField("col_1", T.StringType())
+                ]
+            )
+        )
+        right = self.spark.createDataFrame([{"col_1": 100, "col_2": "a"}])
+
+        self.expect_frames_equal(left, right, check_dtype=False)

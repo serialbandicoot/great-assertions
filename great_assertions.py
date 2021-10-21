@@ -579,7 +579,9 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
-    def expect_frames_equal(self, left, right, msg=""):
+    def expect_frames_equal(
+        self, left, right, check_dtype=True, check_index=True, msg=""
+    ):
         """Expect this to compare two dataframes."""
         left = _get_dataframe_import_type(left)
         right = _get_dataframe_import_type(right)
@@ -592,7 +594,7 @@ class GreatAssertions(unittest.TestCase):
             raise self.failureException(msg)
 
         try:
-            left.expect_frames_equal(right.df)
+            left.expect_frames_equal(right.df, check_dtype, check_index)
         except AssertionError as e:
             msg = self._formatMessage(
                 msg,
