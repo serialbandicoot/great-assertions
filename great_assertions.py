@@ -158,6 +158,21 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
+    def expect_column_value_to_equal(self, df, column: str, value: object, msg=""):
+        """Expect the provided column and its value to equal."""
+
+        df = _get_dataframe_import_type(df)
+        results = df.filter(column, value)
+
+        if results.row_count > 0:
+            msg = self._formatMessage(
+                msg,
+                f"Column {column} was not equal, found {results.first(column)}",
+            )
+            raise self.failureException(msg)
+
+        return
+
     def expect_column_values_to_be_between(
         self, df, column: str, min_value: float, max_value: float, msg=""
     ):

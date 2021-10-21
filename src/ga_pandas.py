@@ -93,9 +93,11 @@ class GAPandas(GADataFrame):
         :returns: The unique values in a list
         """
 
-        return GAPandas(self.df.drop_duplicates())
+        self.df = self.df.drop_duplicates()
+        return self
 
     def expect_frames_equal(self, right, check_dtype=True, check_index=True):
+        """Compares two DataFrames"""
         from pandas.testing import assert_frame_equal
 
         if check_index is False:
@@ -108,3 +110,9 @@ class GAPandas(GADataFrame):
                 right,
                 check_dtype=check_dtype,
             )
+
+    def filter(self, column: str, value: object):
+        """Filters out if criteria not met"""
+        self.df = self.df[self.df[column] != value]
+
+        return self

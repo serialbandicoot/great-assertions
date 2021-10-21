@@ -97,6 +97,7 @@ class GASpark(GADataFrame):
         return GASpark(self.df.drop_duplicates())
 
     def expect_frames_equal(self, right, check_dtype=True, ignore_index=True):
+        """Compares two DataFrames"""
         if ignore_index is False:
             print("Spark DataFrames do not have native indexes")
 
@@ -108,3 +109,9 @@ class GASpark(GADataFrame):
             raise AssertionError("Data is different")
 
         return True
+
+    def filter(self, column: str, value: object):
+        """Filters out if criteria not met"""
+        self.df = self.df.filter(self.df[column] != value)
+
+        return self
