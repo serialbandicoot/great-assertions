@@ -687,7 +687,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
         left = df.filter(df["col_1"] == 100)
         right = self.spark.createDataFrame([{"col_1": 100}])
 
-        self.expect_frames_equal(left, right)
+        self.expect_frames_equal(left, right, check_index=False)
 
     def test_pyspark_expect_assert_frame_equal_dtype(self):
         left = self.spark.createDataFrame(
