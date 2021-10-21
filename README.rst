@@ -63,6 +63,8 @@ List of available assertions
 +--------------------------------------------------+---------------------+---------------------+
 | expect_table_has_no_duplicate_rows               | :white_check_mark:: | :white_check_mark:: |
 +--------------------------------------------------+---------------------+---------------------+
+| expect_column_value_to_equal                     | :white_check_mark:: | :white_check_mark:: |
++--------------------------------------------------+---------------------+---------------------+
 | expect_column_values_to_be_between               | :white_check_mark:: | :white_check_mark:: |
 +--------------------------------------------------+---------------------+---------------------+
 | expect_column_values_to_match_regex              | :white_check_mark:: | :white_check_mark:: |
