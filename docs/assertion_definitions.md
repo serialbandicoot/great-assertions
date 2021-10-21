@@ -16,6 +16,7 @@
 | [expect_date_range_to_be_between](#expect_date_range_to_be_between) | Expect the columns to be between a start and end date (Not inclusive). |
 | [expect_column_mean_to_be_between](#expect_column_mean_to_be_between) | Expect the column mean to be between a minimum value and a maximum value (inclusive). |
 | [expect_column_value_counts_percent_to_be_between](#expect_column_value_counts_percent_to_be_between) | Expect the value counts for each grouping to be a percentage between (Inclusive). |
+| [expect_frame_equal](#expect_frame_equal) | Expect the value counts for each grouping to be a percentage between (Inclusive). |
 
 ## Assertions Params
 
@@ -152,4 +153,14 @@ The assertion is inclusive of the min and max value
 | df| DataFrame | Pandas/PySpark |
 | column| str | Column name |
 | value_counts  | dict | A dictionary of group names and thie associated min-max percentage values |
+| msg | str | Additional optional message information if exception is raised |
+
+### expect_frame_equal
+
+|  Assertion | Type | Description |
+| ------------- | ------------- | ------------- |
+| left| DataFrame | Pandas/PySpark |
+| right| DataFrame | Pandas/PySpark |
+| check_dtype  | bool | Ignore Schema differences |
+| check_index  | bool | Ignore Indexes |
 | msg | str | Additional optional message information if exception is raised |

@@ -697,9 +697,9 @@ class GreatAssertionPySparkTests(GreatAssertions):
             T.StructType(
                 [
                     T.StructField("col_1", T.IntegerType()),
-                    T.StructField("col_1", T.StringType())
+                    T.StructField("col_1", T.StringType()),
                 ]
-            )
+            ),
         )
         right = self.spark.createDataFrame([{"col_1": 100, "col_2": "a"}])
 

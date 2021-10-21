@@ -582,7 +582,18 @@ class GreatAssertions(unittest.TestCase):
     def expect_frames_equal(
         self, left, right, check_dtype=True, check_index=True, msg=""
     ):
-        """Expect this to compare two dataframes."""
+        """
+        Expect two DataFrames to compare.
+
+        Parameters
+        ----------
+            left (DataFrame)   : Pandas or PySpark DataFrame
+            right (DataFrame)  : Pandas or PySpark DataFrame
+            check_dtype (bool) : Ignore Schema differences
+            check_index (bool) : Ignore index differences
+            msg (str)          : Optional message if the assertion fails
+
+        """
         left = _get_dataframe_import_type(left)
         right = _get_dataframe_import_type(right)
 

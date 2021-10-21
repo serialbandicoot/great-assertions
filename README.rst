@@ -85,6 +85,8 @@ List of available assertions
 +--------------------------------------------------+---------------------+---------------------+
 | expect_column_value_counts_percent_to_be_between | :white_check_mark:: | :white_check_mark:: |
 +--------------------------------------------------+---------------------+---------------------+
+| expect_frame_equal                               | :white_check_mark:: | :white_check_mark:: |
++--------------------------------------------------+---------------------+---------------------+
 
 Assertion Descriptions
 ----------------------
