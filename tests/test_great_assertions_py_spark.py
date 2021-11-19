@@ -205,7 +205,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
         with pytest.raises(AssertionError) as excinfo:
             self.expect_column_values_to_be_in_set(df, "col_1", fruits)
 
-        assert "Column col_1 provided set was not in Apple, Cherry, Tomato : " == str(
+        assert "Column col_1 provided set was not in actaul set of Apple, Cherry, Tomato : " == str(
             excinfo.value
         )
 

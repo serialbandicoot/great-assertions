@@ -66,14 +66,20 @@ class GAPandas(GADataFrame):
 
         return str(self.df[column].values[0])
 
-    def is_in_set(self, column: str, value_set: set):
+    def is_in_set(self, column: str, value_set: set, ignore_case: bool):
         """
         Checks to see if the value_set is in the provided column.
 
         :returns: The dataframe of results
         """
 
-        filtered_dataframe = self.df[~self.df[column].isin(value_set)].eq(False)
+        if ignore_case:
+            value_set_lower = map(lambda x: x.lower(), value_set)
+            filtered_dataframe = self.df[
+                ~self.df[column].str.lower().isin(value_set_lower)
+            ].eq(False)
+        else:
+            filtered_dataframe = self.df[~self.df[column].isin(value_set)].eq(False)
 
         return GAPandas(filtered_dataframe)
 
