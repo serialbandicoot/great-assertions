@@ -193,6 +193,17 @@ class GreatAssertionPySparkTests(GreatAssertions):
 
         self.expect_column_values_to_be_in_set(df, "col_1", fruits)
 
+    def test_pyspark_assert_expect_column_values_to_be_in_set_case(self):
+        df_fruits = [
+            {"col_1": "Apple"},
+            {"col_1": "Orange and Apple"},
+            {"col_1": "Cherry"},
+        ]
+        fruits = set(("apple", "Orange And Apple", "Cherry"))
+        df = self.spark.createDataFrame(df_fruits)
+
+        self.expect_column_values_to_be_in_set(df, "col_1", fruits, ignore_case=True)
+
     def test_pyspark_assert_expect_column_values_to_be_in_set_fail(self):
         df_fruits = [
             {"col_1": "Tomato"},
