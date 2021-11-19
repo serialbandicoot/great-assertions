@@ -71,11 +71,12 @@ class GASpark(GADataFrame):
         :returns: The dataframe of results
         """
         from pyspark.sql.functions import lower, col
-        
 
         if ignore_case:
             value_set_lower = set(map(lambda x: x.lower(), value_set))
-            filtered_dataframe = self.df.filter(~lower(col(column)).isin(value_set_lower))
+            filtered_dataframe = self.df.filter(
+                ~lower(col(column)).isin(value_set_lower)
+            )
         else:
             filtered_dataframe = self.df.filter(~col(column).isin(value_set))
 
