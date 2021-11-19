@@ -1,5 +1,6 @@
 from great_assertions import GreatAssertions
 from pyspark.sql import SparkSession, types as T
+from pyspark.sql.functions import col, regexp_extract
 import pytest
 
 
@@ -661,6 +662,18 @@ class GreatAssertionPySparkTests(GreatAssertions):
 
         self.expect_frames_equal(left, right)
 
+    def test_pyspark_expect_assert_frame_equal_with_null(self):
+        def ps(column: col):
+            return regexp_extract(column, "^([A-Z])+", idx=0)
+
+        df = self.spark.createDataFrame([{"col_1": "123"}])
+        right = df.withColumn("col_2", ps(col("col_1")))
+        left = self.spark.createDataFrame([{"col_1": "123", "col_2": ""}]).select(
+            "col_1", "col_2"
+        )
+
+        self.expect_frames_equal(left, right)
+
     def test_pyspark_expect_assert_frame_equal_fail(self):
         left = self.spark.createDataFrame([{"col_1": 100}])
         right = self.spark.createDataFrame([{"col_2": 100}])
@@ -668,7 +681,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
         with pytest.raises(AssertionError) as excinfo:
             self.expect_frames_equal(left, right)
 
-        assert "DataFrames are different with Schemas are different : " == str(
+        assert "DataFrames are different with Schemas are different Left Schema" in str(
             excinfo.value
         )
 
@@ -678,9 +691,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
         with pytest.raises(AssertionError) as excinfo:
             self.expect_frames_equal(left, right)
 
-        assert "DataFrames are different with Data is different : " == str(
-            excinfo.value
-        )
+        assert "DataFrames are different with Data is different" in str(excinfo.value)
 
     def test_pyspark_expect_assert_frame_equal_index_ignore(self):
         df = self.spark.createDataFrame([{"col_1": 200}, {"col_1": 100}])
