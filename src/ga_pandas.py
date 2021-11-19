@@ -74,7 +74,7 @@ class GAPandas(GADataFrame):
         """
 
         if ignore_case:
-            value_set_lower = map(lambda x: x.lower(), value_set)
+            value_set_lower = set(map(lambda x: x.lower(), value_set))
             filtered_dataframe = self.df[
                 ~self.df[column].str.lower().isin(value_set_lower)
             ].eq(False)
