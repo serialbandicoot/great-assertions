@@ -7,7 +7,7 @@ import pytest
 class GreatAssertionPandasTests(GreatAssertions):
     def test_pandas_incorrect_dataframe_type_raises_type_error(self):
         with pytest.raises(AssertionError) as excinfo:
-            self.expect_table_row_count_to_equal(1, 1)
+            self.expect_column_values_to_be_of_type(1, "col_1", str)
 
         assert "Not a valid pandas/pyspark DataFrame" == str(excinfo.value)
 
