@@ -103,10 +103,14 @@ class GASpark(GADataFrame):
 
         if check_dtype:
             if self.df.schema != right.schema:
-                raise AssertionError("Schemas are different")
+                raise AssertionError(
+                    f"Schemas are different Left Schema {self.df.schema} and Right Schema {right.schema}"
+                )
 
         if self.df.collect() != right.collect():
-            raise AssertionError("Data is different")
+            raise AssertionError(
+                f"Data is different Left Data {self.df.collect()} and Right Data {right.collect()}"
+            )
 
         return True
 
