@@ -271,22 +271,23 @@ class GreatAssertions(unittest.TestCase):
         return
 
     def expect_column_values_to_be_in_set(
-        self, df, column: str, value_set: set, msg=""
+        self, df, column: str, value_set: set, ignore_case=False, msg=""
     ):
         """
         Expect each column value to be in a given set.
 
         Parameters
         ----------
-            df (DataFrame)  : Pandas or PySpark DataFrame
-            column (str)    : The name of the column to be examined
-            value_set (str) : Set of values found in the column
-            msg (str)       : Optional message if the assertion fails
+            df (DataFrame)     : Pandas or PySpark DataFrame
+            column (str)       : The name of the column to be examined
+            value_set (str)    : Set of values found in the column
+            ignore_case (bool) : Compare ignoring case sensitivity default False
+            msg (str)          : Optional message if the assertion fails
         """
 
         df = _get_dataframe_import_type(df)
 
-        results = df.is_in_set(column, value_set)
+        results = df.is_in_set(column, value_set, ignore_case)
         if results.row_count > 0:
             # Sort if possible, otherwise just output
             column_unique_list = []
@@ -298,7 +299,7 @@ class GreatAssertions(unittest.TestCase):
 
             msg = self._formatMessage(
                 msg,
-                f"Column {column} provided set was not in {', '.join(map(str, column_unique_list))}",
+                f"Column {column} provided set was not in actaul set of {', '.join(map(str, column_unique_list))}",
             )
             raise self.failureException(msg)
 

@@ -137,6 +137,15 @@ class GreatAssertionPandasTests(GreatAssertions):
 
         self.expect_column_values_to_be_in_set(df, "col_1", fruits_set)
 
+    def test_pandas_assert_expect_column_values_to_be_in_set_case(self):
+        fruits = ["Apple", "Orange and Apples", "Pear", "Cherry"]
+        fruits_set = set(("apple", "Orange And Apples", "pear", "cherry"))
+        df = pd.DataFrame({"col_1": fruits})
+
+        self.expect_column_values_to_be_in_set(
+            df, "col_1", fruits_set, ignore_case=True
+        )
+
     def test_pandas_assert_expect_column_values_to_be_in_set_fail(self):
         fruits = set(("Apple", "Orange", "Pear", "Cherry"))
         df = pd.DataFrame({"col_1": ["Tomato", "Cherry", "Apple"]})
@@ -144,8 +153,9 @@ class GreatAssertionPandasTests(GreatAssertions):
         with pytest.raises(AssertionError) as excinfo:
             self.expect_column_values_to_be_in_set(df, "col_1", fruits)
 
-        assert "Column col_1 provided set was not in Apple, Cherry, Tomato : " == str(
-            excinfo.value
+        assert (
+            "Column col_1 provided set was not in actaul set of Apple, Cherry, Tomato : "
+            == str(excinfo.value)
         )
 
     def test_pandas_assert_expect_column_values_to_be_in_set_fail_with_type(
@@ -157,8 +167,9 @@ class GreatAssertionPandasTests(GreatAssertions):
         with pytest.raises(AssertionError) as excinfo:
             self.expect_column_values_to_be_in_set(df, "col_1", fruits)
 
-        assert "Column col_1 provided set was not in Tomato, 1.0, Apple : " == str(
-            excinfo.value
+        assert (
+            "Column col_1 provided set was not in actaul set of Tomato, 1.0, Apple : "
+            == str(excinfo.value)
         )
 
     def test_pandas_expect_column_values_to_be_of_type(self):
