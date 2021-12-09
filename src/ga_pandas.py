@@ -103,7 +103,7 @@ class GAPandas(GADataFrame):
         return self
 
     def expect_frames_equal(self, right, check_dtype=True, check_index=True):
-        """Compares two DataFrames"""
+        """Compares two DataFrames."""
         from pandas.testing import assert_frame_equal
 
         if check_index is False:
@@ -118,7 +118,11 @@ class GAPandas(GADataFrame):
             )
 
     def filter(self, column: str, value: object):
-        """Filters out if criteria not met"""
+        """Filters out if criteria not met."""
         self.df = self.df[self.df[column] != value]
 
         return self
+
+    def get_column(self, column):
+        """Returns Dataframe with only column."""
+        return GAPandas(self.df[column])

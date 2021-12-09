@@ -182,6 +182,35 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
+    def expect_column_has_no_duplicate_rows(self, df, columns="*", msg=""):
+        """Expect the column/s to only have unique rows.
+
+        Parameters
+        ----------
+            df (DataFrame)      : Pandas or PySpark DataFrame
+            columns (str/array) : Single, Array, Empty or * for all columns
+            msg (str)           : Optional message if the assertion fails
+        """
+
+        def assert_column(column, msg):
+            """Internal column assertion - uses df scope from outer method."""
+            df_col = _get_dataframe_import_type(df).get_column(column)
+            if df_col.row_count != df_col.drop_duplicates().row_count:
+                msg = self._formatMessage(
+                    msg,
+                    f"Column {column} contains a duplicate value",
+                )
+                raise self.failureException(msg)
+
+        if columns == "*":
+            [assert_column(column, msg) for column in list(df.columns)]
+        elif type(columns) is list:
+            [assert_column(column, msg) for column in columns]
+        elif type(columns) is str:
+            assert_column(columns, msg)
+
+        return
+
     def expect_column_value_to_equal(self, df, column: str, value: object, msg=""):
         """
         Expect the provided column and its value to equal.

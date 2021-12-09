@@ -580,3 +580,47 @@ class GreatAssertionPandasTests(GreatAssertions):
             self.expect_column_value_to_equal(df2, "col_1", "d")
 
         assert "Column col_1 was not equal, found e : " == str(excinfo.value)
+
+    def test_expect_column_has_no_duplicate_rows_all(self):
+        df = pd.DataFrame({"col_1": [1, 2, 3], "col_2": ["a", "b", "c"]})
+        self.expect_column_has_no_duplicate_rows(df)
+
+    def test_expect_column_has_no_duplicate_rows_single(self):
+        df = pd.DataFrame({"col_1": [1, 2, 3], "col_2": ["a", "b", "c"]})
+        self.expect_column_has_no_duplicate_rows(df, "col_1")
+
+    def test_expect_column_has_no_duplicate_rows_list(self):
+        df = pd.DataFrame({"col_1": [1, 2, 3], "col_2": ["a", "b", "c"]})
+        self.expect_column_has_no_duplicate_rows(df, ["col_1", "col_2"])
+
+    def test_expect_column_has_no_duplicate_rows_all_fail(self):
+        df = pd.DataFrame({"col_1": [1, 2, 1, 4]})
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_column_has_no_duplicate_rows(df)
+
+        assert "Column col_1 contains a duplicate value : " == str(excinfo.value)
+
+    def test_expect_column_has_no_duplicate_rows_all_fail_multi_cols(self):
+        df = pd.DataFrame({"col_1": [1, 2, 3], "col_2": ["a", "a", "c"]})
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_column_has_no_duplicate_rows(df)
+
+        assert "Column col_2 contains a duplicate value : " == str(excinfo.value)
+
+    def test_expect_column_has_no_duplicate_rows_single_fail(self):
+        df = pd.DataFrame({"col_1": [1, 2, 3], "col_2": ["a", "c", "c"]})
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_column_has_no_duplicate_rows(df, "col_2")
+
+        assert "Column col_2 contains a duplicate value : " == str(excinfo.value)
+
+    def test_expect_column_has_no_duplicate_rows_single_fail(self):
+        df = pd.DataFrame({"col_1": [1, 2, 3], "col_2": ["a", "c", "c"]})
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_column_has_no_duplicate_rows(df, ["col_2"])
+
+        assert "Column col_2 contains a duplicate value : " == str(excinfo.value)

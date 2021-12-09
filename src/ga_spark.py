@@ -126,3 +126,7 @@ class GASpark(GADataFrame):
         self.df = self.df.filter(self.df[column] != value)
 
         return self
+
+    def get_column(self, column):
+        """Returns Dataframe with only column."""
+        return GASpark(self.df.select(column))
