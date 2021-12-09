@@ -187,9 +187,9 @@ class GreatAssertions(unittest.TestCase):
 
         Parameters
         ----------
-            df (DataFrame)      : Pandas or PySpark DataFrame
-            columns (str/array) : Single, Array, Empty or * for all columns
-            msg (str)           : Optional message if the assertion fails
+            df (DataFrame)     : Pandas or PySpark DataFrame
+            columns (str/list) : Single, Array, Empty or * for all columns
+            msg (str)          : Optional message if the assertion fails
         """
 
         def assert_column(column, msg):
@@ -215,6 +215,12 @@ class GreatAssertions(unittest.TestCase):
             [assert_column(column, msg) for column in columns]
         elif type(columns) is str:
             assert_column(columns, msg)
+        else:
+            msg = self._formatMessage(
+                msg,
+                "Check help for method usage",
+            )
+            raise self.failureException(msg)
 
         return
 

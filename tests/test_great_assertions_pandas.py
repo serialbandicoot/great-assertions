@@ -637,3 +637,11 @@ class GreatAssertionPandasTests(GreatAssertions):
             self.expect_column_has_no_duplicate_rows(df, ["col_2"])
 
         assert "Column col_2 contains a duplicate value : " == str(excinfo.value)
+
+    def test_expect_column_has_no_duplicate_rows_type_unknown(self):
+        df = pd.DataFrame({"col_1": [1]})
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_column_has_no_duplicate_rows(df, 1)
+
+        assert "Check help for method usage : " == str(excinfo.value)
