@@ -752,3 +752,48 @@ class GreatAssertionPySparkTests(GreatAssertions):
             self.expect_column_value_to_equal(df2, "col_1", "zSu")
 
         assert "Column col_1 was not equal, found zSu2 : " == str(excinfo.value)
+
+    def test_pyspark_expect_column_has_no_duplicate_rows_all(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": 1, "col_2": "a"},
+                {"col_1": 2, "col_2": "b"},
+                {"col_1": 3, "col_2": "c"},
+            ]
+        )
+        
+        self.expect_column_has_no_duplicate_rows(df)
+
+    def test_pyspark_expect_column_has_no_duplicate_rows_single(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": 1, "col_2": "a"},
+                {"col_1": 2, "col_2": "b"},
+                {"col_1": 3, "col_2": "c"},
+            ]
+        )
+        self.expect_column_has_no_duplicate_rows(df, "col_1")
+
+    def test_pyspark_expect_column_has_no_duplicate_rows_list(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": 1, "col_2": "a"},
+                {"col_1": 2, "col_2": "b"},
+                {"col_1": 3, "col_2": "c"},
+            ]
+        )
+        self.expect_column_has_no_duplicate_rows(df, ["col_1", "col_2"])
+
+    def test_pyspark_expect_column_has_no_duplicate_rows_all(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": 1, "col_2": "a"},
+                {"col_1": 1, "col_2": "b"},
+                {"col_1": 3, "col_2": "c"},
+            ]
+        )
+        
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_column_has_no_duplicate_rows(df)
+
+        assert "Column col_1 contains a duplicate value : " == str(excinfo.value)
