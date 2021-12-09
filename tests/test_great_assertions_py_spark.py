@@ -761,7 +761,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
                 {"col_1": 3, "col_2": "c"},
             ]
         )
-        
+
         self.expect_column_has_no_duplicate_rows(df)
 
     def test_pyspark_expect_column_has_no_duplicate_rows_single(self):
@@ -784,7 +784,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
         )
         self.expect_column_has_no_duplicate_rows(df, ["col_1", "col_2"])
 
-    def test_pyspark_expect_column_has_no_duplicate_rows_all(self):
+    def test_pyspark_expect_column_has_no_duplicate_rows_all_fail(self):
         df = self.spark.createDataFrame(
             [
                 {"col_1": 1, "col_2": "a"},
@@ -792,7 +792,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
                 {"col_1": 3, "col_2": "c"},
             ]
         )
-        
+
         with pytest.raises(AssertionError) as excinfo:
             self.expect_column_has_no_duplicate_rows(df)
 

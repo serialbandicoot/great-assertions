@@ -194,11 +194,18 @@ class GreatAssertions(unittest.TestCase):
 
         def assert_column(column, msg):
             """Internal column assertion - uses df scope from outer method."""
-            df_col = _get_dataframe_import_type(df).get_column(column)
-            if df_col.row_count != df_col.drop_duplicates().row_count:
+            try:
+                df_col = _get_dataframe_import_type(df).get_column(column)
+                if df_col.row_count != df_col.drop_duplicates().row_count:
+                    msg = self._formatMessage(
+                        msg,
+                        f"Column {column} contains a duplicate value",
+                    )
+                    raise self.failureException(msg)
+            except KeyError:
                 msg = self._formatMessage(
                     msg,
-                    f"Column {column} contains a duplicate value",
+                    f"Column {column} is not valid",
                 )
                 raise self.failureException(msg)
 

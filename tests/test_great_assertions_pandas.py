@@ -617,7 +617,20 @@ class GreatAssertionPandasTests(GreatAssertions):
 
         assert "Column col_2 contains a duplicate value : " == str(excinfo.value)
 
-    def test_expect_column_has_no_duplicate_rows_single_fail(self):
+    def test_expect_column_has_no_duplicate_rows_single_fail_incorrect_col_name(self):
+        df = pd.DataFrame({"col_1": [1]})
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_column_has_no_duplicate_rows(df, "bla")
+
+        assert "Column bla is not valid : " == str(excinfo.value)
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_column_has_no_duplicate_rows(df, ["bla2"])
+
+        assert "Column bla2 is not valid : " == str(excinfo.value)
+
+    def test_expect_column_has_no_duplicate_rows_list_fail(self):
         df = pd.DataFrame({"col_1": [1, 2, 3], "col_2": ["a", "c", "c"]})
 
         with pytest.raises(AssertionError) as excinfo:
