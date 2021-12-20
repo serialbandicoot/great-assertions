@@ -26,13 +26,6 @@ def _run_tests(test_class):
 
 
 class GreatAssertionSaveTests(unittest.TestCase):
-    def setUp(self):
-        import os
-        import shutil
-
-        folder_path = "spark-warehouse"
-        if os.path.exists(folder_path):
-            shutil.rmtree(folder_path)
 
     def test_to_results_table(self):
         _run_tests(SaveTest).save("databricks", spark=spark)
