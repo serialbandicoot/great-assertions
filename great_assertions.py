@@ -8,6 +8,7 @@ The library has also added in further expectations, which may be similar or new.
 """
 
 import unittest
+import json
 from datetime import datetime
 from src.utils import (
     _get_dataframe_import_type,
@@ -146,10 +147,10 @@ class GreatAssertions(unittest.TestCase):
                 msg,
                 f"expected row count is {expected_count} the actual was {actual_row_count}",
             )
-            self.extended = {
+            self.extended = json.dumps({
                 "id": 1,
                 "values": {"exp_count": expected_count, "act_count": actual_row_count},
-            }
+            })
             raise self.failureException(msg)
 
         return
