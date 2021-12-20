@@ -139,3 +139,6 @@ coverage/
 
 # VE
 ve/
+
+# IDE
+/.idea
