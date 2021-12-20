@@ -22,6 +22,7 @@ class GreatAssertionResult(TextTestResult):
     def __init__(self, *args, **kwargs):
         super(GreatAssertionResult, self).__init__(*args, **kwargs)
         self.successes = []
+        self.extended = {}
 
     def addSuccess(self, test):
         super(GreatAssertionResult, self).addSuccess(test)
@@ -49,16 +50,16 @@ class GreatAssertionResult(TextTestResult):
 
         return pd.DataFrame(data, columns=["Type", "Quantity"])
 
-    def _test_info(self, iter, status: str):
+    def __test_info(self, iter, status: str):
         return [iter[0]._testMethodName, str(iter[1]), status]
 
     def to_full_results_table(self):
         import pandas as pd
 
         data = []
-        [data.append(self._test_info(f, "Fail")) for f in self.failures]
-        [data.append(self._test_info(e, "Error")) for e in self.errors]
-        [data.append(self._test_info(s, "Skip")) for s in self.skipped]
+        [data.append(self.__test_info(f, "Fail")) for f in self.failures]
+        [data.append(self.__test_info(e, "Error")) for e in self.errors]
+        [data.append(self.__test_info(s, "Skip")) for s in self.skipped]
         [
             data.append([success._testMethodName, "", "Pass"])
             for success in self.successes
@@ -68,18 +69,55 @@ class GreatAssertionResult(TextTestResult):
 
         return pd.DataFrame(data, columns=col)
 
+    @property
     def _get_grouped_results(self):
         return self.to_results_table().groupby(["Type"]).sum()
 
     def to_pie(self, title="Test Result", colors=["gray", "red", "blue", "green"]):
-        return self._get_grouped_results().plot(
+        return self._get_grouped_results.plot(
             kind="pie", y="Quantity", title=title, colors=colors
         )
 
     def to_barh(self, title="Test Result", color=["gray", "red", "blue", "green"]):
-        return self._get_grouped_results().plot(
+        return self._get_grouped_results.plot(
             kind="barh", y="Quantity", title=title, color=color
         )
+
+    def __test_info_with_extended(self, iter, status: str):
+        return [iter[0]._testMethodName, str(iter[1]), status, iter[0].extended]
+
+    @property
+    def _to_extended_info(self):
+        import pandas as pd
+
+        pd.set_option("display.width", 150)
+
+        data = []
+        [data.append(self.__test_info_with_extended(f, "Fail")) for f in self.failures]
+        [data.append(self.__test_info_with_extended(e, "Error")) for e in self.errors]
+        [data.append(self.__test_info_with_extended(s, "Skip")) for s in self.skipped]
+        [
+            data.append([success._testMethodName, "", "Pass", ""])
+            for success in self.successes
+        ]
+
+        col = ["method", "information", "status", "extended"]
+
+        return pd.DataFrame(data, columns=col)
+
+    def save(self, format, **args):
+        """This method will write the results to a chosen format."""
+
+        extended_info = self._to_extended_info
+
+        if format.lower() == "databricks" or format.lower() == "pyspark":
+            spark = args["spark"]
+            result_table = (
+                args["result_table"] if "result_table" in args else "ga_result"
+            )
+
+            spark_df = spark.createDataFrame(extended_info)
+            spark_df.write.mode("append").saveAsTable(result_table)
 
 
 class GreatAssertions(unittest.TestCase):
@@ -108,6 +146,10 @@ class GreatAssertions(unittest.TestCase):
                 msg,
                 f"expected row count is {expected_count} the actual was {actual_row_count}",
             )
+            self.extended = {
+                "id": 1,
+                "values": {"exp_count": expected_count, "act_count": actual_row_count},
+            }
             raise self.failureException(msg)
 
         return
