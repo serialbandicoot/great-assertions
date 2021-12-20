@@ -14,6 +14,7 @@ from src.utils import (
     _get_dataframe_import_type,
     _default_null_dates,
     _get_dataframe_type,
+    _get_date_time_data,
 )
 from typing import Optional, Union, Set, List
 from unittest.runner import TextTestResult
@@ -84,25 +85,41 @@ class GreatAssertionResult(TextTestResult):
             kind="barh", y="Quantity", title=title, color=color
         )
 
-    def __test_info_with_extended(self, iter, status: str):
-        return [iter[0]._testMethodName, str(iter[1]), status, iter[0].extended]
+    def __test_info_with_extended(self, id, date, iter, status: str):
+        return [
+            id,
+            date,
+            iter[0]._testMethodName,
+            str(iter[1]),
+            status,
+            iter[0].extended,
+        ]
 
     @property
     def _to_extended_info(self):
         import pandas as pd
 
-        pd.set_option("display.width", 150)
+        id, date = _get_date_time_data()
 
         data = []
-        [data.append(self.__test_info_with_extended(f, "Fail")) for f in self.failures]
-        [data.append(self.__test_info_with_extended(e, "Error")) for e in self.errors]
-        [data.append(self.__test_info_with_extended(s, "Skip")) for s in self.skipped]
         [
-            data.append([success._testMethodName, "", "Pass", ""])
+            data.append(self.__test_info_with_extended(id, date, f, "Fail"))
+            for f in self.failures
+        ]
+        [
+            data.append(self.__test_info_with_extended(id, date, e, "Error"))
+            for e in self.errors
+        ]
+        [
+            data.append(self.__test_info_with_extended(id, date, "Skip"))
+            for s in self.skipped
+        ]
+        [
+            data.append([id, date, success._testMethodName, "", "Pass", ""])
             for success in self.successes
         ]
 
-        col = ["method", "information", "status", "extended"]
+        col = ["id", "timestamp", "method", "information", "status", "extended"]
 
         return pd.DataFrame(data, columns=col)
 
@@ -147,10 +164,15 @@ class GreatAssertions(unittest.TestCase):
                 msg,
                 f"expected row count is {expected_count} the actual was {actual_row_count}",
             )
-            self.extended = json.dumps({
-                "id": 1,
-                "values": {"exp_count": expected_count, "act_count": actual_row_count},
-            })
+            self.extended = json.dumps(
+                {
+                    "id": 1,
+                    "values": {
+                        "exp_count": expected_count,
+                        "act_count": actual_row_count,
+                    },
+                }
+            )
             raise self.failureException(msg)
 
         return
