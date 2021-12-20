@@ -27,7 +27,7 @@ def _run_tests(test_class):
 
 class GreatAssertionSaveTests(unittest.TestCase):
 
-    @unittest.skipIf(sys.platform, 'win32')
     def test_to_results_table(self):
-        _run_tests(SaveTest).save("databricks", spark=spark)
-        self.assertEqual(spark.table("ga_result").count(), 1)
+        if not sys.platform.startswith('win32'):
+            _run_tests(SaveTest).save("databricks", spark=spark)
+            self.assertEqual(spark.table("ga_result").count(), 1)        
