@@ -1,5 +1,5 @@
 import unittest
-
+import sys
 from great_assertions import GreatAssertionResult, GreatAssertions
 from pyspark.sql import SparkSession
 
@@ -27,6 +27,7 @@ def _run_tests(test_class):
 
 class GreatAssertionSaveTests(unittest.TestCase):
 
+    unittest.skipIf(sys.platform, 'win32')
     def test_to_results_table(self):
         _run_tests(SaveTest).save("databricks", spark=spark)
         self.assertEqual(spark.table("ga_result").count(), 1)
