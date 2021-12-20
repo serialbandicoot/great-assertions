@@ -28,3 +28,13 @@ def _default_null_dates(dt, date_format):
         return datetime.strptime("1900-01-01", "%Y-%m-%d")
     else:
         return datetime.strptime(dt, date_format)
+
+
+def _get_date_time_data():
+    from datetime import datetime as dt
+
+    now = dt.now()
+    time_stamp = int(now.strftime("%Y%m%d%H%M%S"))
+    date_time = now.strftime("%Y-%m-%d %H:%M:%S")
+
+    return time_stamp, date_time
