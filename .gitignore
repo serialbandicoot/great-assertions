@@ -142,3 +142,6 @@ ve/
 
 # IDE
 /.idea
+
+#Spark
+/spark-warehouse
