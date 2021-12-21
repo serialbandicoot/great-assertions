@@ -29,9 +29,13 @@ class SaveTest(GreatAssertions):
     def test_fail3(self):
         self.assertFalse(True)
 
-    def test_pass(self):
+    def test_pass1(self):
         df = spark.createDataFrame([{"col_1": 100}])
         self.expect_table_row_count_to_equal(df, 1)
+
+    def test_pass2(self):
+        df = spark.createDataFrame([{"col_1": ""}])
+        self.expect_date_range_to_be_more_than(df, "col_1", "1899-12-31")
 
     # Removing as code coverage fails!
     # Add back in once todo completed
