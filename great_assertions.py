@@ -9,6 +9,7 @@ The library has also added in further expectations, which may be similar or new.
 
 import unittest
 import json
+import sys
 from datetime import datetime
 from src.utils import (
     _get_dataframe_import_type,
@@ -86,13 +87,26 @@ class GreatAssertionResult(TextTestResult):
         )
 
     def __test_info_with_extended(self, id, date, iter, status: str):
+
+        if status == "Pass":
+            test_method = iter._testMethodName
+            information = ""
+            test_id = iter.extended["id"]
+            extended = iter.extended
+        else:
+            test_method = iter[0]._testMethodName
+            information = str(iter[1])
+            test_id = iter[0].extended["id"] if hasattr(iter[0], "extended") else -1
+            extended = iter[0].extended if hasattr(iter[0], "extended") else {}
+
         return [
             id,
             date,
-            iter[0]._testMethodName,
-            str(iter[1]),
+            test_method,
+            information,
+            test_id,
             status,
-            iter[0].extended,
+            json.dumps(extended),
         ]
 
     @property
@@ -111,15 +125,23 @@ class GreatAssertionResult(TextTestResult):
             for e in self.errors
         ]
         [
-            data.append(self.__test_info_with_extended(id, date, "Skip"))
-            for s in self.skipped
+            data.append(self.__test_info_with_extended(id, date, sk, "Skip"))
+            for sk in self.skipped
         ]
         [
-            data.append([id, date, success._testMethodName, "", "Pass", ""])
-            for success in self.successes
+            data.append(self.__test_info_with_extended(id, date, su, "Pass"))
+            for su in self.successes
         ]
 
-        col = ["id", "timestamp", "method", "information", "status", "extended"]
+        col = [
+            "run_id",
+            "timestamp",
+            "method",
+            "information",
+            "test_id",
+            "status",
+            "extended",
+        ]
 
         return pd.DataFrame(data, columns=col)
 
@@ -159,20 +181,21 @@ class GreatAssertions(unittest.TestCase):
         df = _get_dataframe_import_type(df)
         actual_row_count = df.row_count
 
+        self.extended = {
+            "id": 1,
+            "name": sys._getframe().f_code.co_name,
+            "values": {
+                "exp_count": expected_count,
+                "act_count": actual_row_count,
+            },
+        }
+
         if expected_count != actual_row_count:
             msg = self._formatMessage(
                 msg,
                 f"expected row count is {expected_count} the actual was {actual_row_count}",
             )
-            self.extended = json.dumps(
-                {
-                    "id": 1,
-                    "values": {
-                        "exp_count": expected_count,
-                        "act_count": actual_row_count,
-                    },
-                }
-            )
+
             raise self.failureException(msg)
 
         return
@@ -191,6 +214,15 @@ class GreatAssertions(unittest.TestCase):
 
         df = _get_dataframe_import_type(df)
         actual_row_count = df.row_count
+
+        self.extended = {
+            "id": 2,
+            "name": sys._getframe().f_code.co_name,
+            "values": {
+                "exp_max_count": expected_max_count,
+                "act_count": actual_row_count,
+            },
+        }
 
         if actual_row_count >= expected_max_count:
             msg = self._formatMessage(
@@ -216,6 +248,15 @@ class GreatAssertions(unittest.TestCase):
         df = _get_dataframe_import_type(df)
         actual_row_count = df.row_count
 
+        self.extended = {
+            "id": 3,
+            "name": sys._getframe().f_code.co_name,
+            "values": {
+                "exp_min_count": expected_min_count,
+                "act_count": actual_row_count,
+            },
+        }
+
         if actual_row_count <= expected_min_count:
             msg = self._formatMessage(
                 msg,
@@ -238,6 +279,11 @@ class GreatAssertions(unittest.TestCase):
         actual_row_count = df.row_count
         unique_rows = df.drop_duplicates().row_count
 
+        self.extended = {
+            "id": 4,
+            "name": sys._getframe().f_code.co_name,
+        }
+
         if actual_row_count != unique_rows:
             msg = self._formatMessage(
                 msg,
@@ -257,6 +303,12 @@ class GreatAssertions(unittest.TestCase):
             msg (str)          : Optional message if the assertion fails
         """
 
+        self.extended = {
+            "id": 5,
+            "name": sys._getframe().f_code.co_name,
+            "value": columns,
+        }
+
         def assert_column(column, msg):
             """Internal column assertion - uses df scope from outer method."""
             try:
@@ -266,6 +318,7 @@ class GreatAssertions(unittest.TestCase):
                         msg,
                         f"Column {column} contains a duplicate value",
                     )
+                    self.extended["value"] = column
                     raise self.failureException(msg)
             except KeyError:
                 msg = self._formatMessage(
@@ -304,11 +357,23 @@ class GreatAssertions(unittest.TestCase):
         df = _get_dataframe_import_type(df)
         results = df.filter(column, value)
 
+        self.extended = {
+            "id": 6,
+            "name": sys._getframe().f_code.co_name,
+            "values": {
+                "column": column,
+                "expected_value": value,
+                "actual_value": results.row_count,
+            },
+        }
+
         if results.row_count > 0:
+            first_found = results.first(column)
             msg = self._formatMessage(
                 msg,
-                f"Column {column} was not equal, found {results.first(column)}",
+                f"Column {column} was not equal, found {first_found}",
             )
+            self.extended["values"]["first_found"] = first_found
             raise self.failureException(msg)
 
         return
@@ -337,12 +402,23 @@ class GreatAssertions(unittest.TestCase):
 
         df = _get_dataframe_import_type(df)
 
+        self.extended = {
+            "id": 7,
+            "name": sys._getframe().f_code.co_name,
+            "values": {
+                "column": column,
+                "exp_min_value": min_value,
+                "exp_max_value": max_value,
+            },
+        }
+
         column_min = df.column_min(column)
         if float(column_min) < float(min_value):
             msg = self._formatMessage(
                 msg,
                 f"Min value provided ({min_value}) must be less than column {column} value of {column_min}",
             )
+            self.extended["values"]["act_min_value"] = float(column_min)
             raise self.failureException(msg)
 
         column_max = df.column_max(column)
@@ -351,6 +427,7 @@ class GreatAssertions(unittest.TestCase):
                 msg,
                 f"Max value provided ({max_value}) must be greater than column {column} value of {column_max}",
             )
+            self.extended["values"]["act_max_value"] = float(column_max)
             raise self.failureException(msg)
 
         return
@@ -367,12 +444,23 @@ class GreatAssertions(unittest.TestCase):
 
         df = _get_dataframe_import_type(df)
 
+        self.extended = {
+            "id": 8,
+            "name": sys._getframe().f_code.co_name,
+            "values": {
+                "column": column,
+                "regular_expression": regex,
+            },
+        }
+
         results = df.check_regex(column, regex)
         if results.row_count > 0:
+            first_found = results.first(column)
             msg = self._formatMessage(
                 msg,
-                f"Column {column} did not match regular expression, found {results.first(column)}",
+                f"Column {column} did not match regular expression, found {first_found}",
             )
+            self.extended["values"]["first_found"] = first_found
             raise self.failureException(msg)
 
         return
@@ -393,6 +481,11 @@ class GreatAssertions(unittest.TestCase):
         """
 
         df = _get_dataframe_import_type(df)
+
+        self.extended = {
+            "id": 9,
+            "name": sys._getframe().f_code.co_name,
+        }
 
         results = df.is_in_set(column, value_set, ignore_case)
         if results.row_count > 0:
@@ -419,28 +512,41 @@ class GreatAssertions(unittest.TestCase):
 
         df = _get_dataframe_type(df)
 
+        self.extended = {
+            "id": 10,
+            "name": sys._getframe().f_code.co_name,
+            "values": {
+                "column": column,
+                "expected_type": str(type_),
+            },
+        }
+
         df_type = df[column].dtypes
         fstr = f"Column {column} was not type {type_}"
         if type_ is str:
             # Consider object a string
             if df_type.num != 17:
                 msg = self._formatMessage(msg, fstr)
+                self.extended["values"]["actual_type"] = "str"
                 raise self.failureException(msg)
 
         if type_ is int:
             if df_type.num not in [7, 9]:
                 msg = self._formatMessage(msg, fstr)
+                self.extended["values"]["actual_type"] = "int"
                 raise self.failureException(msg)
 
         if type_ is float:
             if df_type.num != 12:
                 msg = self._formatMessage(msg, fstr)
+                self.extended["values"]["actual_type"] = "float"
                 raise self.failureException(msg)
 
         if type_ not in [str, int, float]:
             msg = self._formatMessage(
                 msg, "Please check available types; str, float, int"
             )
+            self.extended["values"]["actual_type"] = "unknown"
             raise self.failureException(msg)
 
         return
@@ -460,6 +566,11 @@ class GreatAssertions(unittest.TestCase):
         """
 
         df = _get_dataframe_import_type(df)
+
+        self.extended = {
+            "id": 11,
+            "name": sys._getframe().f_code.co_name,
+        }
 
         if list(df.columns) != column_list:
             msg = self._formatMessage(
@@ -483,6 +594,11 @@ class GreatAssertions(unittest.TestCase):
             msg (str)      : Optional message if the assertion fails
         """
         df = _get_dataframe_import_type(df)
+
+        self.extended = {
+            "id": 12,
+            "name": sys._getframe().f_code.co_name,
+        }
 
         column_set = set(column_set) if column_set is not None else set()
         if set(df.columns) != column_set:
@@ -512,6 +628,13 @@ class GreatAssertions(unittest.TestCase):
         """
 
         df = _get_dataframe_type(df)
+
+        self.extended = {
+            "id": 13,
+            "name": sys._getframe().f_code.co_name,
+            "values": {"expected_max_date": date},
+        }
+
         df[column] = df[column].apply(lambda dt: _default_null_dates(dt, date_format))
 
         results = df[df[column] >= datetime.strptime(date, date_format)]
@@ -522,6 +645,7 @@ class GreatAssertions(unittest.TestCase):
                 msg,
                 f"Column {column} date is greater or equal than {date} found {dt}",
             )
+            self.extended["values"]["actual_max_date"] = dt
             raise self.failureException(msg)
 
         return
@@ -546,6 +670,13 @@ class GreatAssertions(unittest.TestCase):
         """
 
         df = _get_dataframe_type(df)
+
+        self.extended = {
+            "id": 14,
+            "name": sys._getframe().f_code.co_name,
+            "values": {"expected_min_date": date},
+        }
+
         df[column] = df[column].apply(lambda dt: _default_null_dates(dt, date_format))
 
         results = df[df[column] <= datetime.strptime(date, date_format)]
@@ -556,6 +687,7 @@ class GreatAssertions(unittest.TestCase):
                 msg,
                 f"Column {column} is less or equal than {date} found {dt}",
             )
+            self.extended["values"]["actual_min_date"] = dt
             raise self.failureException(msg)
 
         return
@@ -587,6 +719,16 @@ class GreatAssertions(unittest.TestCase):
         """
 
         df = _get_dataframe_type(df)
+
+        self.extended = {
+            "id": 15,
+            "name": sys._getframe().f_code.co_name,
+            "values": {
+                "expected_min_date": date_start,
+                "expected_max_date": date_end,
+            },
+        }
+
         df[column] = df[column].apply(lambda dt: _default_null_dates(dt, date_format))
 
         start_date = datetime.strptime(date_start, date_format)
@@ -608,6 +750,7 @@ class GreatAssertions(unittest.TestCase):
                 msg,
                 f"Column {column} is not between {date_start} and {date_end} found {dt}",
             )
+            self.extended["values"]["first_found"] = dt
             raise self.failureException(msg)
 
         return
@@ -629,6 +772,16 @@ class GreatAssertions(unittest.TestCase):
 
         df = _get_dataframe_import_type(df)
 
+        self.extended = {
+            "id": 16,
+            "name": sys._getframe().f_code.co_name,
+            "values": {
+                "column": column,
+                "expected_min_value": min_value,
+                "expected_max_value": max_value,
+            },
+        }
+
         if min_value > max_value:
             msg = self._formatMessage(
                 msg,
@@ -642,6 +795,7 @@ class GreatAssertions(unittest.TestCase):
                 msg,
                 f"Column {column} mean {format(mean_value, '.5f')} is less than min_value {min_value}",
             )
+            self.extended["values"]["actual_mean"] = mean_value
             raise self.failureException(msg)
 
         if max_value < mean_value:
@@ -649,6 +803,7 @@ class GreatAssertions(unittest.TestCase):
                 msg,
                 f"Column {column} mean {format(mean_value, '.5f')} is greater than max_value {max_value}",
             )
+            self.extended["values"]["actual_mean"] = mean_value
             raise self.failureException(msg)
 
         return
@@ -691,6 +846,16 @@ class GreatAssertions(unittest.TestCase):
         """
 
         df = _get_dataframe_type(df)
+
+        self.extended = {
+            "id": 17,
+            "name": sys._getframe().f_code.co_name,
+            "values": {
+                "column": column,
+                "value_count": value_counts,
+            },
+        }
+
         result = df[column].value_counts()
 
         for key in value_counts:
@@ -723,6 +888,8 @@ class GreatAssertions(unittest.TestCase):
                     f"Column {column} the actual value count of ({key}) is {format(key_percent, '.5f')}% "
                     f"is less than the min allowed of {value_counts[key]['min']}%",
                 )
+                self.extended["values"]["column_min"] = format(key_percent, ".5f")
+                self.extended["values"]["value_count_min"] = value_counts[key]["min"]
                 raise self.failureException(msg)
 
             if column_max < key_percent:
@@ -731,6 +898,8 @@ class GreatAssertions(unittest.TestCase):
                     f"Column {column} the actual value count of ({key}) is {format(key_percent, '.5f')}% "
                     f"is more than the max allowed of {value_counts[key]['max']}%",
                 )
+                self.extended["values"]["column_max"] = format(key_percent, ".5f")
+                self.extended["values"]["value_count_max"] = value_counts[key]["max"]
                 raise self.failureException(msg)
 
         return
@@ -752,6 +921,11 @@ class GreatAssertions(unittest.TestCase):
         """
         left = _get_dataframe_import_type(left)
         right = _get_dataframe_import_type(right)
+
+        self.extended = {
+            "id": 18,
+            "name": sys._getframe().f_code.co_name,
+        }
 
         if type(left) != type(right):
             msg = self._formatMessage(
