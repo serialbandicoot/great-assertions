@@ -60,8 +60,8 @@ class GreatAssertionSaveTests(unittest.TestCase):
         if not sys.platform.startswith("win32"):
             _run_tests(SaveTest).save("databricks", spark=spark)
             df = spark.table("ga_result")
-            self.assertEqual(df.count(), 5)
+            self.assertEqual(df.count(), 6)
             self.assertEqual(df.filter(df.status == "Fail").count(), 3)
-            self.assertEqual(df.filter(df.status == "Pass").count(), 1)
+            self.assertEqual(df.filter(df.status == "Pass").count(), 2)
             # self.assertEqual(df.filter(df.status == "Skip").count(), 1)
             self.assertEqual(df.filter(df.status == "Error").count(), 1)
