@@ -16,8 +16,7 @@ class SaveTest(GreatAssertions):
         import shutil
 
         dirpath = os.path.join("spark-warehouse")
-        if os.path.exists(dirpath) and os.path.isdir(dirpath):
-            shutil.rmtree(dirpath)
+        shutil.rmtree(dirpath, ignore_errors=True)
 
     def test_fail1(self):
         df = spark.createDataFrame([{"col_1": 100}])
