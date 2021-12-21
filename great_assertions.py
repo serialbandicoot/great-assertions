@@ -645,7 +645,7 @@ class GreatAssertions(unittest.TestCase):
                 msg,
                 f"Column {column} date is greater or equal than {date} found {dt}",
             )
-            self.extended["values"]["actual_max_date"] = dt
+            self.extended["values"]["actual_max_date"] = str(dt)
             raise self.failureException(msg)
 
         return
@@ -687,7 +687,7 @@ class GreatAssertions(unittest.TestCase):
                 msg,
                 f"Column {column} is less or equal than {date} found {dt}",
             )
-            self.extended["values"]["actual_min_date"] = dt
+            self.extended["values"]["actual_min_date"] = str(dt)
             raise self.failureException(msg)
 
         return
@@ -750,7 +750,7 @@ class GreatAssertions(unittest.TestCase):
                 msg,
                 f"Column {column} is not between {date_start} and {date_end} found {dt}",
             )
-            self.extended["values"]["first_found"] = dt
+            self.extended["values"]["first_found"] = str(dt)
             raise self.failureException(msg)
 
         return
