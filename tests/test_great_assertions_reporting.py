@@ -57,6 +57,9 @@ def _run_tests(test_class):
 class GreatAssertionSaveTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        if sys.platform.startswith("win"):
+            pytest.skip("Skipping test for windows", allow_module_level=True)
+
         _run_tests(SaveTest).save("databricks", spark=spark)
         cls.df = spark.table("ga_result")
 
@@ -168,7 +171,7 @@ class GreatAssertionSaveTests(unittest.TestCase):
     def test_information(self):
         if sys.platform.startswith("win"):
             pytest.skip("Skipping test for windows", allow_module_level=True)
-        
+
         df = self.df.filter(self.df.information.contains("Traceback"))
         self.assertEqual(df.count(), 4)
 
