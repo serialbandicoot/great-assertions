@@ -64,9 +64,6 @@ class GreatAssertionSaveTests(unittest.TestCase):
         cls.df = spark.table("ga_result")
 
     def test_status(self):
-        if sys.platform.startswith("win"):
-            pytest.skip("Skipping test for windows", allow_module_level=True)
-
         self.assertEqual(self.df.count(), 7)
         self.assertEqual(self.df.filter(self.df.status == "Fail").count(), 3)
         self.assertEqual(self.df.filter(self.df.status == "Pass").count(), 2)
@@ -74,9 +71,6 @@ class GreatAssertionSaveTests(unittest.TestCase):
         self.assertEqual(self.df.filter(self.df.status == "Error").count(), 1)
 
     def test_extended_fail(self):
-        if sys.platform.startswith("win"):
-            pytest.skip("Skipping test for windows", allow_module_level=True)
-
         df = self.df.filter((self.df.status == "Fail") & (self.df.test_id == 7))
 
         col = ["test_id", "status", "extended"]
@@ -93,9 +87,6 @@ class GreatAssertionSaveTests(unittest.TestCase):
         assert_frame_equal(expected, actual[col])
 
     def test_extended_pass(self):
-        if sys.platform.startswith("win"):
-            pytest.skip("Skipping test for windows", allow_module_level=True)
-
         df = self.df.filter((self.df.status == "Pass")).sort(self.df.test_id.desc())
 
         col = ["test_id", "status", "extended"]
@@ -117,9 +108,6 @@ class GreatAssertionSaveTests(unittest.TestCase):
         assert_frame_equal(expected, actual[col])
 
     def test_extended_skip(self):
-        if sys.platform.startswith("win"):
-            pytest.skip("Skipping test for windows", allow_module_level=True)
-
         df = self.df.filter((self.df.status == "Skip"))
 
         col = ["test_id", "status", "extended"]
@@ -136,9 +124,6 @@ class GreatAssertionSaveTests(unittest.TestCase):
         assert_frame_equal(expected, actual[col])
 
     def test_extended_error(self):
-        if sys.platform.startswith("win"):
-            pytest.skip("Skipping test for windows", allow_module_level=True)
-
         df = self.df.filter((self.df.status == "Error"))
 
         col = ["test_id", "status", "extended"]
@@ -155,29 +140,17 @@ class GreatAssertionSaveTests(unittest.TestCase):
         assert_frame_equal(expected, actual[col])
 
     def test_run_id(self):
-        if sys.platform.startswith("win"):
-            pytest.skip("Skipping test for windows", allow_module_level=True)
-
         cnt = self.df.groupBy("run_id").count().select("count").collect()[0][0]
         self.assertEqual(cnt, 7)
 
     def test_created_at(self):
-        if sys.platform.startswith("win"):
-            pytest.skip("Skipping test for windows", allow_module_level=True)
-
         cnt = self.df.groupBy("created_at").count().select("count").collect()[0][0]
         self.assertEqual(cnt, 7)
 
     def test_information(self):
-        if sys.platform.startswith("win"):
-            pytest.skip("Skipping test for windows", allow_module_level=True)
-
         df = self.df.filter(self.df.information.contains("Traceback"))
         self.assertEqual(df.count(), 4)
 
     def test_method(self):
-        if sys.platform.startswith("win"):
-            pytest.skip("Skipping test for windows", allow_module_level=True)
-
         df = self.df.filter(self.df.method.contains("test_fail"))
         self.assertEqual(df.count(), 3)
