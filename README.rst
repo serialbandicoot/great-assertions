@@ -210,9 +210,9 @@ The extended table of results contains the following:
 +--------------+-------------------+----------+-----------------------------------+-------+------+-----------------------------------+
 |        run_id|          timestamp|    method|                        information|test_id|status|                           extended|
 +--------------+-------------------+----------+-----------------------------------+-------+------+-----------------------------------+
-|20211222093029|2021-12-22 09:30:29|test_fail8|Traceback (most recent call last...|     13|  Fail|{"id": 13, "name": "expect_date_...|
+|20211222093029|2021-12-22 09:30:29|test_fail8|Traceback (most recent call last...|     13|  Fail|{"id": 13, "name": "expect_date_range_to_be_less_than", "values": {"expected_max_date": "2019-05-13", "actual_max_date": "2019-05-13"}}|
 +--------------+-------------------+----------+-----------------------------------+-------+------+-----------------------------------+
-|20211222093029|2021-12-22 09:30:29|test_fail9|Traceback (most recent call last...|     14|  Fail|{"id": 14, "name": "expect_date_...|
+|20211222093029|2021-12-22 09:30:29|test_fail9|Traceback (most recent call last...|     14|  Fail|{"id": 14, "name": "expect_date_range_to_be_more_than", "values": {"expected_min_date": "2015-10-01", "actual_min_date": "2015-10-01"}}|
 +--------------+-------------------+----------+-----------------------------------+-------+------+-----------------------------------+
 
 From the extended column you can get further details about the type test, which was executed and the results. 
