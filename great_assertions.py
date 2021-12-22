@@ -135,7 +135,7 @@ class GreatAssertionResult(TextTestResult):
 
         col = [
             "run_id",
-            "timestamp",
+            "created_at",
             "method",
             "information",
             "test_id",
