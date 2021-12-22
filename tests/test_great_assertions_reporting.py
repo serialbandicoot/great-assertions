@@ -4,6 +4,7 @@ from great_assertions import GreatAssertionResult, GreatAssertions
 from pyspark.sql import SparkSession
 from pandas.testing import assert_frame_equal
 import pandas as pd
+import pytest
 
 spark = SparkSession.builder.getOrCreate()
 
@@ -60,102 +61,120 @@ class GreatAssertionSaveTests(unittest.TestCase):
         cls.df = spark.table("ga_result")
 
     def test_status(self):
-        if not sys.platform.startswith("win32"):
-            self.assertEqual(self.df.count(), 7)
-            self.assertEqual(self.df.filter(self.df.status == "Fail").count(), 3)
-            self.assertEqual(self.df.filter(self.df.status == "Pass").count(), 2)
-            self.assertEqual(self.df.filter(self.df.status == "Skip").count(), 1)
-            self.assertEqual(self.df.filter(self.df.status == "Error").count(), 1)
+        if sys.platform.startswith("win"):
+            pytest.skip("Skipping test for windows", allow_module_level=True)
+
+        self.assertEqual(self.df.count(), 7)
+        self.assertEqual(self.df.filter(self.df.status == "Fail").count(), 3)
+        self.assertEqual(self.df.filter(self.df.status == "Pass").count(), 2)
+        self.assertEqual(self.df.filter(self.df.status == "Skip").count(), 1)
+        self.assertEqual(self.df.filter(self.df.status == "Error").count(), 1)
 
     def test_extended_fail(self):
-        if not sys.platform.startswith("win32"):
-            df = self.df.filter((self.df.status == "Fail") & (self.df.test_id == 7))
+        if sys.platform.startswith("win"):
+            pytest.skip("Skipping test for windows", allow_module_level=True)
 
-            col = ["test_id", "status", "extended"]
-            data = [
-                [
-                    7,
-                    "Fail",
-                    '{"id": 7, "name": "expect_column_values_to_be_between", "values": {"column": "col_1", "exp_min_value": 101, "exp_max_value": 301, "act_min_value": 100.0}}',
-                ]
+        df = self.df.filter((self.df.status == "Fail") & (self.df.test_id == 7))
+
+        col = ["test_id", "status", "extended"]
+        data = [
+            [
+                7,
+                "Fail",
+                '{"id": 7, "name": "expect_column_values_to_be_between", "values": {"column": "col_1", "exp_min_value": 101, "exp_max_value": 301, "act_min_value": 100.0}}',
             ]
-            expected = pd.DataFrame(data, columns=col)
-            actual = df.toPandas()
+        ]
+        expected = pd.DataFrame(data, columns=col)
+        actual = df.toPandas()
 
-            assert_frame_equal(expected, actual[col])
+        assert_frame_equal(expected, actual[col])
 
     def test_extended_pass(self):
-        if not sys.platform.startswith("win32"):
-            df = self.df.filter((self.df.status == "Pass")).sort(self.df.test_id.desc())
+        if sys.platform.startswith("win"):
+            pytest.skip("Skipping test for windows", allow_module_level=True)
 
-            col = ["test_id", "status", "extended"]
-            data = [
-                [
-                    14,
-                    "Pass",
-                    '{"id": 14, "name": "expect_date_range_to_be_more_than", "values": {"expected_min_date": "1899-12-31"}}',
-                ],
-                [
-                    1,
-                    "Pass",
-                    '{"id": 1, "name": "expect_table_row_count_to_equal", "values": {"exp_count": 1, "act_count": 1}}',
-                ],
-            ]
-            expected = pd.DataFrame(data, columns=col)
-            actual = df.toPandas()
+        df = self.df.filter((self.df.status == "Pass")).sort(self.df.test_id.desc())
 
-            assert_frame_equal(expected, actual[col])
+        col = ["test_id", "status", "extended"]
+        data = [
+            [
+                14,
+                "Pass",
+                '{"id": 14, "name": "expect_date_range_to_be_more_than", "values": {"expected_min_date": "1899-12-31"}}',
+            ],
+            [
+                1,
+                "Pass",
+                '{"id": 1, "name": "expect_table_row_count_to_equal", "values": {"exp_count": 1, "act_count": 1}}',
+            ],
+        ]
+        expected = pd.DataFrame(data, columns=col)
+        actual = df.toPandas()
+
+        assert_frame_equal(expected, actual[col])
 
     def test_extended_skip(self):
-        if not sys.platform.startswith("win32"):
-            df = self.df.filter((self.df.status == "Skip"))
+        if sys.platform.startswith("win"):
+            pytest.skip("Skipping test for windows", allow_module_level=True)
 
-            col = ["test_id", "status", "extended"]
-            data = [
-                [
-                    -1,
-                    "Skip",
-                    "{}",
-                ]
+        df = self.df.filter((self.df.status == "Skip"))
+
+        col = ["test_id", "status", "extended"]
+        data = [
+            [
+                -1,
+                "Skip",
+                "{}",
             ]
-            expected = pd.DataFrame(data, columns=col)
-            actual = df.toPandas()
+        ]
+        expected = pd.DataFrame(data, columns=col)
+        actual = df.toPandas()
 
-            assert_frame_equal(expected, actual[col])
+        assert_frame_equal(expected, actual[col])
 
     def test_extended_error(self):
-        if not sys.platform.startswith("win32"):
-            df = self.df.filter((self.df.status == "Error"))
+        if sys.platform.startswith("win"):
+            pytest.skip("Skipping test for windows", allow_module_level=True)
 
-            col = ["test_id", "status", "extended"]
-            data = [
-                [
-                    -1,
-                    "Error",
-                    "{}",
-                ]
+        df = self.df.filter((self.df.status == "Error"))
+
+        col = ["test_id", "status", "extended"]
+        data = [
+            [
+                -1,
+                "Error",
+                "{}",
             ]
-            expected = pd.DataFrame(data, columns=col)
-            actual = df.toPandas()
+        ]
+        expected = pd.DataFrame(data, columns=col)
+        actual = df.toPandas()
 
-            assert_frame_equal(expected, actual[col])
+        assert_frame_equal(expected, actual[col])
 
     def test_run_id(self):
-        if not sys.platform.startswith("win32"):
-            cnt = self.df.groupBy("run_id").count().select("count").collect()[0][0]
-            self.assertEqual(cnt, 7)
+        if sys.platform.startswith("win"):
+            pytest.skip("Skipping test for windows", allow_module_level=True)
+
+        cnt = self.df.groupBy("run_id").count().select("count").collect()[0][0]
+        self.assertEqual(cnt, 7)
 
     def test_created_at(self):
-        if not sys.platform.startswith("win32"):
-            cnt = self.df.groupBy("created_at").count().select("count").collect()[0][0]
-            self.assertEqual(cnt, 7)
+        if sys.platform.startswith("win"):
+            pytest.skip("Skipping test for windows", allow_module_level=True)
+
+        cnt = self.df.groupBy("created_at").count().select("count").collect()[0][0]
+        self.assertEqual(cnt, 7)
 
     def test_information(self):
-        if not sys.platform.startswith("win32"):
-            df = self.df.filter(self.df.information.contains("Traceback"))
-            self.assertEqual(df.count(), 4)
+        if sys.platform.startswith("win"):
+            pytest.skip("Skipping test for windows", allow_module_level=True)
+        
+        df = self.df.filter(self.df.information.contains("Traceback"))
+        self.assertEqual(df.count(), 4)
 
     def test_method(self):
-        if not sys.platform.startswith("win32"):
-            df = self.df.filter(self.df.method.contains("test_fail"))
-            self.assertEqual(df.count(), 3)
+        if sys.platform.startswith("win"):
+            pytest.skip("Skipping test for windows", allow_module_level=True)
+
+        df = self.df.filter(self.df.method.contains("test_fail"))
+        self.assertEqual(df.count(), 3)
