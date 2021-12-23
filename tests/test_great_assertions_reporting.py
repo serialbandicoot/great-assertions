@@ -99,7 +99,7 @@ class GreatAssertionSaveTests(unittest.TestCase):
             [
                 1,
                 "Pass",
-                '{"id": 1, "name": "expect_table_row_count_to_equal", "values": {"exp_count": 1, "act_count": 1}}',
+                '{"id": 1, "name": "expect_table_row_count_to_equal", "values": {"exp_count": 1, "act_count": 1, "tolerance": 0}}',
             ],
         ]
         expected = pd.DataFrame(data, columns=col)
