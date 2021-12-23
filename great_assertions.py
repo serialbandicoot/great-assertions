@@ -168,13 +168,16 @@ class GreatAssertions(unittest.TestCase):
 
     """
 
-    def expect_table_row_count_to_equal(self, df, expected_count: int, msg=""):
+    def expect_table_row_count_to_equal(
+        self, df, expected_count: int, tolerance=0, msg=""
+    ):
         """Expect the number of rows to equal the count.
 
         Parameters
         ----------
             df (DataFrame)       : Pandas or PySpark DataFrame
             expected_count (int) : The expected row count of the DataFrame
+            tolerance (int)      : Tolerance as a percentage 20(%) translates to 0.2
             msg (str)            : Optional message if the assertion fails
         """
 
@@ -187,16 +190,30 @@ class GreatAssertions(unittest.TestCase):
             "values": {
                 "exp_count": expected_count,
                 "act_count": actual_row_count,
+                "tolerance": tolerance
             },
         }
 
-        if expected_count != actual_row_count:
-            msg = self._formatMessage(
-                msg,
-                f"expected row count is {expected_count} the actual was {actual_row_count}",
-            )
+        if tolerance == 0:
+            if expected_count != actual_row_count:
+                msg = self._formatMessage(
+                    msg,
+                    f"expected row count is {expected_count} the actual was {actual_row_count}",
+                )
 
-            raise self.failureException(msg)
+                raise self.failureException(msg)
+        else:
+            t_range = (tolerance / 100) * expected_count
+            t_max = expected_count + t_range
+            t_min = expected_count - t_range
+
+            if not t_min <= actual_row_count <= t_max:
+                msg = self._formatMessage(
+                    msg,
+                    f"expected row count failed tolerance range {t_min}-{t_max} the actual was {actual_row_count}",
+                )
+                self.extended["values"]["tolerance_status"] = "Fail"
+                raise self.failureException(msg)
 
         return
 

@@ -20,6 +20,24 @@ class GreatAssertionPandasTests(GreatAssertions):
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
         self.expect_table_row_count_to_equal(df, 3)
 
+    def test_pandas_expect_table_row_count_to_equal_with_tolerance(self):
+        df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
+        self.expect_table_row_count_to_equal(df, 3, tolerance=10)
+
+    def test_pandas_expect_table_row_count_to_equal_with_tolerance_within_range(self):
+        df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
+        self.expect_table_row_count_to_equal(df, 4, tolerance=25)
+
+    def test_pandas_expect_table_row_count_to_equal_with_tolerance_fail(self):
+        df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_table_row_count_to_equal(df, 4, tolerance=20)
+
+        assert (
+            "expected row count failed tolerance range 3.2-4.8 the actual was 3 : "
+            == str(excinfo.value)
+        )
+
     def test_pandas_expect_table_row_count_to_equal_fails(self):
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})
         with pytest.raises(AssertionError) as excinfo:
