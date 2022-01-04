@@ -24,7 +24,7 @@ def _get_dataframe_import_type(data_frame):
 
 
 def _default_null_dates(dt, date_format):
-    if dt == "":
+    if dt == "" or dt is None:
         return datetime.strptime("1900-01-01", "%Y-%m-%d")
     else:
         return datetime.strptime(dt, date_format)
