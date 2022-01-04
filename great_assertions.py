@@ -190,7 +190,7 @@ class GreatAssertions(unittest.TestCase):
             "values": {
                 "exp_count": expected_count,
                 "act_count": actual_row_count,
-                "tolerance": tolerance
+                "tolerance": tolerance,
             },
         }
 
