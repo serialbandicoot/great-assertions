@@ -289,7 +289,7 @@ class GreatAssertionPandasTests(GreatAssertions):
         self.expect_date_range_to_be_less_than(df, "col_1", "2019-05-14")
 
     def test_assert_expect_date_range_to_be_less_than_default(self):
-        df = pd.DataFrame({"col_1": [""]})
+        df = pd.DataFrame({"col_1": ["", None]})
 
         self.expect_date_range_to_be_less_than(df, "col_1", "1900-01-02")
 
