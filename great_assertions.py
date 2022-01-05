@@ -486,7 +486,11 @@ class GreatAssertions(unittest.TestCase):
             first_found = results.first(column)
             msg = self._formatMessage(
                 msg,
-                f"Using filter {filter_column}: {filter_value}, Column {column} was not greater than {value}, found {first_found}",
+                (
+                    f"Using filter {filter_column}: {filter_value}, "
+                    f"Column {column} was not greater than {value}, "
+                    f"found {first_found}"
+                ),
             )
             self.extended["values"]["first_found"] = first_found
             raise self.failureException(msg)
