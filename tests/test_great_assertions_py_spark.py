@@ -793,3 +793,29 @@ class GreatAssertionPySparkTests(GreatAssertions):
             self.expect_column_has_no_duplicate_rows(df)
 
         assert "Column col_1 contains a duplicate value : " == str(excinfo.value)
+
+    def test_spark_expect_column_value_to_equal_if(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": 1, "col_2": "a"},
+                {"col_1": 1, "col_2": "a"},
+                {"col_1": 3, "col_2": "c"},
+            ]
+        )
+        self.expect_column_value_to_equal_if(df, "col_1", 1, "col_2", "a")
+
+    def test_spark_expect_column_value_to_equal_if_fail(self):
+        df = self.spark.createDataFrame(
+            [
+                {"col_1": 1, "col_2": "a"},
+                {"col_1": 1, "col_2": "b"},
+                {"col_1": 3, "col_2": "c"},
+            ]
+        )
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_column_value_to_equal_if(df, "col_1", 1, "col_2", "b")
+
+        assert "Using filter col_1: 1 Column col_2 was not equal, found a : " == str(
+            excinfo.value
+        )

@@ -127,6 +127,12 @@ class GASpark(GADataFrame):
 
         return self
 
+    def where(self, column: str, value: object):
+        """Returns a new data set based on where criteria."""
+        self.df = self.df.filter(self.df[column] == value)
+
+        return self
+
     def get_column(self, column):
         """Returns Dataframe with only column."""
         return GASpark(self.df.select(column))

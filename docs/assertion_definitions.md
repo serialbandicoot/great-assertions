@@ -20,6 +20,7 @@
 | [expect_frame_equal](#expect_frame_equal) | Expect the value counts for each grouping to be a percentage between (Inclusive). |
 | [expect_column_value_to_equal](#expect_column_value_to_equal) | Expect the provided column and its value to equal. |
 | [expect_column_has_no_duplicate_rows](#expect_column_has_no_duplicate_rows) | Expect the column/s to only have unique rows. |
+| [expect_column_value_to_equal_if](#expect_column_value_to_equal_if) | xpect the provided column and its value to equal if filtered column. |
 
 ## Assertions Params
 
@@ -191,4 +192,15 @@ The assertion is inclusive of the min and max value
 | ------------- | ------------- | ------------- |
 | left| DataFrame | Pandas/PySpark |
 | column| str | Single, Array, Empty or * for all columns |
+| msg | str | Additional optional message information if exception is raised |
+
+### expect_column_value_to_equal_if
+
+|  Assertion | Type | Description |
+| ------------- | ------------- | ------------- |
+| df| DataFrame | Pandas/PySpark |
+| filter_column| str | The column to be filtered |
+| filter_value  | object | The value which the filtered_column should equal|
+| column  | str | The name of the column to be examined|
+| value | object | The value of the column|
 | msg | str | Additional optional message information if exception is raised |
