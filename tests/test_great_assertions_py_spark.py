@@ -823,9 +823,9 @@ class GreatAssertionPySparkTests(GreatAssertions):
     def test_spark_expect_column_value_to_be_greater_if(self):
         df = self.spark.createDataFrame(
             [
-                {"col_1": 1, "col_2": 2},
-                {"col_1": 2, "col_2": 2},
                 {"col_1": 1, "col_2": 3},
+                {"col_1": 2, "col_2": 4},
+                {"col_1": 1, "col_2": 4},
             ]
         )
         self.expect_column_value_to_be_greater_if(df, "col_1", 1, "col_2", 2)
@@ -844,5 +844,13 @@ class GreatAssertionPySparkTests(GreatAssertions):
 
         assert (
             "Using filter col_1: 1, Column col_2 was not greater than 3, found 2 : "
+            == str(excinfo.value)
+        )
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_column_value_to_be_greater_if(df, "col_1", 1, "col_2", 2)
+
+        assert (
+            "Using filter col_1: 1, Column col_2 was not greater than 2, found 2 : "
             == str(excinfo.value)
         )

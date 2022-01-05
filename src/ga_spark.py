@@ -129,7 +129,7 @@ class GASpark(GADataFrame):
 
     def not_greater(self, column: str, value: object):
         """Filters out if criteria is not greater."""
-        self.df = self.df.filter(self.df[column] < value)
+        self.df = self.df.filter(self.df[column] <= value)
 
         return self
 
