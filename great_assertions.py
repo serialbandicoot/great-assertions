@@ -395,6 +395,55 @@ class GreatAssertions(unittest.TestCase):
 
         return
 
+    def expect_column_value_to_equal_if(
+        self,
+        df,
+        filter_column: str,
+        filter_value: object,
+        column: str,
+        value: object,
+        msg="",
+    ):
+        """
+        Expect the provided column and its value to equal if filtered column.
+
+        Parameters
+        ----------
+            df (DataFrame)        : Pandas or PySpark DataFrame
+            filter_column (str)   : The column to be filtered
+            filter_value (object) : The value which the filtered_column should equal
+            column (str)          : The name of the column to be examined
+            value (object)        : The value of the column
+            msg (str)             : Optional message if the assertion fails
+        """
+
+        df = _get_dataframe_import_type(df)
+        df_where = df.where(filter_column, filter_value)
+        results = df_where.filter(column, value)
+
+        self.extended = {
+            "id": 16,
+            "name": sys._getframe().f_code.co_name,
+            "values": {
+                "filter_column": filter_column,
+                "filter_value": filter_value,
+                "column": column,
+                "expected_value": value,
+                "actual_row_count": results.row_count,
+            },
+        }
+
+        if results.row_count > 0:
+            first_found = results.first(column)
+            msg = self._formatMessage(
+                msg,
+                f"Using filter {filter_column}: {filter_value} Column {column} was not equal, found {first_found}",
+            )
+            self.extended["values"]["first_found"] = first_found
+            raise self.failureException(msg)
+
+        return
+
     def expect_column_values_to_be_between(
         self, df, column: str, min_value: float, max_value: float, msg=""
     ):

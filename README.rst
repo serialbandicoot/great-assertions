@@ -93,6 +93,8 @@ List of available assertions
 +--------------------------------------------------+---------------------+---------------------+
 | expect_column_has_no_duplicate_rows              | :white_check_mark:: | :white_check_mark:: |
 +--------------------------------------------------+---------------------+---------------------+
+| expect_column_value_to_equal_if                  | :white_check_mark:: | :white_check_mark:: |
++--------------------------------------------------+---------------------+---------------------+
 
 Assertion Descriptions
 ----------------------
