@@ -609,8 +609,23 @@ class GreatAssertionPandasTests(GreatAssertions):
         with pytest.raises(AssertionError) as excinfo:
             self.expect_column_value_to_equal_if(df, "col_1", 1, "col_2", "b")
 
-        assert "Using filter col_1: 1 Column col_2 was not equal, found a : " == str(
+        assert "Using filter col_1: 1, Column col_2 was not equal, found a : " == str(
             excinfo.value
+        )
+
+    def test_expect_column_value_to_be_greater_if(self):
+        df = pd.DataFrame({"col_1": ["one", "two", "one"], "col_2": [1, 2, 3]})
+        self.expect_column_value_to_be_greater_if(df, "col_1", "one", "col_2", 1)
+
+    def test_expect_column_value_to_be_greater_if_fail(self):
+        df = pd.DataFrame({"col_1": ["one", "two", "one"], "col_2": [1, 2, 3]})
+
+        with pytest.raises(AssertionError) as excinfo:
+            self.expect_column_value_to_be_greater_if(df, "col_1", "one", "col_2", 3)
+
+        assert (
+            "Using filter col_1: one, Column col_2 was not greater than 3, found 1 : "
+            == str(excinfo.value)
         )
 
     def test_expect_column_has_no_duplicate_rows_all(self):

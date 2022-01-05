@@ -117,9 +117,15 @@ class GAPandas(GADataFrame):
                 check_dtype=check_dtype,
             )
 
-    def filter(self, column: str, value: object):
+    def filter_out(self, column: str, value: object):
         """Filters out if criteria not met."""
         self.df = self.df[self.df[column] != value]
+
+        return self
+
+    def not_greater(self, column: str, value: object):
+        """Filters out if criteria is not greater."""
+        self.df = self.df[self.df[column] < value]
 
         return self
 

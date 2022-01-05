@@ -95,6 +95,8 @@ List of available assertions
 +--------------------------------------------------+---------------------+---------------------+
 | expect_column_value_to_equal_if                  | :white_check_mark:: | :white_check_mark:: |
 +--------------------------------------------------+---------------------+---------------------+
+| expect_column_value_to_be_greater_if             | :white_check_mark:: | :white_check_mark:: |
++--------------------------------------------------+---------------------+---------------------+
 
 Assertion Descriptions
 ----------------------
