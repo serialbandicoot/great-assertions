@@ -17,7 +17,7 @@ from src.utils import (
     _get_dataframe_type,
     _get_date_time_data,
 )
-from typing import Optional, Type, Union, Set, List
+from typing import Optional, Union, Set, List
 from unittest.runner import TextTestResult
 
 
