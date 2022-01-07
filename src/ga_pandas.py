@@ -123,6 +123,11 @@ class GAPandas(GADataFrame):
 
         return self
 
+    def filter_none(self, column: str):
+        self.df = self.df[self.df[column].notnull()]
+
+        return self
+
     def not_greater(self, column: str, value: object):
         """Filters out if criteria is not greater."""
         self.df = self.df[self.df[column] <= value]

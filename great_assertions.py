@@ -17,7 +17,7 @@ from src.utils import (
     _get_dataframe_type,
     _get_date_time_data,
 )
-from typing import Optional, Union, Set, List
+from typing import Optional, Type, Union, Set, List
 from unittest.runner import TextTestResult
 
 
@@ -498,7 +498,13 @@ class GreatAssertions(unittest.TestCase):
         return
 
     def expect_column_values_to_be_between(
-        self, df, column: str, min_value: float, max_value: float, msg=""
+        self,
+        df,
+        column: str,
+        min_value: Union[float, int],
+        max_value: Union[float, int],
+        ignore_null=False,
+        msg="",
     ):
         """
         Expect column entries to be between a minimum value and a maximum value (inclusive).
@@ -520,6 +526,8 @@ class GreatAssertions(unittest.TestCase):
             raise self.failureException(msg)
 
         df = _get_dataframe_import_type(df)
+        if ignore_null:
+            df = df.filter_none(column)
 
         self.extended = {
             "id": 7,
@@ -532,13 +540,18 @@ class GreatAssertions(unittest.TestCase):
         }
 
         column_min = df.column_min(column)
-        if float(column_min) < float(min_value):
-            msg = self._formatMessage(
-                msg,
-                f"Min value provided ({min_value}) must be less than column {column} value of {column_min}",
+        try:
+            if float(column_min) < float(min_value):
+                msg = self._formatMessage(
+                    msg,
+                    f"Min value provided ({min_value}) must be less than column {column} value of {column_min}",
+                )
+                self.extended["values"]["act_min_value"] = float(column_min)
+                raise self.failureException(msg)
+        except TypeError as e:
+            raise self.failureException(
+                self._formatMessage(msg, f"column_min: {column_min} and {e}")
             )
-            self.extended["values"]["act_min_value"] = float(column_min)
-            raise self.failureException(msg)
 
         column_max = df.column_max(column)
         if float(max_value) < float(column_max):

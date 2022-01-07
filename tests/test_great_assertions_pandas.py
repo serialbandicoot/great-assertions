@@ -1,4 +1,3 @@
-from pandas.core.indexing import check_bool_indexer
 from great_assertions import GreatAssertions
 import pandas as pd
 import pytest
@@ -98,6 +97,13 @@ class GreatAssertionPandasTests(GreatAssertions):
         # Equality float
         df = pd.DataFrame({"col_1": [100.05, 200.01, 300.05], "col_2": [10, 20, 30]})
         self.expect_column_values_to_be_between(df, "col_1", 100.05, 300.05)
+
+    def test_pandas_assert_expect_column_values_to_be_between_ignore_nan(self):
+        df = pd.DataFrame({"col_1": [None, 100, 300]})
+        self.expect_column_values_to_be_between(
+            df, "col_1", min_value=99, max_value=301, ignore_null=True
+        )
+        self.expect_column_values_to_be_between(df, "col_1", 100, 300)
 
     def test_pandas_assert_expect_column_values_to_be_between_min_fail(
         self,
