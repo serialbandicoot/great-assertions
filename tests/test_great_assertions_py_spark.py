@@ -117,6 +117,15 @@ class GreatAssertionPySparkTests(GreatAssertions):
         )
         self.expect_column_values_to_be_between(df, "col_1", 100.05, 300.05)
 
+    def test_pyspark_assert_expect_column_values_to_be_between_ignore_nan(self):
+        df = self.spark.createDataFrame(
+            [{"col_1": 100}, {"col_1": None}, {"col_1": 300}]
+        )
+        self.expect_column_values_to_be_between(
+            df, "col_1", min_value=99, max_value=301
+        )
+        self.expect_column_values_to_be_between(df, "col_1", 100, 300, ignore_null=True)
+
     def test_pyspark_assert_expect_column_values_to_be_between_min_fail(
         self,
     ):
