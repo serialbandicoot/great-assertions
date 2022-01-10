@@ -1,4 +1,4 @@
-from great_assertions import GreatAssertions
+from great_assertions import GreatAssertions, NoValueFoundError
 import pandas as pd
 import pytest
 
@@ -99,11 +99,21 @@ class GreatAssertionPandasTests(GreatAssertions):
         self.expect_column_values_to_be_between(df, "col_1", 100.05, 300.05)
 
     def test_pandas_assert_expect_column_values_to_be_between_ignore_nan(self):
-        df = pd.DataFrame({"col_1": [None, 100, 300]})
+        df = pd.DataFrame({"col_1": [None, 100, None, 300]})
         self.expect_column_values_to_be_between(
-            df, "col_1", min_value=99, max_value=301, ignore_null=True
+            df, "col_1", min_value=99, max_value=301
         )
         self.expect_column_values_to_be_between(df, "col_1", 100, 300)
+
+    def test_pandas_assert_expect_column_values_to_be_between_all_none_fail(self):
+        df = pd.DataFrame({"col_1": [None, None, None, None]})
+
+        with pytest.raises(NoValueFoundError) as excinfo:
+            self.expect_column_values_to_be_between(
+                df, "col_1", min_value=99, max_value=301
+            )
+
+        assert "A min-max could not be generated" == str(excinfo.value)
 
     def test_pandas_assert_expect_column_values_to_be_between_min_fail(
         self,
