@@ -546,18 +546,13 @@ class GreatAssertions(unittest.TestCase):
         }
 
         column_min = df.column_min(column)
-        try:
-            if float(column_min) < float(min_value):
-                msg = self._formatMessage(
-                    msg,
-                    f"Min value provided ({min_value}) must be less than column {column} value of {column_min}",
-                )
-                self.extended["values"]["act_min_value"] = float(column_min)
-                raise self.failureException(msg)
-        except TypeError as e:
-            raise self.failureException(
-                self._formatMessage(msg, f"column_min: {column_min} and {e}")
+        if float(column_min) < float(min_value):
+            msg = self._formatMessage(
+                msg,
+                f"Min value provided ({min_value}) must be less than column {column} value of {column_min}",
             )
+            self.extended["values"]["act_min_value"] = float(column_min)
+            raise self.failureException(msg)
 
         column_max = df.column_max(column)
         if float(max_value) < float(column_max):
