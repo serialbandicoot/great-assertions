@@ -1,4 +1,4 @@
-from great_assertions import GreatAssertions
+from great_assertions import GreatAssertions, NoValueFoundError
 from pyspark.sql import SparkSession, types as T
 from pyspark.sql.functions import col, regexp_extract
 import pytest
@@ -117,14 +117,15 @@ class GreatAssertionPySparkTests(GreatAssertions):
         )
         self.expect_column_values_to_be_between(df, "col_1", 100.05, 300.05)
 
-    def test_pyspark_assert_expect_column_values_to_be_between_ignore_nan(self):
-        df = self.spark.createDataFrame(
-            [{"col_1": 100}, {"col_1": None}, {"col_1": 300}]
-        )
-        self.expect_column_values_to_be_between(
-            df, "col_1", min_value=99, max_value=301
-        )
-        self.expect_column_values_to_be_between(df, "col_1", 100, 300, ignore_null=True)
+    def test_pyspark_assert_expect_column_values_to_be_between_all_none(self):
+        data = [{"col_1": None}, {"col_1": None}, {"col_1": None}]
+        schema = T.StructType([T.StructField("col_1", T.IntegerType())])
+        df = self.spark.createDataFrame(data=data, schema=schema)
+
+        with pytest.raises(NoValueFoundError) as excinfo:
+            self.expect_column_values_to_be_between(df, "col_1", 101, 301)
+
+        assert "A min-max could not be generated" == str(excinfo.value)
 
     def test_pyspark_assert_expect_column_values_to_be_between_min_fail(
         self,

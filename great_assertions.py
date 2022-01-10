@@ -21,6 +21,11 @@ from typing import Optional, Union, Set, List
 from unittest.runner import TextTestResult
 
 
+class NoValueFoundError(Exception):
+    def __init__(self, message) -> None:
+        super().__init__(message)
+
+
 class GreatAssertionResult(TextTestResult):
     def __init__(self, *args, **kwargs):
         super(GreatAssertionResult, self).__init__(*args, **kwargs)
@@ -503,7 +508,6 @@ class GreatAssertions(unittest.TestCase):
         column: str,
         min_value: Union[float, int],
         max_value: Union[float, int],
-        ignore_null=False,
         msg="",
     ):
         """
@@ -526,8 +530,10 @@ class GreatAssertions(unittest.TestCase):
             raise self.failureException(msg)
 
         df = _get_dataframe_import_type(df)
-        if ignore_null:
-            df = df.filter_none(column)
+        filter_none_row_count = df.filter_none(column).row_count
+
+        if filter_none_row_count == 0:
+            raise NoValueFoundError("A min-max could not be generated")
 
         self.extended = {
             "id": 7,
