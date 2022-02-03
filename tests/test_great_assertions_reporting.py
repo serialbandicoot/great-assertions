@@ -1,6 +1,6 @@
 import unittest
 import sys
-from great_assertions import GreatAssertionResult, GreatAssertions
+from great_assertions import GreatAssertionResult, GreatAssertions, NoValueFoundError
 from pyspark.sql import SparkSession
 from pandas.testing import assert_frame_equal
 import pandas as pd
@@ -47,6 +47,16 @@ class SaveTest(GreatAssertions):
     def test_error(self):
         self.no_method_here()
 
+    def test_catch_error(self):
+        df = pd.DataFrame({"col_1": [None, None, None, None]})
+
+        try:
+            self.expect_column_values_to_be_between(
+                df, "col_1", min_value=99, max_value=301
+            )
+        except(NoValueFoundError):
+            pass
+
 
 def _run_tests(test_class):
     suite = unittest.TestLoader().loadTestsFromTestCase(test_class)
@@ -64,9 +74,9 @@ class GreatAssertionSaveTests(unittest.TestCase):
         cls.df = spark.table("ga_result")
 
     def test_status(self):
-        self.assertEqual(self.df.count(), 7)
+        self.assertEqual(self.df.count(), 8)
         self.assertEqual(self.df.filter(self.df.status == "Fail").count(), 3)
-        self.assertEqual(self.df.filter(self.df.status == "Pass").count(), 2)
+        self.assertEqual(self.df.filter(self.df.status == "Pass").count(), 3)
         self.assertEqual(self.df.filter(self.df.status == "Skip").count(), 1)
         self.assertEqual(self.df.filter(self.df.status == "Error").count(), 1)
 
@@ -101,6 +111,11 @@ class GreatAssertionSaveTests(unittest.TestCase):
                 "Pass",
                 '{"id": 1, "name": "expect_table_row_count_to_equal", "values": {"exp_count": 1, "act_count": 1, "tolerance": 0}}',
             ],
+            [
+                -1,
+                "Pass",
+                '{}'
+            ]
         ]
         expected = pd.DataFrame(data, columns=col)
         actual = df.toPandas()
@@ -141,11 +156,11 @@ class GreatAssertionSaveTests(unittest.TestCase):
 
     def test_run_id(self):
         cnt = self.df.groupBy("run_id").count().select("count").collect()[0][0]
-        self.assertEqual(cnt, 7)
+        self.assertEqual(cnt, 8)
 
     def test_created_at(self):
         cnt = self.df.groupBy("created_at").count().select("count").collect()[0][0]
-        self.assertEqual(cnt, 7)
+        self.assertEqual(cnt, 8)
 
     def test_information(self):
         df = self.df.filter(self.df.information.contains("Traceback"))
@@ -154,3 +169,5 @@ class GreatAssertionSaveTests(unittest.TestCase):
     def test_method(self):
         df = self.df.filter(self.df.method.contains("test_fail"))
         self.assertEqual(df.count(), 3)
+
+
