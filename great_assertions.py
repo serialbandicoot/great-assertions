@@ -96,8 +96,8 @@ class GreatAssertionResult(TextTestResult):
         if status == "Pass":
             test_method = iter._testMethodName
             information = ""
-            test_id = iter.extended["id"]
-            extended = iter.extended
+            test_id = iter.extended["id"] if hasattr(iter, "extended") else -1
+            extended = iter.extended if hasattr(iter, "extended") else {}
         else:
             test_method = iter[0]._testMethodName
             information = str(iter[1])
