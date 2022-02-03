@@ -54,7 +54,7 @@ class SaveTest(GreatAssertions):
             self.expect_column_values_to_be_between(
                 df, "col_1", min_value=99, max_value=301
             )
-        except(NoValueFoundError):
+        except (NoValueFoundError):
             pass
 
 
@@ -111,11 +111,7 @@ class GreatAssertionSaveTests(unittest.TestCase):
                 "Pass",
                 '{"id": 1, "name": "expect_table_row_count_to_equal", "values": {"exp_count": 1, "act_count": 1, "tolerance": 0}}',
             ],
-            [
-                -1,
-                "Pass",
-                '{}'
-            ]
+            [-1, "Pass", "{}"],
         ]
         expected = pd.DataFrame(data, columns=col)
         actual = df.toPandas()
@@ -169,5 +165,3 @@ class GreatAssertionSaveTests(unittest.TestCase):
     def test_method(self):
         df = self.df.filter(self.df.method.contains("test_fail"))
         self.assertEqual(df.count(), 3)
-
-
