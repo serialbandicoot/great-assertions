@@ -20,7 +20,7 @@ def _get_dataframe_import_type(data_frame):
     elif "pandas.DataFrame" in _type:
         return GAPandas(data_frame)
 
-    raise AssertionError("Not a valid pandas/pyspark DataFrame")
+    raise AssertionError("Not a valid pandas/pyspark DataFrame: ", _type)
 
 
 def _default_null_dates(dt, date_format):
