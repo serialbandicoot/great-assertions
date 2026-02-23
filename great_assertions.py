@@ -19,6 +19,11 @@ from src.utils import (
 )
 from typing import Optional, Union, Set, List
 from unittest.runner import TextTestResult
+from pandas.api.types import (
+    is_string_dtype,
+    is_integer_dtype,
+    is_float_dtype,
+)
 
 
 class NoValueFoundError(Exception):
@@ -654,23 +659,22 @@ class GreatAssertions(unittest.TestCase):
             },
         }
 
-        df_type = df[column].dtypes
         fstr = f"Column {column} was not type {type_}"
         if type_ is str:
             # Consider object a string
-            if df_type.num != 17:
+            if not is_string_dtype(df[column]):
                 msg = self._formatMessage(msg, fstr)
                 self.extended["values"]["actual_type"] = "str"
                 raise self.failureException(msg)
 
         if type_ is int:
-            if df_type.num not in [7, 9]:
+            if not is_integer_dtype(df[column]):
                 msg = self._formatMessage(msg, fstr)
                 self.extended["values"]["actual_type"] = "int"
                 raise self.failureException(msg)
 
         if type_ is float:
-            if df_type.num != 12:
+            if not is_float_dtype(df[column]):
                 msg = self._formatMessage(msg, fstr)
                 self.extended["values"]["actual_type"] = "float"
                 raise self.failureException(msg)

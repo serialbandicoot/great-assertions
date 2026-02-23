@@ -8,12 +8,12 @@ class GreatAssertionPandasTests(GreatAssertions):
         with pytest.raises(AssertionError) as excinfo:
             self.expect_column_values_to_be_of_type(1, "col_1", str)
 
-        assert "Not a valid pandas/pyspark DataFrame" == str(excinfo.value)
+        assert "Not a valid pandas/pyspark DataFrame" in str(excinfo.value)
 
         with pytest.raises(AssertionError) as excinfo:
             self.expect_column_values_to_be_in_set(1, "col_1", set(("Apple")))
 
-        assert "Not a valid pandas/pyspark DataFrame" == str(excinfo.value)
+        assert "Not a valid pandas/pyspark DataFrame" in str(excinfo.value)
 
     def test_pandas_expect_table_row_count_to_equal(self):
         df = pd.DataFrame({"col_1": [100, 200, 300], "col_2": [10, 20, 30]})

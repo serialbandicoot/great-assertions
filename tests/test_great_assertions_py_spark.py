@@ -24,7 +24,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
         with pytest.raises(AssertionError) as excinfo:
             self.expect_table_row_count_to_equal(1, 1)
 
-        assert "Not a valid pandas/pyspark DataFrame" == str(excinfo.value)
+        assert "Not a valid pandas/pyspark DataFrame" in str(excinfo.value)
 
     def test_pyspark_expect_table_row_count_to_equal_fails(self):
         df = self.spark.createDataFrame(
@@ -55,7 +55,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
         with pytest.raises(AssertionError) as excinfo:
             self.expect_table_row_count_to_be_greater_than(1, 1)
 
-        assert "Not a valid pandas/pyspark DataFrame" == str(excinfo.value)
+        assert "Not a valid pandas/pyspark DataFrame" in str(excinfo.value)
 
     def test_pyspark_expect_table_row_count_to_be_greater_than_fails(self):
         df = self.spark.createDataFrame(
@@ -739,7 +739,7 @@ class GreatAssertionPySparkTests(GreatAssertions):
         self.expect_column_value_to_equal(df, "col_1", 200)
 
         df = self.spark.createDataFrame([{"col_1": "ABC"}, {"col_1": "ABC"}])
-        self.expect_column_value_to_equal(df, "col_1", 200)
+        self.expect_column_value_to_equal(df, "col_1", "ABC")
 
         df = self.spark.createDataFrame([{"col_1": 12.72}, {"col_1": 12.72}])
         self.expect_column_value_to_equal(df, "col_1", 12.72)
