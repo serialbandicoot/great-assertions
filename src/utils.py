@@ -1,6 +1,8 @@
 from datetime import datetime
 from src.ga_spark import GASpark
 from src.ga_pandas import GAPandas
+from datetime import datetime
+from pandas import isna
 
 
 def _get_dataframe_type(df):
@@ -24,10 +26,9 @@ def _get_dataframe_import_type(data_frame):
 
 
 def _default_null_dates(dt, date_format):
-    if dt == "" or dt is None:
+    if isna(dt) or dt == "":
         return datetime.strptime("1900-01-01", "%Y-%m-%d")
-    else:
-        return datetime.strptime(dt, date_format)
+    return datetime.strptime(str(dt), date_format)
 
 
 def _get_date_time_data():

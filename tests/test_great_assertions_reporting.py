@@ -54,7 +54,7 @@ class SaveTest(GreatAssertions):
             self.expect_column_values_to_be_between(
                 df, "col_1", min_value=99, max_value=301
             )
-        except (NoValueFoundError):
+        except NoValueFoundError:
             pass
 
 
