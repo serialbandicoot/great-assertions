@@ -1064,7 +1064,7 @@ class GreatAssertions(unittest.TestCase):
             "name": sys._getframe().f_code.co_name,
         }
 
-        if type(left) != type(right):
+        if type(left) is not type(right):
             msg = self._formatMessage(
                 msg,
                 "Different DataFrame types",
